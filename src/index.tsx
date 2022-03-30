@@ -4,8 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { Provider } from 'react-redux';
 
 import App from './App';
+import store from './Redux/store'
 
 const theme = createTheme({
   palette: {
@@ -21,9 +23,11 @@ const theme = createTheme({
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </Provider>
   </ThemeProvider>,
   document.getElementById('root')
 );
