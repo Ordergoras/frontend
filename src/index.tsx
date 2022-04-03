@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 
 import App from './App';
@@ -11,7 +11,7 @@ import store from './Redux/store'
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
       main: '#3f51b5',
     },
@@ -26,6 +26,7 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <App/>
+        <CssBaseline/>
       </BrowserRouter>
     </Provider>
   </ThemeProvider>,
