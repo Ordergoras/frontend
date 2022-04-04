@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../Redux/hooks'
-import { login, logout, selectAuth } from '../Redux/authSlice';
-import { createRequest } from '../utils/fetchUtils';
+import { selectAuth } from '../Redux/authSlice';
+import { getStaff, loginStaff, logoutStaff, registerStaff } from '../utils/staffRequests';
+import { addItem, getItems, retrieveItems, updateItemAmount } from '../utils/storageRequests';
 
 const styles = {
   button: {
@@ -11,7 +12,7 @@ const styles = {
   },
 }
 
-export const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdGFmZklkIjoiMWFkNjBmOGEzMzFmNDg0NWJkNmU3YWEyNzMwZTdhOGMifQ.9cp1e4sJbMu3ah-mmGFW-Mq_6Z3b7wcmO0RLNPXgzE0"
+export const jwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdGFmZklkIjoiMWFkNjBmOGEzMzFmNDg0NWJkNmU3YWEyNzMwZTdhOGMifQ.9cp1e4sJbMu3ah-mmGFW-Mq_6Z3b7wcmO0RLNPXgzE0'
 
 function HomePage() {
 
@@ -21,77 +22,6 @@ function HomePage() {
   const [name, setName] = React.useState('')
   const [amount, setAmount] = React.useState(0)
   const [group, setGroup] = React.useState('Food')
-
-  const getItems = () => {
-    createRequest('PUT', 'storage/getItems', {itemIds: ['0c63165d847b4f459d53966946aac8c5','8eb3426d4648408a80acc8e16427d451','90e356b3690d4b579efd01d30aa16766']})
-      .then(res => {
-        if(res) res.json().then(data => console.log(data))
-      })
-      .catch((e) => {alert(e)})
-  }
-
-  const addItem = (name: string, amount: number, group: string) => {
-    createRequest('POST', 'storage/postItem', {name: name, amount: amount, group: group})
-      .then(res => {
-        if(res) res.json().then(data => alert(data.message))
-      })
-      .catch((e) => {alert(e)})
-  }
-
-  const registerStaff = () => {
-    createRequest('POST', 'staff/registerStaff', {name: 'Monargoras', password: 'password'})
-      .then(res => {
-        if(res) res.json().then(data => {
-          if(res.ok)
-            console.log(data)
-          else
-            alert(data.message)
-        })
-      })
-      .catch((e) => {alert(e)})
-  }
-
-  const loginStaff = () => {
-    createRequest('POST', 'staff/login', {name: 'Monargoras', password: 'password'})
-      .then(res => {
-        if(res) res.json().then(data => {
-          if(res.ok)
-            dispatch(login({token: data.jwtToken, name: data.name}))
-          else
-            alert(data.message)
-        })
-      })
-      .catch((e) => {alert(e)})
-  }
-
-  const logoutStaff = () => {
-    createRequest('POST', 'staff/logout', undefined, undefined)
-      .then(res => {
-        if(res)
-          res.json().then(data => {
-            alert(data.message)
-            if(res.ok)
-              dispatch(logout())
-          })
-      })
-      .catch((e) => {alert(e)})
-  }
-
-  const getStaff = () => {
-    createRequest('GET', 'staff/getStaff', undefined, {staffId: '1ad60f8a331f4845bd6e7aa2730e7a8c'})
-      .then(res => {
-        if(res && res.ok) res.json().then(data => console.log(data))
-      })
-      .catch((e) => {console.log(e)})
-  }
-
-  const setAdmin = () => {
-    createRequest('POST', 'staff/setAdmin', {staffId: '1ad60f8a331f4845bd6e7aa2730e7a8c', newStatus: false})
-      .then(res => {
-        if(res && res.ok) res.json().then(data => console.log(data))
-      })
-      .catch((e) => {console.log(e)})
-  }
 
   return (
     <div>
@@ -105,13 +35,13 @@ function HomePage() {
         sx={styles.button}
         color={'primary'}
         variant={'contained'}
-        onClick={() => loginStaff()}
+        onClick={() => loginStaff('Monargoras', 'password')}
       >
         Login
       </Button>
       <Button
         sx={styles.button}
-        color={'secondary'}
+        color={'primary'}
         variant={'contained'}
         onClick={() => logoutStaff()}
       >
@@ -121,25 +51,34 @@ function HomePage() {
         sx={styles.button}
         color={'primary'}
         variant={'contained'}
-        onClick={() => registerStaff()}
+        onClick={() => registerStaff('Monargoras', 'password')}
       >
         register User
+      </Button>
+
+      <Button
+        sx={styles.button}
+        color={'primary'}
+        variant={'contained'}
+        onClick={() => getStaff('1ad60f8a331f4845bd6e7aa2730e7a8c')}
+      >
+        get Staff
       </Button>
       <Button
         sx={styles.button}
         color={'secondary'}
         variant={'contained'}
-        onClick={() => getItems()}
+        onClick={() => getItems(['0c63165d847b4f459d53966946aac8c5','8eb3426d4648408a80acc8e16427d451','90e356b3690d4b579efd01d30aa16766'])}
       >
         get Items
       </Button>
       <Button
         sx={styles.button}
-        color={'primary'}
+        color={'secondary'}
         variant={'contained'}
-        onClick={() => getStaff()}
+        onClick={() => retrieveItems({'90e356b3690d4b579efd01d30aa16766': 2, 'b89792752d804dffb973bfb7daa59552': 5, 'dd3d742436fc4987a7658ee4e8fcfefe': 3})}
       >
-        get Staff
+        retrieve Items
       </Button>
       <TextField value={name} onChange={e => setName(e.target.value)}/>
       <TextField type={'number'} value={amount} onChange={e => !isNaN(parseInt(e.target.value)) ? setAmount(parseInt(e.target.value)) : {}}/>
