@@ -5,7 +5,7 @@ export const getItems = (itemIds: Array<string>) => {
     .then(res => {
       if(res) res.json().then(data => console.log(data))
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const getAllItems = () => {
@@ -13,7 +13,7 @@ export const getAllItems = () => {
     .then(res => {
       if(res) res.json().then(data => console.log(data))
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const addItem = (name: string, amount: number, group: string) => {
@@ -21,7 +21,7 @@ export const addItem = (name: string, amount: number, group: string) => {
     .then(res => {
       if(res) res.json().then(data => alert(data.message))
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const updateItemAmount = (itemId: string, amountChange: number) => {
@@ -29,7 +29,7 @@ export const updateItemAmount = (itemId: string, amountChange: number) => {
     .then(res => {
       if(res) res.json().then(data => console.log(data))
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const retrieveItems = (retrievedItems: Object) => {
@@ -37,5 +37,5 @@ export const retrieveItems = (retrievedItems: Object) => {
     .then(res => {
       if(res) res.json().then(data => console.log(data))
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }

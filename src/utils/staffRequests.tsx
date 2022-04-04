@@ -12,7 +12,7 @@ export const registerStaff = (name: string, password: string) => {
           alert(data.message)
       })
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const loginStaff = (name: string, password: string) => {
@@ -26,7 +26,7 @@ export const loginStaff = (name: string, password: string) => {
           alert(data.message)
       })
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const logoutStaff = () => {
@@ -40,7 +40,7 @@ export const logoutStaff = () => {
             dispatch(logout())
         })
     })
-    .catch((e) => {alert(e)})
+    .catch((e) => console.log(e))
 }
 
 export const getStaff = (staffId: string) => {
@@ -48,7 +48,7 @@ export const getStaff = (staffId: string) => {
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
     })
-    .catch((e) => {console.log(e)})
+    .catch((e) => console.log(e))
 }
 
 export const setAdmin = (staffId: string, newStatus: boolean) => {
@@ -56,5 +56,5 @@ export const setAdmin = (staffId: string, newStatus: boolean) => {
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
     })
-    .catch((e) => {console.log(e)})
+    .catch((e) => console.log(e))
 }
