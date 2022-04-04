@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from '../Redux/hooks'
 import { selectAuth } from '../Redux/authSlice';
 import { getStaff, loginStaff, logoutStaff, registerStaff } from '../utils/staffRequests';
 import { addItem, getItems, retrieveItems, updateItemAmount } from '../utils/storageRequests';
+import { postOrder, getOrder } from '../utils/ordersRequests';
 
 const styles = {
   button: {
@@ -97,6 +98,22 @@ function HomePage() {
         onClick={() => addItem(name, amount, group)}
       >
         add Item
+      </Button>
+      <Button
+        sx={styles.button}
+        color={'success'}
+        variant={'contained'}
+        onClick={() => postOrder(1, '1ad60f8a331f4845bd6e7aa2730e7a8c', {'90e356b3690d4b579efd01d30aa16766': 2, 'b89792752d804dffb973bfb7daa59552': 5, 'dd3d742436fc4987a7658ee4e8fcfefe': 3})}
+      >
+        post Order
+      </Button>
+      <Button
+        sx={styles.button}
+        color={'success'}
+        variant={'contained'}
+        onClick={() => getOrder('ef6f5b4045ef4450ae5a98e13f077dc7')}
+      >
+        get Order
       </Button>
 
       <Link to={'/about'}><Typography>About</Typography></Link>
