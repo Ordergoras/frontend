@@ -4,11 +4,13 @@ import { generalStyles } from '../styles/generalStyles';
 import { loginStaff, registerStaff } from '../utils/staffRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { credError, selectAuth } from '../Redux/authSlice';
+import { useTranslation } from 'react-i18next';
 
 function LoginRegisterPanel() {
 
   const authState = useAppSelector(selectAuth)
   const dispatch = useAppDispatch()
+  const { t } = useTranslation();
 
   const [mode, setMode] = React.useState<'login' | 'register'>('login')
   const [username, setUsername] = React.useState('')
@@ -24,10 +26,10 @@ function LoginRegisterPanel() {
 
   const submit = () => {
     if(username.length === 0 || password.length === 0) {
-      dispatch(credError({error: true, errorMessage: 'Enter a valid username and password'}))
+      dispatch(credError({error: true, errorMessage: t('errorCredEmpty')}))
       return
     } else if(mode === 'register' && password !== repeatPassword) {
-      dispatch(credError({error: true, errorMessage: 'Passwords don\'t match'}))
+      dispatch(credError({error: true, errorMessage: t('errorPassMatch')}))
       return
     } else if(authState.error) {
       dispatch(credError({error: false, errorMessage: undefined}))
@@ -41,19 +43,50 @@ function LoginRegisterPanel() {
 
   return (
     <Paper sx={generalStyles.paper} elevation={4}>
-      <Typography variant={'h5'} sx={{paddingBottom: 1}}>Ordergoras {mode === 'login' ? 'Login' : 'Register'}</Typography>
+      <Typography variant={'h5'} sx={{paddingBottom: 1}}>Ordergoras</Typography>
       <FormControl>
-        <TextField sx={generalStyles.textField} label={'Username'} error={authState.error} value={username} onChange={e => setUsername(e.target.value)}/>
-        <TextField sx={generalStyles.textField} label={'Password'} error={authState.error} type={'password'} value={password} onChange={e => setPassword(e.target.value)}/>
+        <TextField
+          sx={generalStyles.textField}
+          label={t('username')}
+          error={authState.error}
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          onKeyPress={
+            event => {
+              if (event.key === "Enter") {
+                submit()
+              }
+            }}
+        />
+        <TextField
+          sx={generalStyles.textField}
+          label={t('password')}
+          error={authState.error}
+          type={'password'}
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          onKeyPress={
+            event => {
+              if (event.key === "Enter") {
+                submit()
+              }
+            }}
+        />
         {
           mode === 'register' &&
           <TextField
             sx={generalStyles.textField}
-            label={'Repeat Password'}
+            label={t('repeatPass')}
             error={authState.error}
             type={'password'}
             value={repeatPassword}
             onChange={e => setRepeatPassword(e.target.value)}
+            onKeyPress={
+              event => {
+                if (event.key === "Enter") {
+                  submit()
+                }
+              }}
           />
         }
         {
@@ -66,7 +99,7 @@ function LoginRegisterPanel() {
           variant={'contained'}
           onClick={() => submit()}
         >
-          {mode === 'login' ? 'Login' : 'Create new User'}
+          {mode === 'login' ? t('login') : t('registerConfirm')}
         </Button>
         <Button
           sx={generalStyles.button}
@@ -74,7 +107,7 @@ function LoginRegisterPanel() {
           variant={'text'}
           onClick={() => switchMode()}
         >
-          {mode === 'register' ? 'Back to Login' : 'I need a new account'}
+          {mode === 'register' ? t('backLogin') : t('needAcc')}
         </Button>
       </FormControl>
     </Paper>

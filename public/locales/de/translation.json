@@ -7,5 +7,7 @@
   "register": "Registrieren",
   "needAcc": "Ich brauche einen Account",
   "registerConfirm": "Neuen Account erstellen",
-  "backLogin": "Zurück zum Einloggen"
+  "backLogin": "Zurück zum Einloggen",
+  "errorCredEmpty": "Gib Benutzernamen und Passwort an",
+  "errorPassMatch": "Passwörter stimmen nicht überein"
 }

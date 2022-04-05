@@ -7,5 +7,7 @@
   "register": "Register",
   "needAcc": "I need a new Account",
   "registerConfirm": "Create new User",
-  "backLogin": "Back to Login"
+  "backLogin": "Back to Login",
+  "errorCredEmpty": "Enter a valid username and password",
+  "errorPassMatch": "Passwords don't match"
 }
