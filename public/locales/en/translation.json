@@ -1,0 +1,11 @@
+{
+  "appName": "Ordergoras",
+  "username": "Username",
+  "password": "Password",
+  "repeatPass": "Repeat Password",
+  "login": "Login",
+  "register": "Register",
+  "needAcc": "I need a new Account",
+  "registerConfirm": "Create new User",
+  "backLogin": "Back to Login"
+}

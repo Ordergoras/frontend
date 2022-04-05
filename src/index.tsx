@@ -5,9 +5,10 @@ import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
-
+import './utils/i18n';
 import App from './App';
 import store from './Redux/store'
+import LoadingScreen from './Home/LoadingScreen';
 
 const theme = createTheme({
   palette: {
@@ -22,14 +23,16 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App/>
-        <CssBaseline/>
-      </BrowserRouter>
-    </Provider>
-  </ThemeProvider>,
+  <React.Suspense fallback={<LoadingScreen/>}>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App/>
+          <CssBaseline/>
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
+  </React.Suspense>,
   document.getElementById('root')
 );
 
