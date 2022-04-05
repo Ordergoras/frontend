@@ -5,18 +5,18 @@ export const backendIP = 'http://localhost:5000'
 export const createRequest = (method: 'GET' | 'POST' | 'PUT', apiEndpoint: string, body?: Object, pathArguments?: Object) => {
   const pathArgumentsString = pathArguments ? getPathArgumentString(pathArguments) : ''
 
-  const requestOptions = {
-    method: method,
-    headers: {
-      ...store.getState().auth.isAuthenticated && {'authorization': store.getState().auth.token},
-      ...body && {'Content-Type': 'application/json'},
-    },
-    ...body && {
-      body: JSON.stringify(body),
-    },
-  }
-
-  return fetch(`${backendIP}/${apiEndpoint}${pathArgumentsString}`, requestOptions)
+  return fetch(
+    `${backendIP}/${apiEndpoint}${pathArgumentsString}`,
+    {
+      method: method,
+      credentials: 'include',
+      headers: {
+        ...body && {'Content-Type': 'application/json'},
+      },
+      ...body && {
+        body: JSON.stringify(body),
+      },
+    })
     .then((res) => {
       if(res.status === 500) {
         alert('Server Error')
