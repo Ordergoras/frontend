@@ -4,11 +4,12 @@ import { login, logout } from '../Redux/authSlice';
 const shajs = require('sha.js');
 
 export const registerStaff = (name: string, password: string) => {
+  const dispatch = store.dispatch
   createRequest('POST', 'staff/registerStaff', {name: name, password: shajs('sha256').update(password).digest('hex')})
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          console.log(data)
+          dispatch(login({staffId: data.staffId, name: data.name}))
         else
           alert(data.message)
       })
