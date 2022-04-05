@@ -21,7 +21,7 @@ export const loginStaff = (name: string, password: string) => {
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          dispatch(login({name: data.name}))
+          dispatch(login({staffId: data.staffId, name: data.name}))
         else
           alert(data.message)
       })
