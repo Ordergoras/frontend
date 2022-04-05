@@ -3,13 +3,11 @@ import type { RootState } from './store'
 
 interface AuthState {
   isAuthenticated: boolean,
-  token: string | undefined,
   name: string | undefined,
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  token: undefined,
   name: undefined,
 }
 
@@ -17,14 +15,12 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{token: string, name: string}>) => {
+    login: (state, action: PayloadAction<{name: string}>) => {
       state.isAuthenticated = true
-      state.token = action.payload.token
       state.name = action.payload.name
     },
     logout: (state) => {
       state.isAuthenticated = false
-      state.token = undefined
       state.name = undefined
     },
   },
