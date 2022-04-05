@@ -21,7 +21,7 @@ export const loginStaff = (name: string, password: string) => {
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          dispatch(login({token: data.jwtToken, name: data.name}))
+          dispatch(login({name: data.name}))
         else
           alert(data.message)
       })
