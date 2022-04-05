@@ -1,6 +1,6 @@
 import store from '../Redux/store'
 import { createRequest } from './fetchUtils';
-import { login, logout } from '../Redux/authSlice';
+import { credError, login, logout } from '../Redux/authSlice';
 const shajs = require('sha.js');
 
 export const registerStaff = (name: string, password: string) => {
@@ -11,7 +11,7 @@ export const registerStaff = (name: string, password: string) => {
         if(res.ok)
           dispatch(login({staffId: data.staffId, name: data.name}))
         else
-          alert(data.message)
+          dispatch(credError({error: true, errorMessage: data.message}))
       })
     })
     .catch((e) => console.log(e))
@@ -25,7 +25,7 @@ export const loginStaff = (name: string, password: string) => {
         if(res.ok)
           dispatch(login({staffId: data.staffId, name: data.name}))
         else
-          alert(data.message)
+          dispatch(credError({error: true, errorMessage: data.message}))
       })
     })
     .catch((e) => console.log(e))
