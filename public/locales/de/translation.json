@@ -14,6 +14,7 @@
   "bErrorSessionExp": "Session abgelaufen. Bitte einloggen.",
   "bErrorUnauthorized": "Nicht für diese Aktion autorisiert.",
   "bErrorFieldCheck": "Nicht alle notwendigen Felder angegeben.",
+  "bErrorFieldInvalid": "Nicht alle Felder gültig.",
   "bErrorDupName": "Name existiert bereits.",
   "bErrorOrderInsert": "Bestellung konnte nicht eingefügt werden.",
   "bErrorItemInsert": "Produkt konnte nicht eingefügt werden.",

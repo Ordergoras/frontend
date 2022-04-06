@@ -14,6 +14,7 @@
   "bErrorSessionExp": "Session expired. Please log in.",
   "bErrorUnauthorized": "Not authorized to perform this action.",
   "bErrorFieldCheck": "Specify all necessary fields.",
+  "bErrorFieldInvalid": "Specify valid values for the fields.",
   "bErrorDupName": "Name already exists.",
   "bErrorOrderInsert": "Couldn't insert order.",
   "bErrorItemInsert": "Couldn't insert item.",
