@@ -8,6 +8,16 @@
   "needAcc": "Ich brauche einen Account",
   "registerConfirm": "Neuen Account erstellen",
   "backLogin": "Zurück zum Einloggen",
-  "errorCredEmpty": "Gib Benutzernamen und Passwort an",
-  "errorPassMatch": "Passwörter stimmen nicht überein"
+  "errorCredInvalid": "Benutzername oder Passwort ungültig.",
+  "errorPassMatch": "Passwörter stimmen nicht überein.",
+  "bErrorCredInvalid": "Daten ungültig.",
+  "bErrorSessionExp": "Session abgelaufen. Bitte einloggen.",
+  "bErrorUnauthorized": "Nicht für diese Aktion autorisiert.",
+  "bErrorFieldCheck": "Nicht alle notwendigen Felder angegeben.",
+  "bErrorDupName": "Name existiert bereits.",
+  "bErrorOrderInsert": "Bestellung konnte nicht eingefügt werden.",
+  "bErrorItemInsert": "Produkt konnte nicht eingefügt werden.",
+  "bSuccessLogout": "Erfolgreich ausgeloggt.",
+  "bSuccessOrderInsert": "Bestellung aufgegeben.",
+  "bSuccessItemInsert": "{{name}} mit {{amount}} Einheiten eingefügt."
 }

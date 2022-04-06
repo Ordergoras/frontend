@@ -26,7 +26,7 @@ function LoginRegisterPanel() {
 
   const submit = () => {
     if(username.length === 0 || password.length === 0) {
-      dispatch(credError({error: true, errorMessage: t('errorCredEmpty')}))
+      dispatch(credError({error: true, errorMessage: t('errorCredInvalid')}))
       return
     } else if(mode === 'register' && password !== repeatPassword) {
       dispatch(credError({error: true, errorMessage: t('errorPassMatch')}))

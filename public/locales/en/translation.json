@@ -8,6 +8,16 @@
   "needAcc": "I need a new Account",
   "registerConfirm": "Create new User",
   "backLogin": "Back to Login",
-  "errorCredEmpty": "Enter a valid username and password",
-  "errorPassMatch": "Passwords don't match"
+  "errorCredInvalid": "Username or password invalid.",
+  "errorPassMatch": "Passwords don't match.",
+  "bErrorCredInvalid": "Invalid credentials.",
+  "bErrorSessionExp": "Session expired. Please log in.",
+  "bErrorUnauthorized": "Not authorized to perform this action.",
+  "bErrorFieldCheck": "Specify all necessary fields.",
+  "bErrorDupName": "Name already exists.",
+  "bErrorOrderInsert": "Couldn't insert order.",
+  "bErrorItemInsert": "Couldn't insert item.",
+  "bSuccessLogout": "Successfully logged out user.",
+  "bSuccessOrderInsert": "Successfully created order.",
+  "bSuccessItemInsert": "Inserted {{name}} with {{amount}} units."
 }

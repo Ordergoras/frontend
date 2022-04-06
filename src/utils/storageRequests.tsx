@@ -1,9 +1,11 @@
 import { createRequest } from './fetchUtils';
+import i18next from 'i18next'
 
 export const getItems = (itemIds: Array<string>) => {
   createRequest('PUT', 'storage/getItems', {itemIds: itemIds})
     .then(res => {
-      if(res) res.json().then(data => console.log(data))
+      if(res && res.ok) res.json().then(data => console.log(data))
+      else if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
     .catch((e) => console.log(e))
 }
@@ -19,7 +21,8 @@ export const getAllItems = () => {
 export const addItem = (name: string, amount: number, group: string) => {
   createRequest('POST', 'storage/postItem', {name: name, amount: amount, group: group})
     .then(res => {
-      if(res) res.json().then(data => alert(data.message))
+      if(res && res.ok) res.json().then(data => alert(i18next.t(data.message, data.args)))
+      else if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
     .catch((e) => console.log(e))
 }
@@ -27,7 +30,8 @@ export const addItem = (name: string, amount: number, group: string) => {
 export const updateItemAmount = (itemId: string, amountChange: number) => {
   createRequest('POST', 'storage/updateItemAmount', {itemId: itemId, amountChange: amountChange})
     .then(res => {
-      if(res) res.json().then(data => console.log(data))
+      if(res && res.ok) res.json().then(data => console.log(data))
+      else if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
     .catch((e) => console.log(e))
 }
@@ -35,7 +39,8 @@ export const updateItemAmount = (itemId: string, amountChange: number) => {
 export const retrieveItems = (retrievedItems: Object) => {
   createRequest('POST', 'storage/retrieveItems', {retrievedItems: retrievedItems})
     .then(res => {
-      if(res) res.json().then(data => console.log(data))
+      if(res && res.ok) res.json().then(data => console.log(data))
+      else if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
     .catch((e) => console.log(e))
 }
