@@ -5,7 +5,7 @@ export const getItems = (itemIds: Array<string>) => {
   createRequest('PUT', 'storage/getItems', {itemIds: itemIds})
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
-      else if(res) res.json().then(data => alert(i18next.t(data.message)))
+      else if(res) res.json().then(data => alert(i18next.t(data.message, {dataType: i18next.t('item')})))
     })
     .catch((e) => console.log(e))
 }

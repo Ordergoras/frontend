@@ -20,5 +20,9 @@
   "bErrorItemInsert": "Produkt konnte nicht eingefügt werden.",
   "bSuccessLogout": "Erfolgreich ausgeloggt.",
   "bSuccessOrderInsert": "Bestellung aufgegeben.",
-  "bSuccessItemInsert": "{{name}} mit {{amount}} Einheiten eingefügt."
+  "bSuccessItemInsert": "{{name}} mit {{amount}} Einheiten eingefügt.",
+  "bDataNotFound": "{{dataType}} nicht gefunden.",
+  "order": "Bestellung",
+  "item": "Produkt",
+  "staff": "Account"
 }

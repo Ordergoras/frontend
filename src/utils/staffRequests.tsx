@@ -50,7 +50,7 @@ export const getStaff = (staffId: string) => {
   createRequest('GET', 'staff/getStaff', undefined, {staffId: staffId})
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
-      else if(res) res.json().then(data => alert(i18next.t(data.message)))
+      else if(res) res.json().then(data => alert(i18next.t(data.message, {dataType: i18next.t('staff')})))
     })
     .catch((e) => console.log(e))
 }

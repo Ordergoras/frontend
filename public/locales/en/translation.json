@@ -20,5 +20,9 @@
   "bErrorItemInsert": "Couldn't insert item.",
   "bSuccessLogout": "Successfully logged out user.",
   "bSuccessOrderInsert": "Successfully created order.",
-  "bSuccessItemInsert": "Inserted {{name}} with {{amount}} units."
+  "bSuccessItemInsert": "Inserted {{name}} with {{amount}} units.",
+  "bDataNotFound": "{{dataType}} not found.",
+  "order": "Order",
+  "item": "Item",
+  "staff": "Staff"
 }

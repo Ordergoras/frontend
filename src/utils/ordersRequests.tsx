@@ -16,7 +16,7 @@ export const getOrder = (orderId: string) => {
         if(res.ok)
           console.log(data)
         else
-          alert(i18next.t(data.message))
+          alert(i18next.t(data.message, {dataType: i18next.t('order')}))
       })
     })
     .catch((e) => console.log(e))
