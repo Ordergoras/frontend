@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Typography, Box, Button} from '@mui/material';
+import { Typography, Box, Button } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
-import LoginRegisterPanel from './LoginRegisterPanel';
+import LoginRegisterPanel from '../MenuComponents/LoginRegisterPanel';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
 import { logoutStaff } from '../utils/staffRequests';

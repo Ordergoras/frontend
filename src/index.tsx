@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import './utils/i18n';
 import App from './App';
 import store from './Redux/store'
-import LoadingScreen from './Home/LoadingScreen';
+import LoadingScreen from './Pages/LoadingScreen';
 
 const theme = createTheme({
   palette: {
