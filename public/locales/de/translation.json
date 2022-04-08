@@ -24,5 +24,7 @@
   "bDataNotFound": "{{dataType}} nicht gefunden.",
   "order": "Bestellung",
   "item": "Produkt",
-  "staff": "Account"
+  "staff": "Account",
+  "lang_en": "Englisch",
+  "lang_de": "Deutsch"
 }

@@ -7,6 +7,7 @@ import { getStaff, loginStaff, logoutStaff, registerStaff, setAdmin } from '../u
 import { addItem, getItems, retrieveItems, updateItemAmount } from '../utils/storageRequests';
 import { postOrder, getOrder } from '../utils/ordersRequests';
 import { generalStyles } from '../styles/generalStyles';
+import LanguageSelector from "./LanguageSelector";
 
 export const jwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdGFmZklkIjoiMWFkNjBmOGEzMzFmNDg0NWJkNmU3YWEyNzMwZTdhOGMifQ.9cp1e4sJbMu3ah-mmGFW-Mq_6Z3b7wcmO0RLNPXgzE0'
 
@@ -101,6 +102,8 @@ function AboutPage() {
       >
         get Order
       </Button>
+
+      <LanguageSelector/>
 
       <Link to={'/'}><Typography>Home</Typography></Link>
     </Box>
