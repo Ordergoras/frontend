@@ -7,13 +7,15 @@ export const utils = {
 
 export const generalStyles = {
   backgroundContainer: {
-    background: 'linear-gradient(to right bottom, #FF7043, #FFAB40)',
-    height: '100vh',
+    height: '92%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign: 'center',
     alignContent: 'center',
+    position: 'absolute',
+    left: 0,
   },
   textField: {
     ...utils.topBottomMargin,

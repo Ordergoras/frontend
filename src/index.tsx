@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import {createTheme, CssBaseline, GlobalStyles, ThemeProvider} from '@mui/material';
 import { Provider } from 'react-redux';
 import './utils/i18n';
 import App from './App';
 import store from './Redux/store'
 import LoadingScreen from './Pages/LoadingScreen';
+import Appbar from './MenuComponents/Appbar';
 
 const theme = createTheme({
   palette: {
@@ -27,8 +28,12 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <BrowserRouter>
+          <Appbar/>
           <App/>
           <CssBaseline/>
+          <GlobalStyles styles={{body:
+              {background: 'linear-gradient(to right bottom, #FF7043, #FFAB40)', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}
+          }}/>
         </BrowserRouter>
       </Provider>
     </ThemeProvider>
