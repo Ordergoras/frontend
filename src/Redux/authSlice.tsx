@@ -41,7 +41,6 @@ export const authSlice = createSlice({
       state.name = undefined
       state.error = action.payload.error
       state.errorMessage = action.payload.errorMessage
-
     }
   },
 })
