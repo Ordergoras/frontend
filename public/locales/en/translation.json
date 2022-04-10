@@ -27,5 +27,9 @@
   "staff": "Staff",
   "lang_en": "English",
   "lang_de": "German",
-  "imprintPage": "Imprint"
+  "imprintPage": "Imprint",
+  "createOrderPage": "New Order",
+  "openOrdersPage": "Open Orders",
+  "myOrdersPage": "My Orders",
+  "itemsPage": "Items"
 }

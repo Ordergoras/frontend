@@ -1,11 +1,17 @@
 import React from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton,Menu, Container, Button, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import LanguageSelector from "./LanguageSelector";
+import LanguageSelector from './LanguageSelector';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['New Order', 'Orders', 'Items']
+const pages = ['createOrderPage', 'openOrdersPage', 'myOrdersPage', 'itemsPage']
 
 function Appbar() {
+
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -14,6 +20,10 @@ function Appbar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
+  }
+
+  const navToPage = (page: string) => {
+    navigate('/' + page, { replace: true })
   }
 
   return (
@@ -47,7 +57,13 @@ function Appbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
+                  <Button
+                    key={page}
+                    onClick={() => navToPage(page)}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {t(page)}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>
@@ -56,10 +72,10 @@ function Appbar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => navToPage(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {t(page)}
               </Button>
             ))}
           </Box>

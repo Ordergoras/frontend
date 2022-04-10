@@ -27,5 +27,9 @@
   "staff": "Account",
   "lang_en": "Englisch",
   "lang_de": "Deutsch",
-  "aboutPage": "Impressum"
+  "imprintPage": "Impressum",
+  "createOrderPage": "Neue Bestellung",
+  "openOrdersPage": "Offene Bestellungen",
+  "myOrdersPage": "Meine Bestellungen",
+  "itemsPage": "Produkte"
 }
