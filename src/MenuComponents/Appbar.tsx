@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
 
-const pages = ['createOrderPage', 'openOrdersPage', 'myOrdersPage', 'itemsPage']
+const pages = ['homePage', 'createOrderPage', 'openOrdersPage', 'myOrdersPage', 'itemsPage']
 
 function Appbar() {
 
@@ -26,7 +26,8 @@ function Appbar() {
   }
 
   const navToPage = (page: string) => {
-    navigate('/' + page, { replace: true })
+    const pageLink = page === 'homePage' ? '' : page
+    navigate('/' + pageLink, { replace: true })
   }
 
   return (
