@@ -34,7 +34,7 @@ function ItemsPage() {
         {
           dataState.drinks !== undefined &&
             dataState.drinks.map((item) => {
-              return <ItemCard item={item} color={theme.palette.primary.main}/>
+              return <ItemCard item={item} color={theme.palette.primary.light}/>
             })
         }
         {
@@ -49,7 +49,7 @@ function ItemsPage() {
         {
           dataState.food !== undefined &&
             dataState.food.map((item) => {
-              return <ItemCard item={item} color={theme.palette.primary.light}/>
+              return <ItemCard item={item} color={theme.palette.primary.main}/>
             })
         }
         {
