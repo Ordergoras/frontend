@@ -20,7 +20,7 @@ function LanguageSelector() {
           onChange={handleChange}
         >
           {
-            languages.map((lang: string) => <MenuItem value={lang}>{t('lang_' + lang)}</MenuItem>)
+            languages.map((lang: string) => <MenuItem key={lang} value={lang}>{t('lang_' + lang)}</MenuItem>)
           }
         </Select>
       </FormControl>
