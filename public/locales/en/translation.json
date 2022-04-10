@@ -32,5 +32,11 @@
   "openOrdersPage": "Open Orders",
   "myOrdersPage": "My Orders",
   "itemsPage": "Items",
-  "loginPage": "Login"
+  "loginPage": "Login",
+  "inStorage": "In storage:",
+  "price": "Price:",
+  "drinks": "Drinks",
+  "food": "Food",
+  "other": "Other",
+  "nothingFound": "Nothing found."
 }

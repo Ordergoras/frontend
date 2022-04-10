@@ -32,5 +32,11 @@
   "openOrdersPage": "Offene Bestellungen",
   "myOrdersPage": "Meine Bestellungen",
   "itemsPage": "Produkte",
-  "loginPage": "Einloggen"
+  "loginPage": "Einloggen",
+  "inStorage": "Im Lager:",
+  "price": "Preis:",
+  "drinks": "Getränke",
+  "food": "Essen",
+  "other": "Sonstiges",
+  "nothingFound": "Nichts gefunden."
 }

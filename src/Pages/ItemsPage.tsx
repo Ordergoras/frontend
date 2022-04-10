@@ -1,26 +1,77 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { generalStyles } from '../styles/generalStyles';
 import { useAppSelector } from '../Redux/hooks';
 import { selectData } from '../Redux/dataSlice';
 import { getAllItems } from '../utils/storageRequests';
 import { verifyCred } from '../utils/staffRequests';
+import ItemCard from '../OrderComponents/ItemCard';
+import { theme } from '../index';
+import { generalStyles } from '../styles/generalStyles';
+import { useTranslation } from 'react-i18next';
 
 function ItemsPage() {
 
+  const styles = {
+    topMargin: {
+      marginTop: 1,
+    },
+  }
+
   const dataState = useAppSelector(selectData)
+  const { t } = useTranslation()
 
   React.useEffect(() => {
-    getAllItems()
     verifyCred()
+    getAllItems()
   }, [])
 
   return (
-    <Box sx={generalStyles.backgroundContainer}>
-      <Typography>
-        Items Page
+    <Box sx={{textAlign: 'center', paddingTop: 1, paddingBottom: 1}}>
+      <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
+        {t('drinks')}
       </Typography>
-      {dataState.allItems && dataState.allItems.toString()}
+      <Box sx={generalStyles.flexWrapBox}>
+        {
+          dataState.drinks !== undefined &&
+            dataState.drinks.map((item) => {
+              return <ItemCard item={item} color={theme.palette.primary.main}/>
+            })
+        }
+        {
+          dataState.drinks === undefined &&
+            <Typography variant={'body1'} color={theme.palette.background.default}>{t('nothingFound')}</Typography>
+        }
+      </Box>
+      <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
+        {t('food')}
+      </Typography>
+      <Box sx={generalStyles.flexWrapBox}>
+        {
+          dataState.food !== undefined &&
+            dataState.food.map((item) => {
+              return <ItemCard item={item} color={theme.palette.primary.light}/>
+            })
+        }
+        {
+          dataState.food === undefined &&
+            <Typography variant={'body1'} color={theme.palette.background.default}>{t('nothingFound')}</Typography>
+        }
+      </Box>
+      <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
+        {t('other')}
+      </Typography>
+      <Box sx={generalStyles.flexWrapBox}>
+        {
+          dataState.other !== undefined &&
+            dataState.other.map((item) => {
+              return <ItemCard item={item} color={theme.palette.primary.dark}/>
+            })
+        }
+        {
+          dataState.other === undefined &&
+            <Typography variant={'body1'} color={theme.palette.background.default}>{t('nothingFound')}</Typography>
+        }
+      </Box>
     </Box>
   )
 }

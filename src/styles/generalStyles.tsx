@@ -25,4 +25,11 @@ export const generalStyles = {
   button: {
     ...utils.topBottomMargin,
   },
+  flexWrapBox: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignContent: 'center',
+  },
 }
