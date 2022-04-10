@@ -11,7 +11,7 @@ import store from './Redux/store'
 import LoadingScreen from './Pages/LoadingScreen';
 import Appbar from './MenuComponents/Appbar';
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
