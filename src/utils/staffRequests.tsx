@@ -71,6 +71,8 @@ export const verifyCred = () => {
       if(res) res.json().then(data => {
         if(res.ok)
           dispatch(login({staffId: data.staffId, name: data.name}))
+        else
+          dispatch(logout())
       })
     })
     .catch((e) => console.log(e))
