@@ -1,14 +1,17 @@
 import React from 'react';
-import { AppBar, Box, Toolbar, IconButton,Menu, Container, Button, MenuItem } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Menu, Container, Button, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LanguageSelector from './LanguageSelector';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../Redux/hooks';
+import { selectAuth } from '../Redux/authSlice';
 
 const pages = ['createOrderPage', 'openOrdersPage', 'myOrdersPage', 'itemsPage']
 
 function Appbar() {
 
+  const authState = useAppSelector(selectAuth)
   const { t } = useTranslation()
   const navigate = useNavigate()
 
@@ -55,8 +58,36 @@ function Appbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {
+                authState.isAuthenticated ?
+                  pages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Button
+                        key={page}
+                        onClick={() => navToPage(page)}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                      >
+                        {t(page)}
+                      </Button>
+                    </MenuItem>
+                  ))
+                  :
+                  <MenuItem key={'login'} onClick={handleCloseNavMenu}>
+                    <Button
+                      key={'login'}
+                      onClick={() => navToPage('login')}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                      {t('loginPage')}
+                    </Button>
+                  </MenuItem>
+              }
+            </Menu>
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {
+              authState.isAuthenticated ?
+                pages.map((page) => (
                   <Button
                     key={page}
                     onClick={() => navToPage(page)}
@@ -64,20 +95,16 @@ function Appbar() {
                   >
                     {t(page)}
                   </Button>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => navToPage(page)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {t(page)}
-              </Button>
-            ))}
+                ))
+                :
+                <Button
+                  key={'login'}
+                  onClick={() => navToPage('login')}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {t('loginPage')}
+                </Button>
+            }
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <LanguageSelector/>

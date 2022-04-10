@@ -31,5 +31,6 @@
   "createOrderPage": "Neue Bestellung",
   "openOrdersPage": "Offene Bestellungen",
   "myOrdersPage": "Meine Bestellungen",
-  "itemsPage": "Produkte"
+  "itemsPage": "Produkte",
+  "loginPage": "Einloggen"
 }

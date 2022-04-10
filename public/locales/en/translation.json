@@ -31,5 +31,6 @@
   "createOrderPage": "New Order",
   "openOrdersPage": "Open Orders",
   "myOrdersPage": "My Orders",
-  "itemsPage": "Items"
+  "itemsPage": "Items",
+  "loginPage": "Login"
 }
