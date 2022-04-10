@@ -5,11 +5,14 @@ import { generalStyles } from '../styles/generalStyles';
 import LoginRegisterPanel from '../MenuComponents/LoginRegisterPanel';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
+import { useTranslation } from 'react-i18next';
+
 
 function AuthenticationScreen() {
 
   const authState = useAppSelector(selectAuth)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   React.useEffect(() => {
     if(authState.isAuthenticated) {
@@ -20,7 +23,7 @@ function AuthenticationScreen() {
   return (
     <Box sx={generalStyles.backgroundContainer}>
       <LoginRegisterPanel/>
-      <Link to={'/about'}><Typography>About</Typography></Link>
+      <Link to={'/imprint'}><Typography>{t('imprintPage')}</Typography></Link>
     </Box>
   );
 }

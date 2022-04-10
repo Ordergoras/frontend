@@ -5,11 +5,13 @@ import { generalStyles } from '../styles/generalStyles';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
 import { logoutStaff, verifyCred } from '../utils/staffRequests';
+import { useTranslation } from 'react-i18next';
 
 function HomePage() {
 
   const authState = useAppSelector(selectAuth)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   React.useEffect(() => {
     verifyCred()
@@ -17,7 +19,7 @@ function HomePage() {
 
   React.useEffect(() => {
     if(!authState.isAuthenticated) {
-      navigate('login', { replace: true })
+      navigate('/login', { replace: true })
     }
   }, [authState.isAuthenticated, navigate])
 
@@ -33,7 +35,7 @@ function HomePage() {
           Logout
         </Button>
       </Box>
-      <Link to={'/about'}><Typography>About</Typography></Link>
+      <Link to={'/about'}><Typography>{t('imprintPage')}</Typography></Link>
     </Box>
   );
 }

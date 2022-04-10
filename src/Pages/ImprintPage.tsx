@@ -11,7 +11,7 @@ import LanguageSelector from '../MenuComponents/LanguageSelector';
 
 export const jwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdGFmZklkIjoiMWFkNjBmOGEzMzFmNDg0NWJkNmU3YWEyNzMwZTdhOGMifQ.9cp1e4sJbMu3ah-mmGFW-Mq_6Z3b7wcmO0RLNPXgzE0'
 
-function AboutPage() {
+function ImprintPage() {
 
   const dispatch = useAppDispatch()
   const authState = useAppSelector(selectAuth)
@@ -110,4 +110,4 @@ function AboutPage() {
   );
 }
 
-export default AboutPage;
+export default ImprintPage;
