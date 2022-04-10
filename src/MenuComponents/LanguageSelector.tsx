@@ -18,6 +18,7 @@ function LanguageSelector() {
         <Select
           value={i18n.language.substring(0,2)}
           onChange={handleChange}
+          variant={'standard'}
         >
           {
             languages.map((lang: string) => <MenuItem key={lang} value={lang}>{t('lang_' + lang)}</MenuItem>)
