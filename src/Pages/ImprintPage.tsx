@@ -88,7 +88,7 @@ function ImprintPage() {
       <Button
         color={'secondary'}
         variant={'contained'}
-        onClick={() => addItem(name, amount, group)}
+        onClick={() => addItem(name, amount, group, 1.50)}
       >
         add Item
       </Button>

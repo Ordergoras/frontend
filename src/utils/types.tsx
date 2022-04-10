@@ -2,6 +2,7 @@ export type Item = {
   itemId: string,
   name: string,
   amount: number,
+  price: number,
   group: ItemGroup,
 }
 

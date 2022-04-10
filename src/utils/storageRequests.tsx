@@ -22,8 +22,8 @@ export const getAllItems = () => {
     .catch((e) => console.log(e))
 }
 
-export const addItem = (name: string, amount: number, group: string) => {
-  createRequest('POST', 'storage/postItem', {name: name, amount: amount, group: group})
+export const addItem = (name: string, amount: number, group: string, price: number) => {
+  createRequest('POST', 'storage/postItem', {name: name, amount: amount, group: group, price: price})
     .then(res => {
       if(res && res.ok) res.json().then(data => alert(i18next.t(data.message, data.args)))
       else if(res) res.json().then(data => alert(i18next.t(data.message)))
