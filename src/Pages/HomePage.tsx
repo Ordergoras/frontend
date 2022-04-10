@@ -5,11 +5,15 @@ import { generalStyles } from '../styles/generalStyles';
 import LoginRegisterPanel from '../MenuComponents/LoginRegisterPanel';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
-import { logoutStaff } from '../utils/staffRequests';
+import { logoutStaff, verifyCred } from '../utils/staffRequests';
 
 function HomePage() {
 
   const authState = useAppSelector(selectAuth)
+
+  React.useEffect(() => {
+    verifyCred()
+  }, [])
 
   return (
     <Box sx={generalStyles.backgroundContainer}>

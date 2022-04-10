@@ -63,3 +63,15 @@ export const setAdmin = (staffId: string, newStatus: boolean) => {
     })
     .catch((e) => console.log(e))
 }
+
+export const verifyCred = () => {
+  const dispatch = store.dispatch
+  createRequest('GET', 'staff/verifyCred')
+    .then(res => {
+      if(res) res.json().then(data => {
+        if(res.ok)
+          dispatch(login({staffId: data.staffId, name: data.name}))
+      })
+    })
+    .catch((e) => console.log(e))
+}
