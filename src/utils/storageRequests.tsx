@@ -1,5 +1,7 @@
 import { createRequest } from './fetchUtils';
+import { setItemData } from '../Redux/dataSlice';
 import i18next from 'i18next'
+import store from '../Redux/store';
 
 export const getItems = (itemIds: Array<string>) => {
   createRequest('PUT', 'storage/getItems', {itemIds: itemIds})
@@ -11,9 +13,11 @@ export const getItems = (itemIds: Array<string>) => {
 }
 
 export const getAllItems = () => {
+  const dispatch = store.dispatch
   createRequest('GET', 'storage/getAllItems')
     .then(res => {
-      if(res) res.json().then(data => console.log(data))
+      if(res && res.ok) res.json().then(data => dispatch(setItemData(data)))
+      else if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
     .catch((e) => console.log(e))
 }
