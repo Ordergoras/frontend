@@ -7,15 +7,13 @@ export const utils = {
 
 export const generalStyles = {
   backgroundContainer: {
-    height: '92%',
+    minHeight: '92vh',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign: 'center',
     alignContent: 'center',
-    position: 'absolute',
-    left: 0,
   },
   textField: {
     ...utils.topBottomMargin,
