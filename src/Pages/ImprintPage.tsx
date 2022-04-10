@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, TextField, Typography, Box } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../Redux/hooks'
 import { selectAuth } from '../Redux/authSlice';
-import { getStaff, loginStaff, logoutStaff, registerStaff, setAdmin } from '../utils/staffRequests';
+import {getStaff, loginStaff, logoutStaff, registerStaff, setAdmin, verifyCred} from '../utils/staffRequests';
 import { addItem, getItems, retrieveItems, updateItemAmount } from '../utils/storageRequests';
 import { postOrder, getOrder } from '../utils/ordersRequests';
 import { generalStyles } from '../styles/generalStyles';
@@ -15,6 +15,10 @@ function ImprintPage() {
 
   const dispatch = useAppDispatch()
   const authState = useAppSelector(selectAuth)
+
+  React.useEffect(() => {
+    verifyCred()
+  }, [])
 
   const [name, setName] = React.useState('')
   const [amount, setAmount] = React.useState(0)
