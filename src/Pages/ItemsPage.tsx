@@ -34,7 +34,7 @@ function ItemsPage() {
         {
           dataState.drinks !== undefined &&
             dataState.drinks.map((item) => {
-              return <ItemCard item={item} color={theme.palette.primary.light}/>
+              return <ItemCard key={item.itemId} item={item} color={theme.palette.primary.light}/>
             })
         }
         {
@@ -49,7 +49,7 @@ function ItemsPage() {
         {
           dataState.food !== undefined &&
             dataState.food.map((item) => {
-              return <ItemCard item={item} color={theme.palette.primary.main}/>
+              return <ItemCard key={item.itemId} item={item} color={theme.palette.primary.main}/>
             })
         }
         {
@@ -64,7 +64,7 @@ function ItemsPage() {
         {
           dataState.other !== undefined &&
             dataState.other.map((item) => {
-              return <ItemCard item={item} color={theme.palette.primary.dark}/>
+              return <ItemCard key={item.itemId} item={item} color={theme.palette.primary.dark}/>
             })
         }
         {
