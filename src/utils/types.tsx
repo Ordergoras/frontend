@@ -1,3 +1,12 @@
+export type Order = {
+  orderId: string,
+  tableNr: number,
+  staffId: string,
+  orderedItems: { [key: string]: number }
+  createdAt: string,
+  completed: boolean,
+}
+
 export type Item = {
   itemId: string,
   name: string,

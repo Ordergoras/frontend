@@ -1,17 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
-import { Item } from '../utils/types'
+import { Item, Order } from '../utils/types'
 
 interface DataState {
   drinks: Item[] | undefined,
   food: Item[] | undefined,
   other: Item[] | undefined,
+  myOrders: Order[] | undefined,
 }
 
 const initialState: DataState = {
   drinks: undefined,
   food: undefined,
   other: undefined,
+  myOrders: undefined,
 }
 
 export const dataSlice = createSlice({
@@ -38,10 +40,13 @@ export const dataSlice = createSlice({
         }
       })
     },
+    setMyOrders: (state, action: PayloadAction<Order[]>) => {
+      state.myOrders = action.payload
+    },
   },
 })
 
-export const { setItemData } = dataSlice.actions
+export const { setItemData, setMyOrders } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 
