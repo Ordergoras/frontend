@@ -26,13 +26,13 @@ function HomePage() {
   return (
     <Box sx={generalStyles.backgroundContainer}>
       <Box>
-        <Typography>Welcome to the HomePage {authState.name}</Typography>
+        <Typography>{t('welcome', {name: authState.name})}</Typography>
         <Button
           color={'primary'}
           variant={'contained'}
           onClick={() => logoutStaff()}
         >
-          Logout
+          {t('logout')}
         </Button>
       </Box>
       <Link to={'/about'}><Typography>{t('imprintPage')}</Typography></Link>

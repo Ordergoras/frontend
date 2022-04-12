@@ -39,5 +39,7 @@
   "drinks": "Getränke",
   "food": "Essen",
   "other": "Sonstiges",
-  "nothingFound": "Nichts gefunden."
+  "nothingFound": "Nichts gefunden.",
+  "logout": "Ausloggen",
+  "welcome": "Hallo {{name}}"
 }
