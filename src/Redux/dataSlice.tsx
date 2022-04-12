@@ -19,7 +19,9 @@ export const dataSlice = createSlice({
   initialState,
   reducers: {
     setItemData: (state, action: PayloadAction<Item[]>) => {
-      resetState()
+      state.drinks = undefined
+      state.food = undefined
+      state.other = undefined
       action.payload.forEach((item: Item) => {
         switch (item.group) {
           case "Drink":
@@ -36,15 +38,10 @@ export const dataSlice = createSlice({
         }
       })
     },
-    resetState: (state) => {
-      state.drinks = undefined
-      state.food = undefined
-      state.other = undefined
-    }
   },
 })
 
-export const { setItemData, resetState } = dataSlice.actions
+export const { setItemData } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 
