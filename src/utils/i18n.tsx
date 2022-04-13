@@ -14,6 +14,7 @@ i18next
     },
     supportedLngs: ['en', 'de'],
     nonExplicitSupportedLngs: true,
-  }).then(() => {})
+  })
+  .catch((e) => {console.log(e)})
 
 export default i18next
