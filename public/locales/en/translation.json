@@ -41,5 +41,9 @@
   "other": "Other",
   "nothingFound": "Nothing found.",
   "logout": "Logout",
-  "welcome": "Welcome {{name}}"
+  "welcome": "Welcome {{name}}",
+  "tableNr": "Table",
+  "orderStaff": "Staff",
+  "ordersOpen": "Open orders",
+  "ordersCompleted": "Completed orders"
 }

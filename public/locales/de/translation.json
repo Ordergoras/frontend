@@ -41,5 +41,9 @@
   "other": "Sonstiges",
   "nothingFound": "Nichts gefunden.",
   "logout": "Ausloggen",
-  "welcome": "Hallo {{name}}"
+  "welcome": "Hallo {{name}}",
+  "tableNr": "Tisch",
+  "orderStaff": "Bedienung",
+  "ordersOpen": "Offene Bestellungen",
+  "ordersCompleted": "Abgeschlossene Bestellungen"
 }

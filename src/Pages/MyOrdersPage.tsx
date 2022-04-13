@@ -6,8 +6,16 @@ import { getMyOrders } from '../utils/ordersRequests';
 import { useAppSelector } from '../Redux/hooks';
 import { selectData } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
+import OrderCard from '../OrderComponents/OrderCard';
+import { theme } from '../index';
 
 function MyOrdersPage() {
+
+  const styles = {
+    topMargin: {
+      marginTop: 1,
+    },
+  }
 
   const dataState = useAppSelector(selectData)
   const { t } = useTranslation()
@@ -19,14 +27,15 @@ function MyOrdersPage() {
 
   return (
     <Box sx={generalStyles.backgroundContainer}>
-      <Typography>
-        My Orders Page
+      <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
+        {t('ordersOpen')}
       </Typography>
       {dataState.myOrders && dataState.myOrders.map((order) => {
-        return <Typography key={order.orderId}>
-          {order.orderId}
-        </Typography>
+        return <OrderCard key={order.orderId} order={order}/>
       })}
+      <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
+        {t('ordersCompleted')}
+      </Typography>
     </Box>
   )
 }
