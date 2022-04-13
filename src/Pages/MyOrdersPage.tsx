@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
-import { verifyCred } from '../utils/staffRequests';
 import { getMyOrders } from '../utils/ordersRequests';
 import { useAppSelector } from '../Redux/hooks';
 import { selectData } from '../Redux/dataSlice';
@@ -21,7 +20,6 @@ function MyOrdersPage() {
   const { t } = useTranslation()
 
   React.useEffect(() => {
-    verifyCred()
     getMyOrders()
   }, [])
 

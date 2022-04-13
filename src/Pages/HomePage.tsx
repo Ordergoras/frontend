@@ -4,7 +4,7 @@ import { Typography, Box, Button } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
-import { logoutStaff, verifyCred } from '../utils/staffRequests';
+import { logoutStaff } from '../utils/staffRequests';
 import { useTranslation } from 'react-i18next';
 
 function HomePage() {
@@ -12,10 +12,6 @@ function HomePage() {
   const authState = useAppSelector(selectAuth)
   const navigate = useNavigate()
   const { t } = useTranslation()
-
-  React.useEffect(() => {
-    verifyCred()
-  }, [])
 
   React.useEffect(() => {
     if(!authState.isAuthenticated) {

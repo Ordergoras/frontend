@@ -7,8 +7,14 @@ import CreateOrderPage from './Pages/CreateOrderPage';
 import OpenOrdersPage from './Pages/OpenOrdersPage';
 import MyOrdersPage from './Pages/MyOrdersPage';
 import ItemsPage from './Pages/ItemsPage';
+import { verifyCred } from './utils/staffRequests';
 
 function App() {
+
+  React.useEffect(() => {
+    verifyCred()
+  }, [])
+
   return (
     <Routes>
       <Route path={'/'} element={<HomePage/>} />

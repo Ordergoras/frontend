@@ -6,7 +6,6 @@ import LoginRegisterPanel from '../MenuComponents/LoginRegisterPanel';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
 import { useTranslation } from 'react-i18next';
-import { verifyCred } from '../utils/staffRequests';
 
 
 function AuthenticationScreen() {
@@ -14,10 +13,6 @@ function AuthenticationScreen() {
   const authState = useAppSelector(selectAuth)
   const navigate = useNavigate()
   const { t } = useTranslation()
-
-  React.useEffect(() => {
-    verifyCred()
-  }, [])
 
   React.useEffect(() => {
     if(authState.isAuthenticated) {

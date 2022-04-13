@@ -1,24 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, TextField, Typography, Box } from '@mui/material';
-import { useAppSelector, useAppDispatch } from '../Redux/hooks'
+import { useAppSelector } from '../Redux/hooks'
 import { selectAuth } from '../Redux/authSlice';
-import {getStaff, loginStaff, logoutStaff, registerStaff, setAdmin, verifyCred} from '../utils/staffRequests';
-import { addItem, getItems, retrieveItems, updateItemAmount } from '../utils/storageRequests';
+import {getStaff, loginStaff, logoutStaff, registerStaff } from '../utils/staffRequests';
+import { addItem, getItems, retrieveItems } from '../utils/storageRequests';
 import { postOrder, getOrder } from '../utils/ordersRequests';
 import { generalStyles } from '../styles/generalStyles';
 import LanguageSelector from '../MenuComponents/LanguageSelector';
 
-export const jwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdGFmZklkIjoiMWFkNjBmOGEzMzFmNDg0NWJkNmU3YWEyNzMwZTdhOGMifQ.9cp1e4sJbMu3ah-mmGFW-Mq_6Z3b7wcmO0RLNPXgzE0'
-
 function ImprintPage() {
 
-  const dispatch = useAppDispatch()
   const authState = useAppSelector(selectAuth)
-
-  React.useEffect(() => {
-    verifyCred()
-  }, [])
 
   const [name, setName] = React.useState('')
   const [amount, setAmount] = React.useState(0)

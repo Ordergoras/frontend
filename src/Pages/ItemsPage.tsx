@@ -3,7 +3,6 @@ import { Box, Typography } from '@mui/material';
 import { useAppSelector } from '../Redux/hooks';
 import { selectData } from '../Redux/dataSlice';
 import { getAllItems } from '../utils/storageRequests';
-import { verifyCred } from '../utils/staffRequests';
 import ItemCard from '../OrderComponents/ItemCard';
 import { theme } from '../index';
 import { generalStyles } from '../styles/generalStyles';
@@ -21,7 +20,6 @@ function ItemsPage() {
   const { t } = useTranslation()
 
   React.useEffect(() => {
-    verifyCred()
     getAllItems()
   }, [])
 
