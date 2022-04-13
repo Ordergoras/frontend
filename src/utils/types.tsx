@@ -2,6 +2,7 @@ export type Order = {
   orderId: string,
   tableNr: number,
   staffId: string,
+  staffName: string,
   orderedItems: { [key: string]: number }
   createdAt: string,
   completed: boolean,
