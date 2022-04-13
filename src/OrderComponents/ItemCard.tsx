@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 interface ItemCardProps {
   item: Item,
-  color: string
+  color: string,
 }
 
 function ItemCard(props: ItemCardProps) {
@@ -20,7 +20,7 @@ function ItemCard(props: ItemCardProps) {
     divider: {
       border: 1,
       borderColor: theme.palette.background.default,
-    }
+    },
   }
 
   const { t } = useTranslation()
