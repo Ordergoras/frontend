@@ -7,6 +7,7 @@ interface DataState {
   food: Item[] | undefined,
   other: Item[] | undefined,
   myOrders: Order[] | undefined,
+  itemIdMap: { [key: string]: string } | undefined,
 }
 
 const initialState: DataState = {
@@ -14,6 +15,7 @@ const initialState: DataState = {
   food: undefined,
   other: undefined,
   myOrders: undefined,
+  itemIdMap: undefined,
 }
 
 export const dataSlice = createSlice({
@@ -43,10 +45,13 @@ export const dataSlice = createSlice({
     setMyOrders: (state, action: PayloadAction<Order[]>) => {
       state.myOrders = action.payload
     },
+    setItemIdMap: (state, action: PayloadAction<{[key: string] : string}>) => {
+      state.itemIdMap = action.payload
+    }
   },
 })
 
-export const { setItemData, setMyOrders } = dataSlice.actions
+export const { setItemData, setMyOrders, setItemIdMap } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 

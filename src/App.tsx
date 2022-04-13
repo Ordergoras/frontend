@@ -8,12 +8,24 @@ import OpenOrdersPage from './Pages/OpenOrdersPage';
 import MyOrdersPage from './Pages/MyOrdersPage';
 import ItemsPage from './Pages/ItemsPage';
 import { verifyCred } from './utils/staffRequests';
+import { getItemIdMap } from './utils/storageRequests';
+import { useAppSelector } from './Redux/hooks';
+import { selectData } from './Redux/dataSlice';
+import { selectAuth } from './Redux/authSlice';
 
 function App() {
 
+  const dataState = useAppSelector(selectData)
+  const authState = useAppSelector(selectAuth)
+
   React.useEffect(() => {
-    verifyCred()
-  }, [])
+    if(!authState.isAuthenticated) {
+      verifyCred()
+    }
+    if(!dataState.itemIdMap) {
+      getItemIdMap()
+    }
+  }, [authState.isAuthenticated, dataState.itemIdMap])
 
   return (
     <Routes>

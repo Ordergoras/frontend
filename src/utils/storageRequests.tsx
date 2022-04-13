@@ -1,5 +1,5 @@
 import { createRequest } from './fetchUtils';
-import { setItemData } from '../Redux/dataSlice';
+import { setItemData, setItemIdMap } from '../Redux/dataSlice';
 import i18next from 'i18next'
 import store from '../Redux/store';
 
@@ -44,6 +44,16 @@ export const retrieveItems = (retrievedItems: Object) => {
   createRequest('POST', 'storage/retrieveItems', {retrievedItems: retrievedItems})
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
+      else if(res) res.json().then(data => alert(i18next.t(data.message)))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const getItemIdMap = () => {
+  const dispatch = store.dispatch
+  createRequest('GET', 'storage/getItemIdMap')
+    .then(res => {
+      if(res && res.ok) res.json().then(data => dispatch(setItemIdMap(data)))
       else if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
     .catch((e) => console.log(e))
