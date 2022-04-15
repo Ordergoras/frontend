@@ -17,7 +17,7 @@ function OrderCard(props: OrderCardProps) {
     paper: {
       padding: 2,
       margin: 1,
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: props.order.completed ? theme.palette.success.light : theme.palette.secondary.main,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'start',
@@ -80,7 +80,7 @@ function OrderCard(props: OrderCardProps) {
       <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1}}/>
       <Box sx={styles.flexWrapBox}>
         <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
-          Open:
+          {t('open')}:
         </Typography>
         {Object.keys(order.orderedItems).map((itemId) => {
           return dataState.itemIdMap && (order.orderedItems[itemId] - order.completedItems[itemId]) > 0 &&
@@ -96,7 +96,7 @@ function OrderCard(props: OrderCardProps) {
       <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1}}/>
       <Box sx={styles.flexWrapBox}>
         <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
-          Completed:
+          {t('completed')}:
         </Typography>
         {Object.keys(order.completedItems).map((itemId) => {
           return dataState.itemIdMap && order.completedItems[itemId] > 0 &&

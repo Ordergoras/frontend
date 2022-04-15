@@ -47,5 +47,7 @@
   "tableNr": "Table",
   "orderStaff": "Staff",
   "ordersOpen": "Open orders",
-  "ordersCompleted": "Completed orders"
+  "ordersCompleted": "Completed orders",
+  "open": "Open",
+  "completed": "Completed"
 }
