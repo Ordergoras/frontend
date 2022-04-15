@@ -7,6 +7,7 @@ export type Order = {
   completedItems: { [key: string]: number }
   createdAt: string,
   completed: boolean,
+  price: number,
 }
 
 export type Item = {
