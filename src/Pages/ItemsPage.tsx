@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useAppSelector } from '../Redux/hooks';
 import { selectData } from '../Redux/dataSlice';
-import { getAllItems } from '../utils/storageRequests';
 import ItemCard from '../OrderComponents/ItemCard';
 import { theme } from '../index';
 import { generalStyles } from '../styles/generalStyles';
@@ -18,10 +17,6 @@ function ItemsPage() {
 
   const dataState = useAppSelector(selectData)
   const { t } = useTranslation()
-
-  React.useEffect(() => {
-    getAllItems()
-  }, [])
 
   return (
     <Box sx={{textAlign: 'center', paddingTop: 1, paddingBottom: 1}}>

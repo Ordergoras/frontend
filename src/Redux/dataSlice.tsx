@@ -3,6 +3,7 @@ import type { RootState } from './store'
 import { Item, Order } from '../utils/types'
 
 interface DataState {
+  itemsFetched: boolean,
   drinks: Item[] | undefined,
   food: Item[] | undefined,
   other: Item[] | undefined,
@@ -11,6 +12,7 @@ interface DataState {
 }
 
 const initialState: DataState = {
+  itemsFetched: false,
   drinks: undefined,
   food: undefined,
   other: undefined,
@@ -23,6 +25,7 @@ export const dataSlice = createSlice({
   initialState,
   reducers: {
     setItemData: (state, action: PayloadAction<Item[]>) => {
+      state.itemsFetched = true
       state.drinks = undefined
       state.food = undefined
       state.other = undefined
