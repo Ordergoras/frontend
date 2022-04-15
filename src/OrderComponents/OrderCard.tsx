@@ -41,16 +41,28 @@ function OrderCard(props: OrderCardProps) {
   const dataState = useAppSelector(selectData)
   const { t } = useTranslation()
   const [order, setOrder] = React.useState(props.order)
+  const [fetching, setFetching] = React.useState(false)
 
   const updateCompleted = (itemId: string, increaseCompleted: boolean) => {
+    setFetching(true)
     updateCompletedItems(order.orderId, itemId, increaseCompleted)
       .then(res => {
         if(res) {
           let newOrder = JSON.parse(JSON.stringify(order))
           newOrder.completedItems[itemId] = increaseCompleted ? newOrder.completedItems[itemId] + 1 : newOrder.completedItems[itemId] - 1
+          let isCompleted = true
+          Object.keys(newOrder.orderedItems).forEach((itemId) => {
+            if(newOrder.orderedItems[itemId] !== newOrder.completedItems[itemId]) {
+              isCompleted = false
+            }
+          })
+          if(isCompleted) {
+            newOrder.completed = true
+          }
           setOrder(newOrder)
           console.log('set new order')
         }
+        setFetching(false)
       })
   }
 
@@ -77,6 +89,7 @@ function OrderCard(props: OrderCardProps) {
               sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark}}
               label={dataState.itemIdMap[itemId] + ': ' + (order.orderedItems[itemId] - order.completedItems[itemId])}
               onClick={() => updateCompleted(itemId, true)}
+              disabled={fetching}
             />
         })}
       </Box>
@@ -92,6 +105,7 @@ function OrderCard(props: OrderCardProps) {
               sx={{...styles.chip, backgroundColor: theme.palette.success.main, ":hover": {backgroundColor: theme.palette.success.dark}}}
               label={dataState.itemIdMap[itemId] + ': ' + order.completedItems[itemId]}
               onClick={() => updateCompleted(itemId, false)}
+              disabled={fetching}
             />
         })}
       </Box>
