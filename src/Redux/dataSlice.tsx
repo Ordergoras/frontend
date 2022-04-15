@@ -9,6 +9,7 @@ interface DataState {
   other: Item[] | undefined,
   orders: Order[] | undefined,
   itemIdMap: { [key: string]: string } | undefined,
+  snackbarMessageCode: string | undefined,
 }
 
 const initialState: DataState = {
@@ -18,6 +19,7 @@ const initialState: DataState = {
   other: undefined,
   orders: undefined,
   itemIdMap: undefined,
+  snackbarMessageCode: undefined,
 }
 
 export const dataSlice = createSlice({
@@ -56,10 +58,13 @@ export const dataSlice = createSlice({
         return
       state.orders = state.orders.map(order => order.orderId === action.payload.orderId ? action.payload.newOrder : order)
     },
+    setSnackbarMessage: (state, action: PayloadAction<string>) => {
+      state.snackbarMessageCode = action.payload
+    },
   },
 })
 
-export const { setItemData, setOrders, setItemIdMap, updateCompletedItem } = dataSlice.actions
+export const { setItemData, setOrders, setItemIdMap, updateCompletedItem, setSnackbarMessage } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 

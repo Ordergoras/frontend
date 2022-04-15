@@ -1,6 +1,6 @@
 import { createRequest } from './fetchUtils';
 import i18next from 'i18next';
-import { setOrders } from '../Redux/dataSlice';
+import { setOrders, setSnackbarMessage } from '../Redux/dataSlice';
 import store from '../Redux/store';
 
 export const postOrder = (tableNr: number, staffId: string, orderedItems: Object) => {
@@ -39,16 +39,14 @@ export const getMyOrders = () => {
 }
 
 export const updateCompletedItems = (orderId: string, itemId: string, increaseCompleted: boolean) => {
+  const dispatch = store.dispatch
   return createRequest('POST', 'orders/completeOrderItem', {orderId: orderId, itemId: itemId, increaseCompleted: increaseCompleted})
     .then(res => {
       if(res) {
         res.json().then(data => {
-          if (res.ok)
-            alert(i18next.t(data.message))
-          else
-            alert(i18next.t(data.message))
+          dispatch(setSnackbarMessage(data.message))
         })
-        return res.ok;
+        return res.ok
       }
       else
         return false

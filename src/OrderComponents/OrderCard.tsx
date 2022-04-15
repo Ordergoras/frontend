@@ -9,6 +9,7 @@ import { updateCompletedItems } from '../utils/ordersRequests';
 
 interface OrderCardProps {
   order: Order,
+  setOpen: Function,
 }
 
 function OrderCard(props: OrderCardProps) {
@@ -56,11 +57,10 @@ function OrderCard(props: OrderCardProps) {
               isCompleted = false
             }
           })
-          if(isCompleted) {
-            newOrder.completed = true
-          }
+          newOrder.completed = isCompleted
           dispatch(updateCompletedItem({orderId: props.order.orderId, newOrder: newOrder}))
         }
+        props.setOpen(true)
         setFetching(false)
       })
   }
