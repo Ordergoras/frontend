@@ -4,6 +4,7 @@ export type Order = {
   staffId: string,
   staffName: string,
   orderedItems: { [key: string]: number }
+  completedItems: { [key: string]: number }
   createdAt: string,
   completed: boolean,
 }

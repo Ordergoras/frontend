@@ -37,3 +37,21 @@ export const getMyOrders = () => {
     })
     .catch((e) => console.log(e))
 }
+
+export const updateCompletedItems = (orderId: string, itemId: string, increaseCompleted: boolean) => {
+  return createRequest('POST', 'orders/completeOrderItem', {orderId: orderId, itemId: itemId, increaseCompleted: increaseCompleted})
+    .then(res => {
+      if(res) {
+        res.json().then(data => {
+          if (res.ok)
+            console.log(i18next.t(data.message))
+          else
+            alert(i18next.t(data.message))
+        })
+        return res.ok;
+      }
+      else
+        return false
+    })
+    .catch((e) => console.log(e))
+}
