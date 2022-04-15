@@ -1,6 +1,6 @@
 import { createRequest } from './fetchUtils';
 import i18next from 'i18next';
-import { setMyOrders } from '../Redux/dataSlice';
+import { setOrders } from '../Redux/dataSlice';
 import store from '../Redux/store';
 
 export const postOrder = (tableNr: number, staffId: string, orderedItems: Object) => {
@@ -30,7 +30,7 @@ export const getMyOrders = () => {
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          dispatch(setMyOrders(data))
+          dispatch(setOrders(data))
         else
           alert(i18next.t(data.message, {dataType: i18next.t('order')}))
       })
@@ -44,7 +44,7 @@ export const updateCompletedItems = (orderId: string, itemId: string, increaseCo
       if(res) {
         res.json().then(data => {
           if (res.ok)
-            console.log(i18next.t(data.message))
+            alert(i18next.t(data.message))
           else
             alert(i18next.t(data.message))
         })

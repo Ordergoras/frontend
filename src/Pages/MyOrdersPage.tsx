@@ -28,12 +28,15 @@ function MyOrdersPage() {
       <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
         {t('ordersOpen')}
       </Typography>
-      {dataState.myOrders && dataState.myOrders.map((order) => {
-        return <OrderCard key={order.orderId} order={order}/>
+      {dataState.orders && dataState.orders.map((order) => {
+        return !order.completed ? <OrderCard key={order.orderId} order={order}/> : null
       })}
       <Typography variant={'h4'} color={theme.palette.background.default} sx={styles.topMargin}>
         {t('ordersCompleted')}
       </Typography>
+      {dataState.orders && dataState.orders.map((order) => {
+        return order.completed ? <OrderCard key={order.orderId} order={order}/> : null
+      })}
     </Box>
   )
 }
