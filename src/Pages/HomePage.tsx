@@ -31,7 +31,7 @@ function HomePage() {
           {t('logout')}
         </Button>
       </Box>
-      <Link to={'/about'}><Typography>{t('imprintPage')}</Typography></Link>
+      <Link to={'/imprint'}><Typography>{t('imprintPage')}</Typography></Link>
     </Box>
   );
 }
