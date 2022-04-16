@@ -5,7 +5,7 @@ import { Box, Paper, Typography, Chip } from '@mui/material';
 import { Order } from '../utils/types';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { selectData, updateCompletedItem } from '../Redux/dataSlice';
-import { updateCompletedItems } from '../utils/ordersRequests';
+import { updateCompletedItemRequest } from '../utils/ordersRequests';
 
 interface OrderCardProps {
   order: Order,
@@ -46,7 +46,7 @@ function OrderCard(props: OrderCardProps) {
 
   const updateCompleted = (itemId: string, increaseCompleted: boolean) => {
     setFetching(true)
-    updateCompletedItems(props.order.orderId, itemId, increaseCompleted)
+    updateCompletedItemRequest(props.order.orderId, itemId, increaseCompleted)
       .then(res => {
         if(res) {
           let newOrder = JSON.parse(JSON.stringify(props.order))
@@ -58,7 +58,7 @@ function OrderCard(props: OrderCardProps) {
             }
           })
           newOrder.completed = isCompleted
-          dispatch(updateCompletedItem({orderId: props.order.orderId, newOrder: newOrder}))
+          dispatch(updateCompletedItem({order: props.order, itemId: itemId, increaseCompleted: increaseCompleted, newOrder: newOrder}))
         }
         props.setOpen(true)
         setFetching(false)

@@ -38,7 +38,21 @@ export const getMyOrders = () => {
     .catch((e) => console.log(e))
 }
 
-export const updateCompletedItems = (orderId: string, itemId: string, increaseCompleted: boolean) => {
+export const getOpenOrders = () => {
+  const dispatch = store.dispatch
+  createRequest('GET', 'orders/openOrders')
+    .then(res => {
+      if(res) res.json().then(data => {
+        if(res.ok)
+          dispatch(setOrders(data))
+        else
+          alert(i18next.t(data.message, {dataType: i18next.t('order')}))
+      })
+    })
+    .catch((e) => console.log(e))
+}
+
+export const updateCompletedItemRequest = (orderId: string, itemId: string, increaseCompleted: boolean) => {
   const dispatch = store.dispatch
   return createRequest('POST', 'orders/completeOrderItem', {orderId: orderId, itemId: itemId, increaseCompleted: increaseCompleted})
     .then(res => {

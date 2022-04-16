@@ -49,5 +49,6 @@
   "ordersOpen": "Open orders",
   "ordersCompleted": "Completed orders",
   "open": "Open",
-  "completed": "Completed"
+  "completed": "Completed",
+  "undo": "Undo"
 }

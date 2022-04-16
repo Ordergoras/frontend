@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from './store'
-import { Item, Order } from '../utils/types'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import type {RootState} from './store'
+import {Item, Order} from '../utils/types'
 
 interface DataState {
   itemsFetched: boolean,
@@ -10,6 +10,7 @@ interface DataState {
   orders: Order[] | undefined,
   itemIdMap: { [key: string]: string } | undefined,
   snackbarMessageCode: string | undefined,
+  lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean} | undefined,
 }
 
 const initialState: DataState = {
@@ -20,6 +21,7 @@ const initialState: DataState = {
   orders: undefined,
   itemIdMap: undefined,
   snackbarMessageCode: undefined,
+  lastOrderUpdate: undefined,
 }
 
 export const dataSlice = createSlice({
@@ -53,10 +55,18 @@ export const dataSlice = createSlice({
     setItemIdMap: (state, action: PayloadAction<{[key: string] : string}>) => {
       state.itemIdMap = action.payload
     },
-    updateCompletedItem: (state, action: PayloadAction<{orderId: string, newOrder: Order}>) => {
+    updateCompletedItem: (state, action: PayloadAction<{order: Order, itemId: string, increaseCompleted: boolean, newOrder: Order}>) => {
       if(state.orders === undefined)
         return
-      state.orders = state.orders.map(order => order.orderId === action.payload.orderId ? action.payload.newOrder : order)
+      state.orders = state.orders.map(order => order.orderId === action.payload.order.orderId ? action.payload.newOrder : order)
+      state.lastOrderUpdate = {order: action.payload.order, itemId: action.payload.itemId, increaseCompleted: action.payload.increaseCompleted}
+    },
+    undoOrderUpdate: (state) => {
+      if(state.orders === undefined || state.lastOrderUpdate === undefined)
+        return
+      const {order: oldOrder} = state.lastOrderUpdate;
+      state.orders = state.orders.map(order => order.orderId === oldOrder.orderId ? oldOrder : order)
+      state.lastOrderUpdate = undefined
     },
     setSnackbarMessage: (state, action: PayloadAction<string>) => {
       state.snackbarMessageCode = action.payload
@@ -64,7 +74,7 @@ export const dataSlice = createSlice({
   },
 })
 
-export const { setItemData, setOrders, setItemIdMap, updateCompletedItem, setSnackbarMessage } = dataSlice.actions
+export const { setItemData, setOrders, setItemIdMap, updateCompletedItem, setSnackbarMessage, undoOrderUpdate } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 

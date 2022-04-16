@@ -1,13 +1,12 @@
 import React from 'react';
-import { Alert, Box, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Button, Snackbar, Typography } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
-import { getMyOrders } from '../utils/ordersRequests';
-import { useAppSelector } from '../Redux/hooks';
-import { selectData } from '../Redux/dataSlice';
+import {getMyOrders, updateCompletedItemRequest} from '../utils/ordersRequests';
+import { useAppDispatch, useAppSelector } from '../Redux/hooks';
+import { selectData, undoOrderUpdate } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
 import OrderCard from '../OrderComponents/OrderCard';
 import { theme } from '../index';
-import i18next from 'i18next';
 
 function MyOrdersPage() {
 
@@ -18,8 +17,9 @@ function MyOrdersPage() {
   }
 
   const dataState = useAppSelector(selectData)
+  const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   React.useEffect(() => {
     getMyOrders()
@@ -30,6 +30,13 @@ function MyOrdersPage() {
       return
     }
     setOpen(false)
+  }
+
+  const handleUndo = () => {
+    if(dataState.lastOrderUpdate === undefined)
+      return
+    updateCompletedItemRequest(dataState.lastOrderUpdate.order.orderId, dataState.lastOrderUpdate.itemId, !dataState.lastOrderUpdate.increaseCompleted)
+      .then(() => dispatch(undoOrderUpdate()))
   }
 
   return (
@@ -47,8 +54,13 @@ function MyOrdersPage() {
         return order.completed ? <OrderCard key={order.orderId} order={order} setOpen={(val: boolean) => setOpen(val)}/> : null
       })}
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={'success'} sx={{ width: '100%' }}>
-          {dataState.snackbarMessageCode ? i18next.t(dataState.snackbarMessageCode) : ''}
+        <Alert
+          onClose={handleClose}
+          severity={'success'}
+          sx={{width: '100%'}}
+          action={<Button color={'inherit'} size={'small'} onClick={() => handleUndo()}>{t('undo')}</Button>}
+        >
+          {dataState.snackbarMessageCode ? t(dataState.snackbarMessageCode) : ''}
         </Alert>
       </Snackbar>
     </Box>

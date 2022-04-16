@@ -1,18 +1,52 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Alert, Box, Button, Snackbar } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
+import { getOpenOrders, updateCompletedItemRequest } from '../utils/ordersRequests';
+import { useAppDispatch, useAppSelector } from '../Redux/hooks';
+import { selectData, undoOrderUpdate } from '../Redux/dataSlice';
+import { useTranslation } from 'react-i18next';
+import OrderCard from '../OrderComponents/OrderCard';
 
 function OpenOrdersPage() {
 
-  React.useEffect(() => {
+  const dataState = useAppSelector(selectData)
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const [open, setOpen] = React.useState(false)
 
+  React.useEffect(() => {
+    getOpenOrders()
   }, [])
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
+  }
+
+  const handleUndo = () => {
+    if(dataState.lastOrderUpdate === undefined)
+      return
+    updateCompletedItemRequest(dataState.lastOrderUpdate.order.orderId, dataState.lastOrderUpdate.itemId, !dataState.lastOrderUpdate.increaseCompleted)
+      .then(() => dispatch(undoOrderUpdate()))
+  }
 
   return (
     <Box sx={generalStyles.backgroundContainer}>
-      <Typography>
-        Open Orders Page
-      </Typography>
+      {dataState.orders && dataState.orders.map((order) => {
+        return !order.completed ? <OrderCard key={order.orderId} order={order} setOpen={(val: boolean) => setOpen(val)}/> : null
+      })}
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity={'success'}
+          sx={{width: '100%'}}
+          action={<Button color={'inherit'} size={'small'} onClick={() => handleUndo()}>{t('undo')}</Button>}
+        >
+          {dataState.snackbarMessageCode ? t(dataState.snackbarMessageCode) : ''}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

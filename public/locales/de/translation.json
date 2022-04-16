@@ -49,5 +49,6 @@
   "ordersOpen": "Offene Bestellungen",
   "ordersCompleted": "Abgeschlossene Bestellungen",
   "open": "Offen",
-  "completed": "Abgeschlossen"
+  "completed": "Abgeschlossen",
+  "undo": "Rückgängig machen"
 }
