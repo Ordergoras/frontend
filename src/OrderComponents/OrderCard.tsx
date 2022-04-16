@@ -18,7 +18,7 @@ function OrderCard(props: OrderCardProps) {
     paper: {
       padding: 2,
       margin: 1,
-      backgroundColor: props.order.completed ? theme.palette.success.light : theme.palette.secondary.main,
+      backgroundColor: props.order.completed ? theme.palette.success.main : theme.palette.secondary.main,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'start',
@@ -77,31 +77,39 @@ function OrderCard(props: OrderCardProps) {
         </Typography>
       </Box>
       <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1}}/>
+      {
+        !props.order.completed &&
+        <>
+          <Box sx={styles.flexWrapBox}>
+            <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
+              {t('open')}:
+            </Typography>
+            {Object.keys(props.order.orderedItems).map((itemId) => {
+              return dataState.itemIdMap && (props.order.orderedItems[itemId] - props.order.completedItems[itemId]) > 0 &&
+                <Chip
+                  key={itemId}
+                  sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark}}
+                  label={dataState.itemIdMap[itemId] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
+                  onClick={() => updateCompleted(itemId, true)}
+                  disabled={fetching}
+                />
+            })}
+          </Box>
+          <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1}}/>
+        </>
+      }
       <Box sx={styles.flexWrapBox}>
-        <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
-          {t('open')}:
-        </Typography>
-        {Object.keys(props.order.orderedItems).map((itemId) => {
-          return dataState.itemIdMap && (props.order.orderedItems[itemId] - props.order.completedItems[itemId]) > 0 &&
-            <Chip
-              key={itemId}
-              sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark}}
-              label={dataState.itemIdMap[itemId] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
-              onClick={() => updateCompleted(itemId, true)}
-              disabled={fetching}
-            />
-        })}
-      </Box>
-      <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1}}/>
-      <Box sx={styles.flexWrapBox}>
-        <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
-          {t('completed')}:
-        </Typography>
+        {
+          !props.order.completed &&
+          <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
+            {t('completed')}:
+          </Typography>
+        }
         {Object.keys(props.order.completedItems).map((itemId) => {
           return dataState.itemIdMap && props.order.completedItems[itemId] > 0 &&
             <Chip
               key={itemId}
-              sx={{...styles.chip, backgroundColor: theme.palette.success.main, ":hover": {backgroundColor: theme.palette.success.dark}}}
+              sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ":hover": {backgroundColor: theme.palette.success.light}}}
               label={dataState.itemIdMap[itemId] + ': ' + props.order.completedItems[itemId]}
               onClick={() => updateCompleted(itemId, false)}
               disabled={fetching}
