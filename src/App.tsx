@@ -33,10 +33,10 @@ function App() {
       <Route path={'/'} element={<HomePage/>} />
       <Route path={'/login'} element={<AuthenticationScreen/>} />
       <Route path={'/imprint'} element={<ImprintPage/>} />
-      <Route path={'/createOrderPage'} element={<CreateOrderPage/>} />
-      <Route path={'/openOrdersPage'} element={<OpenOrdersPage/>} />
-      <Route path={'/myOrdersPage'} element={<MyOrdersPage/>} />
-      <Route path={'/itemsPage'} element={<ItemsPage/>} />
+      <Route path={'/createOrder'} element={<CreateOrderPage/>} />
+      <Route path={'/openOrders'} element={<OpenOrdersPage/>} />
+      <Route path={'/myOrders'} element={<MyOrdersPage/>} />
+      <Route path={'/items'} element={<ItemsPage/>} />
     </Routes>
   );
 }
