@@ -16,6 +16,9 @@ function OpenOrdersPage() {
 
   React.useEffect(() => {
     getOpenOrders()
+    const interval = setInterval(() => getOpenOrders(), 60000);
+
+    return () => clearInterval(interval);
   }, [])
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {

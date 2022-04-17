@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, Box, Button, Snackbar, Typography } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
-import {getMyOrders, updateCompletedItemRequest} from '../utils/ordersRequests';
+import { getMyOrders, updateCompletedItemRequest } from '../utils/ordersRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { selectData, undoOrderUpdate } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +23,9 @@ function MyOrdersPage() {
 
   React.useEffect(() => {
     getMyOrders()
+    const interval = setInterval(() => getMyOrders(), 60000);
+
+    return () => clearInterval(interval);
   }, [])
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
