@@ -73,7 +73,7 @@ function CreateOrderPage() {
 
   return (
     <Box sx={{textAlign: 'center', margin: 1}}>
-      <Paper sx={{padding: 1, marginBottom: 2, minHeight: '10vh', paddingTop: 'auto'}}>
+      <Paper sx={{padding: 1, marginBottom: 2}}>
         {Object.keys(order.orderedItems).map((itemId) => {
           return dataState.itemIdMap &&
             <Chip
@@ -81,7 +81,8 @@ function CreateOrderPage() {
               sx={{
                 ...styles.chip,
                 backgroundColor: dataState.itemIdMap[itemId]['group'] === 'Drink' ? theme.palette.primary.light :
-                  dataState.itemIdMap[itemId]['group'] === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark
+                  dataState.itemIdMap[itemId]['group'] === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark,
+                ':hover': {backgroundColor: dataState.itemIdMap[itemId]['group'] === 'Food' ? theme.palette.primary.dark : theme.palette.primary.main}
             }}
               label={dataState.itemIdMap[itemId]['name'] + ': ' + order.orderedItems[itemId]}
               onClick={() => {
@@ -90,6 +91,10 @@ function CreateOrderPage() {
               }}
             />
         })}
+        {
+          Object.keys(order.orderedItems).length === 0 &&
+            <Typography variant={'h6'} sx={{padding: 1}}>Empty order</Typography>
+        }
         <Box>
           <Box sx={{...styles.divider, marginTop: 1, marginBottom: 1}}/>
           <Typography>
