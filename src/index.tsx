@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
-import {createTheme, CssBaseline, GlobalStyles, ThemeProvider} from '@mui/material';
+import { createTheme, CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import './utils/i18n';
 import App from './App';
@@ -24,20 +24,22 @@ export const theme = createTheme({
 });
 
 ReactDOM.render(
-  <React.Suspense fallback={<LoadingScreen/>}>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Appbar/>
-          <App/>
-          <CssBaseline/>
-          <GlobalStyles styles={{body:
-              {background: 'linear-gradient(to right bottom, #FF7043, #FFAB40)', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}
-          }}/>
-        </BrowserRouter>
-      </Provider>
-    </ThemeProvider>
-  </React.Suspense>,
+  <React.StrictMode>
+    <React.Suspense fallback={<LoadingScreen/>}>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Appbar/>
+            <App/>
+            <CssBaseline/>
+            <GlobalStyles styles={{body:
+                {background: 'linear-gradient(to right bottom, #FF7043, #FFAB40)', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}
+            }}/>
+          </BrowserRouter>
+        </Provider>
+      </ThemeProvider>
+    </React.Suspense>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
