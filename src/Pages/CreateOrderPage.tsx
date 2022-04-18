@@ -73,7 +73,7 @@ function CreateOrderPage() {
 
   return (
     <Box sx={{textAlign: 'center', margin: 1}}>
-      <Paper sx={{padding: 1, marginBottom: 2, minHeight: '10vh'}}>
+      <Paper sx={{padding: 1, marginBottom: 2, minHeight: '10vh', paddingTop: 'auto'}}>
         {Object.keys(order.orderedItems).map((itemId) => {
           return dataState.itemIdMap &&
             <Chip
@@ -113,6 +113,7 @@ function CreateOrderPage() {
                   item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
                   color={theme.palette.primary.light}
                   onClick={() => addItemToOrder(item)}
+                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
                 />
               })
             }
@@ -139,6 +140,7 @@ function CreateOrderPage() {
                   item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
                   color={theme.palette.primary.main}
                   onClick={() => addItemToOrder(item)}
+                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
                 />
               })
             }
@@ -165,6 +167,7 @@ function CreateOrderPage() {
                   item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
                   color={theme.palette.primary.dark}
                   onClick={() => addItemToOrder(item)}
+                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
                 />
               })
             }
