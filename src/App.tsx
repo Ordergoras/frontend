@@ -8,7 +8,7 @@ import OpenOrdersPage from './Pages/OpenOrdersPage';
 import MyOrdersPage from './Pages/MyOrdersPage';
 import ItemsPage from './Pages/ItemsPage';
 import { verifyCred } from './utils/staffRequests';
-import { getItemIdMap, getAllItems } from './utils/storageRequests';
+import { getAllItems } from './utils/storageRequests';
 import { useAppSelector } from './Redux/hooks';
 import { selectData } from './Redux/dataSlice';
 import { selectAuth } from './Redux/authSlice';
@@ -24,7 +24,6 @@ function App() {
     }
     if(authState.isAuthenticated && !dataState.itemsFetched) {
       getAllItems()
-      getItemIdMap()
     }
   }, [authState.isAuthenticated, dataState.itemsFetched])
 

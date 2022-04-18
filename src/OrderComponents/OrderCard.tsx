@@ -89,7 +89,7 @@ function OrderCard(props: OrderCardProps) {
                 <Chip
                   key={itemId}
                   sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark}}
-                  label={dataState.itemIdMap[itemId] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
+                  label={dataState.itemIdMap[itemId]['name'] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
                   onClick={() => updateCompleted(itemId, true)}
                   disabled={fetching}
                 />
@@ -110,7 +110,7 @@ function OrderCard(props: OrderCardProps) {
             <Chip
               key={itemId}
               sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ":hover": {backgroundColor: theme.palette.success.light}}}
-              label={dataState.itemIdMap[itemId] + ': ' + props.order.completedItems[itemId]}
+              label={dataState.itemIdMap[itemId]['name'] + ': ' + props.order.completedItems[itemId]}
               onClick={() => updateCompleted(itemId, false)}
               disabled={fetching}
             />

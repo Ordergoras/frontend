@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import type {RootState} from './store'
-import {Item, Order} from '../utils/types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from './store'
+import { Item, Order } from '../utils/types'
 
 interface DataState {
   itemsFetched: boolean,
@@ -8,7 +8,7 @@ interface DataState {
   food: Item[] | undefined,
   other: Item[] | undefined,
   orders: Order[] | undefined,
-  itemIdMap: { [key: string]: string } | undefined,
+  itemIdMap: { [key: string]: Item } | undefined,
   snackbarMessageCode: string | undefined,
   lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean} | undefined,
 }
@@ -28,12 +28,13 @@ export const dataSlice = createSlice({
   name: 'data',
   initialState,
   reducers: {
-    setItemData: (state, action: PayloadAction<Item[]>) => {
+    setItemData: (state, action: PayloadAction<{[key: string] : Item}>) => {
       state.itemsFetched = true
       state.drinks = undefined
       state.food = undefined
       state.other = undefined
-      action.payload.forEach((item: Item) => {
+      state.itemIdMap = action.payload
+      Object.values(action.payload).forEach((item: Item) => {
         switch (item.group) {
           case "Drink":
             state.drinks ? state.drinks.push(item) : state.drinks = new Array(item)
@@ -51,9 +52,6 @@ export const dataSlice = createSlice({
     },
     setOrders: (state, action: PayloadAction<Order[]>) => {
       state.orders = action.payload
-    },
-    setItemIdMap: (state, action: PayloadAction<{[key: string] : string}>) => {
-      state.itemIdMap = action.payload
     },
     updateCompletedItem: (state, action: PayloadAction<{order: Order, itemId: string, increaseCompleted: boolean, newOrder: Order}>) => {
       if(state.orders === undefined)
@@ -74,7 +72,7 @@ export const dataSlice = createSlice({
   },
 })
 
-export const { setItemData, setOrders, setItemIdMap, updateCompletedItem, setSnackbarMessage, undoOrderUpdate } = dataSlice.actions
+export const { setItemData, setOrders, updateCompletedItem, setSnackbarMessage, undoOrderUpdate } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 
