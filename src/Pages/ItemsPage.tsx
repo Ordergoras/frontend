@@ -15,8 +15,10 @@ function ItemsPage() {
       margin: 1,
       backgroundColor: theme.palette.background.default,
     },
-    topMargin: {
+    divider: {
+      border: 1,
       marginTop: 1,
+      marginBottom: 1,
     },
   }
 
@@ -26,9 +28,10 @@ function ItemsPage() {
   return (
     <Box sx={{textAlign: 'center', paddingTop: 1, paddingBottom: 1}}>
       <Paper sx={styles.paper}>
-        <Typography variant={'h4'} sx={styles.topMargin}>
+        <Typography variant={'h5'}>
           {t('drinks')}
         </Typography>
+        <Box sx={{...styles.divider}}/>
         <Box sx={generalStyles.flexWrapBox}>
           {
             dataState.drinks !== undefined &&
@@ -43,9 +46,10 @@ function ItemsPage() {
         </Box>
       </Paper>
       <Paper sx={styles.paper}>
-        <Typography variant={'h4'} sx={styles.topMargin}>
+        <Typography variant={'h5'}>
           {t('food')}
         </Typography>
+        <Box sx={{...styles.divider}}/>
         <Box sx={generalStyles.flexWrapBox}>
           {
             dataState.food !== undefined &&
@@ -60,9 +64,10 @@ function ItemsPage() {
         </Box>
       </Paper>
       <Paper sx={styles.paper}>
-        <Typography variant={'h4'} sx={styles.topMargin}>
+        <Typography variant={'h5'}>
           {t('other')}
         </Typography>
+        <Box sx={{...styles.divider}}/>
         <Box sx={generalStyles.flexWrapBox}>
           {
             dataState.other !== undefined &&
