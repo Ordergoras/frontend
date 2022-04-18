@@ -93,12 +93,12 @@ function CreateOrderPage() {
         })}
         {
           Object.keys(order.orderedItems).length === 0 &&
-            <Typography variant={'h6'} sx={{padding: 1}}>Empty order</Typography>
+            <Typography variant={'h6'} sx={{padding: 1}}>{t('emptyOrder')}</Typography>
         }
         <Box>
           <Box sx={{...styles.divider, marginTop: 1, marginBottom: 1}}/>
           <Typography>
-            Total: {order.price.toFixed(2)}€
+            {t('total')}: {order.price.toFixed(2)}€
           </Typography>
         </Box>
       </Paper>

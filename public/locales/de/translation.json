@@ -50,5 +50,7 @@
   "ordersCompleted": "Abgeschlossene Bestellungen",
   "open": "Offen",
   "completed": "Abgeschlossen",
-  "undo": "Rückgängig machen"
+  "undo": "Rückgängig machen",
+  "emptyOrder": "Leere Bestellung",
+  "total": "Gesamt"
 }
