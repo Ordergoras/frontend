@@ -18,14 +18,14 @@ function OrderCard(props: OrderCardProps) {
     paper: {
       padding: 2,
       margin: 1,
-      backgroundColor: props.order.completed ? theme.palette.success.main : theme.palette.secondary.main,
+      backgroundColor: theme.palette.background.default,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'start',
     },
     divider: {
       border: 1,
-      borderColor: theme.palette.background.default,
+      borderColor: theme.palette.getContrastText(theme.palette.background.default),
     },
     flexWrapBox: {
       display: 'flex',
@@ -88,7 +88,7 @@ function OrderCard(props: OrderCardProps) {
               return dataState.itemIdMap && (props.order.orderedItems[itemId] - props.order.completedItems[itemId]) > 0 &&
                 <Chip
                   key={itemId}
-                  sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark}}
+                  sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark, ':hover': {backgroundColor: theme.palette.secondary.light}}}
                   label={dataState.itemIdMap[itemId]['name'] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
                   onClick={() => updateCompleted(itemId, true)}
                   disabled={fetching}
@@ -109,7 +109,7 @@ function OrderCard(props: OrderCardProps) {
           return dataState.itemIdMap && props.order.completedItems[itemId] > 0 &&
             <Chip
               key={itemId}
-              sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ":hover": {backgroundColor: theme.palette.success.light}}}
+              sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ':hover': {backgroundColor: theme.palette.success.light}}}
               label={dataState.itemIdMap[itemId]['name'] + ': ' + props.order.completedItems[itemId]}
               onClick={() => updateCompleted(itemId, false)}
               disabled={fetching}

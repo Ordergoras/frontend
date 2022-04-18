@@ -7,28 +7,29 @@ import { useTranslation } from 'react-i18next';
 interface ItemCardProps {
   item: Item,
   color: string,
-  onClick: () => void
+  onClick: () => void,
+  disabled: boolean,
 }
 
 function ClickableItem(props: ItemCardProps) {
 
   const styles = {
-    paper: {
-      padding: 2,
+    button: {
+      padding: 1,
       margin: 1,
       backgroundColor: props.color,
       textTransform: 'none',
     },
     divider: {
       border: 1,
-      borderColor: theme.palette.background.default,
+      borderColor: theme.palette.getContrastText(props.color),
     },
   }
 
   const { t } = useTranslation()
 
   return (
-    <Button sx={styles.paper} variant={'contained'} onClick={() => props.onClick()} children={
+    <Button sx={styles.button} variant={'contained'} disabled={props.disabled} onClick={() => props.onClick()} children={
       <Box>
         <Typography variant={'h6'}>
           {props.item.name}

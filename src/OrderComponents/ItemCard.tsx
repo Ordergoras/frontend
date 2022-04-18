@@ -13,13 +13,13 @@ function ItemCard(props: ItemCardProps) {
 
   const styles = {
     paper: {
-      padding: 2,
+      padding: 1,
       margin: 1,
       backgroundColor: props.color,
     },
     divider: {
       border: 1,
-      borderColor: theme.palette.background.default,
+      borderColor: theme.palette.getContrastText(props.color),
     },
   }
 
