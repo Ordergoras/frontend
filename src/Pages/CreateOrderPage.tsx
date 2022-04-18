@@ -60,6 +60,17 @@ function CreateOrderPage() {
     setOrder(newOrder)
   }
 
+  const removeItemFromOrder = (item: Item) => {
+    let newOrder = JSON.parse(JSON.stringify(order))
+    if(newOrder.orderedItems[item.itemId] === 1) {
+      delete newOrder.orderedItems[item.itemId]
+    } else {
+      newOrder.orderedItems[item.itemId] -= 1
+    }
+    newOrder.price -= item.price
+    setOrder(newOrder)
+  }
+
   return (
     <Box sx={{textAlign: 'center', margin: 1}}>
       <Paper sx={{padding: 1, marginBottom: 2}}>
@@ -68,8 +79,11 @@ function CreateOrderPage() {
             <Chip
               key={itemId}
               sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark}}
-              label={dataState.itemIdMap[itemId] + ': ' + order.orderedItems[itemId]}
-              onClick={() => {}}
+              label={dataState.itemIdMap[itemId]['name'] + ': ' + order.orderedItems[itemId]}
+              onClick={() => {
+                if(dataState.itemIdMap)
+                  removeItemFromOrder(dataState.itemIdMap[itemId])
+              }}
             />
         })}
         <Box>
