@@ -51,7 +51,7 @@ function LoginRegisterPanel() {
           error={authState.error}
           value={username}
           onChange={e => setUsername(e.target.value)}
-          onKeyPress={
+          onKeyDown={
             event => {
               if (event.key === "Enter") {
                 submit()
@@ -65,7 +65,7 @@ function LoginRegisterPanel() {
           type={'password'}
           value={password}
           onChange={e => setPassword(e.target.value)}
-          onKeyPress={
+          onKeyDown={
             event => {
               if (event.key === "Enter") {
                 submit()
@@ -81,7 +81,7 @@ function LoginRegisterPanel() {
             type={'password'}
             value={repeatPassword}
             onChange={e => setRepeatPassword(e.target.value)}
-            onKeyPress={
+            onKeyDown={
               event => {
                 if (event.key === "Enter") {
                   submit()
