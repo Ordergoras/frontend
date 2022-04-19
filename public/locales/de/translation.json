@@ -52,5 +52,7 @@
   "completed": "Abgeschlossen",
   "undo": "Rückgängig machen",
   "emptyOrder": "Leere Bestellung",
-  "total": "Gesamt"
+  "total": "Gesamt",
+  "orderSubmit": "Bestellung abschließen",
+  "selectTable": "Tisch wählen"
 }

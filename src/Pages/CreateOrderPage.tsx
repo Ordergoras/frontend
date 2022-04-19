@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Accordion, AccordionSummary, AccordionDetails, Chip, Paper } from '@mui/material';
+import { Typography, Box, Accordion, AccordionSummary, AccordionDetails, Chip, Paper, Button, Select, MenuItem, FormControl, SelectChangeEvent } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
 import { theme } from '../index';
 import { useAppSelector } from '../Redux/hooks';
@@ -9,6 +9,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Order, Item } from '../utils/types';
 import { selectAuth } from '../Redux/authSlice';
 import ClickableItem from '../OrderComponents/ClickableItem';
+import { postOrder } from '../utils/ordersRequests';
+import {getAllItems} from "../utils/storageRequests";
 
 function CreateOrderPage() {
 
@@ -24,6 +26,8 @@ function CreateOrderPage() {
       border: 1,
     },
   }
+
+  const tables = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 
   const getInitOrder = (): Order => {
     return {
@@ -49,6 +53,13 @@ function CreateOrderPage() {
     setExpanded(isExpanded ? panel : false)
   }
 
+  const setTableNr = (event: SelectChangeEvent) => {
+    let newOrder = JSON.parse(JSON.stringify(order))
+    console.log(event.target.value)
+    newOrder.tableNr = event.target.value === 'tableSelect' ? -1 : event.target.value
+    setOrder(newOrder)
+  }
+
   const addItemToOrder = (item: Item) => {
     let newOrder = JSON.parse(JSON.stringify(order))
     if(newOrder.orderedItems[item.itemId] === undefined) {
@@ -69,6 +80,14 @@ function CreateOrderPage() {
     }
     newOrder.price -= item.price
     setOrder(newOrder)
+  }
+
+  const submitOrder = () => {
+    postOrder(order.tableNr, order.orderedItems)
+    setTimeout(() => {
+      getAllItems()
+      setOrder(getInitOrder)
+    }, 1000)
   }
 
   return (
@@ -100,6 +119,29 @@ function CreateOrderPage() {
           <Typography>
             {t('total')}: {order.price.toFixed(2)}€
           </Typography>
+          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
+            <FormControl>
+              <Select
+                value={order.tableNr.toString()}
+                onChange={setTableNr}
+                variant={'standard'}
+              >
+                <MenuItem value={-1}>{t('selectTable')}</MenuItem>
+                {
+                  tables.map((tableNr: number) => <MenuItem key={tableNr} value={tableNr}>{tableNr}</MenuItem>)
+                }
+              </Select>
+            </FormControl>
+            <Button
+              sx={generalStyles.button}
+              color={'primary'}
+              variant={'contained'}
+              onClick={() => submitOrder()}
+              disabled={order.tableNr === -1 || Object.keys(order.orderedItems).length <= 0}
+            >
+              {t('orderSubmit')}
+            </Button>
+          </Box>
         </Box>
       </Paper>
       <Accordion expanded={expanded === 'drinks'} onChange={handleChange('drinks')}>

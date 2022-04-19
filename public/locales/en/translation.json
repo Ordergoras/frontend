@@ -52,5 +52,7 @@
   "completed": "Completed",
   "undo": "Undo",
   "emptyOrder": "Empty order",
-  "total": "Total"
+  "total": "Total",
+  "orderSubmit": "Submit order",
+  "selectTable": "Select table"
 }
