@@ -23,9 +23,9 @@ function MyOrdersPage() {
 
   React.useEffect(() => {
     getMyOrders()
-    const interval = setInterval(() => getMyOrders(), 60000);
+    const interval = setInterval(() => getMyOrders(), 60000)
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval)
   }, [])
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {

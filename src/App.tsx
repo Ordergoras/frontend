@@ -24,6 +24,7 @@ function App() {
     }
     if(authState.isAuthenticated && !dataState.itemsFetched) {
       getAllItems()
+      setInterval(() => getAllItems(), 300000)
     }
   }, [authState.isAuthenticated, dataState.itemsFetched])
 
