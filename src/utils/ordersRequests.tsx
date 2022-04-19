@@ -3,8 +3,8 @@ import i18next from 'i18next';
 import { setOrders, setSnackbarMessage } from '../Redux/dataSlice';
 import store from '../Redux/store';
 
-export const postOrder = (tableNr: number, staffId: string, orderedItems: Object) => {
-  createRequest('POST', 'orders/postOrder', {tableNr: tableNr, staffId: staffId, orderedItems: orderedItems})
+export const postOrder = (tableNr: number, orderedItems: Object) => {
+  createRequest('POST', 'orders/postOrder', {tableNr: tableNr, orderedItems: orderedItems})
     .then(res => {
       if(res) res.json().then(data => alert(i18next.t(data.message)))
     })
