@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
-import ImprintPage from './Pages/ImprintPage';
+import LicensePage from './Pages/LicensePage';
 import AuthenticationScreen from './Pages/AuthenticationScreen';
 import CreateOrderPage from './Pages/CreateOrderPage';
 import OpenOrdersPage from './Pages/OpenOrdersPage';
@@ -32,7 +32,7 @@ function App() {
     <Routes>
       <Route path={'/'} element={<HomePage/>} />
       <Route path={'/login'} element={<AuthenticationScreen/>} />
-      <Route path={'/imprint'} element={<ImprintPage/>} />
+      <Route path={'/license'} element={<LicensePage/>} />
       <Route path={'/createOrder'} element={<CreateOrderPage/>} />
       <Route path={'/openOrders'} element={<OpenOrdersPage/>} />
       <Route path={'/myOrders'} element={<MyOrdersPage/>} />
