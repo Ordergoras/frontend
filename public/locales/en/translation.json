@@ -54,5 +54,7 @@
   "emptyOrder": "Empty order",
   "total": "Total",
   "orderSubmit": "Submit order",
-  "selectTable": "Select table"
+  "selectTable": "Select table",
+  "back": "Back",
+  "wantToLogout": "Do you really want to logout?"
 }

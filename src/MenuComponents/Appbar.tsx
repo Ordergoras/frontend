@@ -137,11 +137,11 @@ function Appbar() {
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                          Do you really want to log out?
+                        {t('wantToLogout')}
                       </DialogContentText>
                     </DialogContent>
                       <DialogActions>
-                        <Button onClick={handleClose} color={'secondary'}>Back</Button>
+                        <Button onClick={handleClose} color={'secondary'}>{t('back')}</Button>
                         <Button
                           onClick={() => {
                             logoutStaff()

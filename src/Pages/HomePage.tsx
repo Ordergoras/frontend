@@ -22,7 +22,7 @@ function HomePage() {
   return (
     <Box sx={generalStyles.backgroundContainer}>
       <Box>
-        <Typography color={theme.palette.background.default}>{t('welcome', {name: authState.name})}</Typography>
+        <Typography color={theme.palette.background.default} variant={'h5'}>{t('welcome', {name: authState.name})}</Typography>
       </Box>
       <Link to={'/license'}><Typography>{t('licensePage')}</Typography></Link>
     </Box>

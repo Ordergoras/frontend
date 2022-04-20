@@ -54,5 +54,7 @@
   "emptyOrder": "Leere Bestellung",
   "total": "Gesamt",
   "orderSubmit": "Bestellung abschließen",
-  "selectTable": "Tisch wählen"
+  "selectTable": "Tisch wählen",
+  "back": "Zurück",
+  "wantToLogout": "Wollen sie sich wirklich ausloggen?"
 }
