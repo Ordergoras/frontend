@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
-import { logoutStaff } from '../utils/staffRequests';
 import { useTranslation } from 'react-i18next';
+import { theme } from '../index';
 
 function HomePage() {
 
@@ -22,14 +22,7 @@ function HomePage() {
   return (
     <Box sx={generalStyles.backgroundContainer}>
       <Box>
-        <Typography>{t('welcome', {name: authState.name})}</Typography>
-        <Button
-          color={'primary'}
-          variant={'contained'}
-          onClick={() => logoutStaff()}
-        >
-          {t('logout')}
-        </Button>
+        <Typography color={theme.palette.background.default}>{t('welcome', {name: authState.name})}</Typography>
       </Box>
       <Link to={'/license'}><Typography>{t('licensePage')}</Typography></Link>
     </Box>
