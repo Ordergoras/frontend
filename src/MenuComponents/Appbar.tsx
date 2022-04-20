@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Box, Toolbar, IconButton, Menu, Container, Button, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Menu, Container, Button, MenuItem, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LanguageSelector from './LanguageSelector';
 import { useTranslation } from 'react-i18next';
@@ -133,27 +133,22 @@ function Appbar() {
                     onClose={handleClose}
                   >
                     <DialogTitle>
-                      {t('logout')}
+                      {t('wantToLogout')}
                     </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        {t('wantToLogout')}
-                      </DialogContentText>
-                    </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClose} color={'secondary'}>{t('back')}</Button>
-                        <Button
-                          onClick={() => {
-                            logoutStaff()
-                            handleClose()
-                          }}
-                          color={'primary'}
-                          variant={'contained'}
-                          autoFocus
-                        >
-                          {t('logout')}
-                        </Button>
-                      </DialogActions>
+                    <DialogActions>
+                      <Button onClick={handleClose} color={'secondary'}>{t('back')}</Button>
+                      <Button
+                        onClick={() => {
+                          logoutStaff()
+                          handleClose()
+                        }}
+                        color={'primary'}
+                        variant={'contained'}
+                        autoFocus
+                      >
+                        {t('logout')}
+                      </Button>
+                    </DialogActions>
                   </Dialog>
               </Box>
           }
