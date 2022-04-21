@@ -3,6 +3,7 @@ import type { RootState } from './store'
 
 interface AuthState {
   isAuthenticated: boolean,
+  isAdmin: boolean,
   staffId: string | undefined,
   name: string | undefined,
   error: boolean,
@@ -11,6 +12,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   isAuthenticated: false,
+  isAdmin: false,
   staffId: undefined,
   name: undefined,
   error: false,
@@ -21,8 +23,9 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{staffId: string, name: string}>) => {
+    login: (state, action: PayloadAction<{staffId: string, name: string, isAdmin: boolean}>) => {
       state.isAuthenticated = true
+      state.isAdmin = action.payload.isAdmin
       state.staffId = action.payload.staffId
       state.name = action.payload.name
       state.error = false
@@ -30,6 +33,7 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       state.isAuthenticated = false
+      state.isAdmin = false
       state.staffId = undefined
       state.name = undefined
       state.error = false
@@ -37,6 +41,7 @@ export const authSlice = createSlice({
     },
     credError: (state, action: PayloadAction<{error: boolean, errorMessage: string | undefined}>) => {
       state.isAuthenticated = false
+      state.isAdmin = false
       state.staffId = undefined
       state.name = undefined
       state.error = action.payload.error

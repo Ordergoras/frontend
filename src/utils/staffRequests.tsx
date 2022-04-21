@@ -10,7 +10,7 @@ export const registerStaff = (name: string, password: string) => {
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          dispatch(login({staffId: data.staffId, name: data.name}))
+          dispatch(login({staffId: data.staffId, name: data.name, isAdmin: data.isAdmin}))
         else
           dispatch(credError({error: true, errorMessage: i18next.t(data.message)}))
       })
@@ -24,7 +24,7 @@ export const loginStaff = (name: string, password: string) => {
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          dispatch(login({staffId: data.staffId, name: data.name}))
+          dispatch(login({staffId: data.staffId, name: data.name, isAdmin: data.isAdmin}))
         else
           dispatch(credError({error: true, errorMessage: i18next.t(data.message)}))
       })
@@ -70,7 +70,7 @@ export const verifyCred = () => {
     .then(res => {
       if(res) res.json().then(data => {
         if(res.ok)
-          dispatch(login({staffId: data.staffId, name: data.name}))
+          dispatch(login({staffId: data.staffId, name: data.name, isAdmin: data.isAdmin}))
         else
           dispatch(logout())
       })
