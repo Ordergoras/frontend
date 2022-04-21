@@ -56,5 +56,6 @@
   "orderSubmit": "Submit order",
   "selectTable": "Select table",
   "back": "Back",
-  "wantToLogout": "Do you really want to logout?"
+  "wantToLogout": "Do you really want to logout?",
+  "adminDash": "Admin dashboard"
 }

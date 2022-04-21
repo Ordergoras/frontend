@@ -56,5 +56,6 @@
   "orderSubmit": "Bestellung abschließen",
   "selectTable": "Tisch wählen",
   "back": "Zurück",
-  "wantToLogout": "Wollen sie sich wirklich ausloggen?"
+  "wantToLogout": "Wollen sie sich wirklich ausloggen?",
+  "adminDash": "Administration"
 }
