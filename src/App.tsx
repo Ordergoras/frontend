@@ -12,6 +12,7 @@ import { getAllItems } from './utils/storageRequests';
 import { useAppSelector } from './Redux/hooks';
 import { selectData } from './Redux/dataSlice';
 import { selectAuth } from './Redux/authSlice';
+import AdminPage from './Pages/AdminPage';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
       <Route path={'/openOrders'} element={<OpenOrdersPage/>} />
       <Route path={'/myOrders'} element={<MyOrdersPage/>} />
       <Route path={'/items'} element={<ItemsPage/>} />
+      <Route path={'/adminDashboard'} element={<AdminPage/>} />
     </Routes>
   );
 }

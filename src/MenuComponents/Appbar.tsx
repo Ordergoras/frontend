@@ -91,6 +91,18 @@ function Appbar() {
                     </Button>
                   </MenuItem>
               }
+              {
+                authState.isAdmin &&
+                  <MenuItem key={'login'} onClick={handleCloseNavMenu}>
+                    <Button
+                      key={'adminDashboard'}
+                      onClick={() => navToPage('adminDashboardPage')}
+                      sx={{my: 2, color: 'white', display: 'block'}}
+                    >
+                      {t('adminDash')}
+                    </Button>
+                  </MenuItem>
+              }
             </Menu>
           </Box>
           <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
@@ -112,6 +124,16 @@ function Appbar() {
                   sx={{my: 2, color: 'white', display: 'block'}}
                 >
                   {t('loginPage')}
+                </Button>
+            }
+            {
+              authState.isAdmin &&
+                <Button
+                  key={'adminDashboard'}
+                  onClick={() => navToPage('adminDashboardPage')}
+                  sx={{my: 2, color: 'white', display: 'block'}}
+                >
+                  {t('adminDash')}
                 </Button>
             }
           </Box>
