@@ -4,6 +4,7 @@ import { Item, Order } from '../utils/types'
 
 interface DataState {
   itemsFetched: boolean,
+  allItems: Item[] | undefined,
   drinks: Item[] | undefined,
   food: Item[] | undefined,
   other: Item[] | undefined,
@@ -15,6 +16,7 @@ interface DataState {
 
 const initialState: DataState = {
   itemsFetched: false,
+  allItems: undefined,
   drinks: undefined,
   food: undefined,
   other: undefined,
@@ -29,10 +31,16 @@ export const dataSlice = createSlice({
   initialState,
   reducers: {
     setItemData: (state, action: PayloadAction<{[key: string] : Item}>) => {
+      const itemEnum = {
+        'Food': 0,
+        'Drink': 1,
+        'Other': 2,
+      }
       state.itemsFetched = true
       state.drinks = undefined
       state.food = undefined
       state.other = undefined
+      state.allItems = Object.values(action.payload).sort((a, b) => itemEnum[b.group] - itemEnum[a.group])
       state.itemIdMap = action.payload
       Object.values(action.payload).forEach((item: Item) => {
         switch (item.group) {
