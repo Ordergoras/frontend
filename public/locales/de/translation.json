@@ -36,8 +36,8 @@
   "myOrdersPage": "Meine Bestellungen",
   "itemsPage": "Produkte",
   "loginPage": "Einloggen",
-  "inStorage": "Im Lager:",
-  "price": "Preis:",
+  "inStorage": "Im Lager",
+  "price": "Preis",
   "drinks": "Getränke",
   "food": "Essen",
   "other": "Sonstiges",
@@ -57,5 +57,8 @@
   "selectTable": "Tisch wählen",
   "back": "Zurück",
   "wantToLogout": "Wollen sie sich wirklich ausloggen?",
-  "adminDash": "Administration"
+  "adminDash": "Administration",
+  "itemDash": "Produkte",
+  "staffDash": "Accounts",
+  "name": "Name"
 }

@@ -36,8 +36,8 @@
   "myOrdersPage": "My Orders",
   "itemsPage": "Items",
   "loginPage": "Login",
-  "inStorage": "In storage:",
-  "price": "Price:",
+  "inStorage": "In storage",
+  "price": "Price",
   "drinks": "Drinks",
   "food": "Food",
   "other": "Other",
@@ -57,5 +57,8 @@
   "selectTable": "Select table",
   "back": "Back",
   "wantToLogout": "Do you really want to logout?",
-  "adminDash": "Admin dashboard"
+  "adminDash": "Admin dashboard",
+  "itemDash": "Item dashboard",
+  "staffDash": "Staff dashboard",
+  "name": "Name"
 }
