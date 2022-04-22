@@ -33,11 +33,11 @@ function ItemCard(props: ItemCardProps) {
       <Box sx={{...styles.divider, marginTop: 1, marginBottom: 1}}/>
       <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <Typography variant={'subtitle2'}>
-          {t('price')} {props.item.price.toFixed(2)}€
+          {t('price')}: {props.item.price.toFixed(2)}€
         </Typography>
         <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1, marginTop: -1}}/>
         <Typography variant={'subtitle2'}>
-          {t('inStorage')} {props.item.amount}
+          {t('inStorage')}: {props.item.amount}
         </Typography>
       </Box>
     </Paper>
