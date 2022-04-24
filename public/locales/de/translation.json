@@ -38,7 +38,9 @@
   "loginPage": "Einloggen",
   "inStorage": "Im Lager",
   "price": "Preis",
+  "priceEuro": "Preis in Euro",
   "drinks": "Getränke",
+  "drink": "Getränk",
   "food": "Essen",
   "other": "Sonstiges",
   "nothingFound": "Nichts gefunden.",
@@ -60,5 +62,6 @@
   "adminDash": "Administration",
   "itemDash": "Produkte",
   "staffDash": "Accounts",
-  "name": "Name"
+  "name": "Name",
+  "addItem": "Produkt hinzufügen"
 }

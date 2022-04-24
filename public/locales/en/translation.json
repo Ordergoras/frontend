@@ -38,7 +38,9 @@
   "loginPage": "Login",
   "inStorage": "In storage",
   "price": "Price",
+  "priceEuro": "Price in Euro",
   "drinks": "Drinks",
+  "drink": "Drink",
   "food": "Food",
   "other": "Other",
   "nothingFound": "Nothing found.",
@@ -60,5 +62,6 @@
   "adminDash": "Admin dashboard",
   "itemDash": "Item dashboard",
   "staffDash": "Staff dashboard",
-  "name": "Name"
+  "name": "Name",
+  "addItem": "Add item"
 }
