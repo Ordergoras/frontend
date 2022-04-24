@@ -27,6 +27,7 @@ export const addItem = (name: string, amount: number, group: string, price: numb
     .then(res => {
       if(res && res.ok) res.json().then(data => alert(i18next.t(data.message, data.args)))
       else if(res) res.json().then(data => alert(i18next.t(data.message)))
+      getAllItems()
     })
     .catch((e) => console.log(e))
 }
@@ -36,6 +37,7 @@ export const updateItemAmount = (itemId: string, amountChange: number) => {
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
       else if(res) res.json().then(data => alert(i18next.t(data.message)))
+      getAllItems()
     })
     .catch((e) => console.log(e))
 }
