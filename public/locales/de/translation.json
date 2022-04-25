@@ -20,11 +20,13 @@
   "bErrorOrderUpdate": "Bestellung konnte nicht aktualisiert werden.",
   "bErrorItemInsert": "Produkt konnte nicht eingefügt werden.",
   "bErrorItemUpdate": "Produkt konnte nicht aktualisiert werden.",
+  "bErrorItemDelete": "Produkt konnte nicht gelöscht werden.",
   "bSuccessLogout": "Erfolgreich ausgeloggt.",
   "bSuccessOrderInsert": "Bestellung aufgegeben.",
   "bSuccessOrderUpdate": "Bestellung aktualisiert.",
   "bSuccessItemInsert": "{{name}} mit {{amount}} Einheiten eingefügt.",
   "bSuccessItemUpdate": "{{name}} aktualisiert.",
+  "bSuccessItemDelete": "{{name}} gelöscht.",
   "bDataNotFound": "{{dataType}} nicht gefunden.",
   "order": "Bestellung",
   "item": "Produkt",
@@ -67,5 +69,6 @@
   "statsDash": "Statistiken",
   "name": "Name",
   "addItem": "Produkt hinzufügen",
-  "editItem": "Produkt ändern"
+  "editItem": "Produkt ändern",
+  "deleteItem": "Produkt löschen"
 }

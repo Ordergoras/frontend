@@ -53,3 +53,14 @@ export const retrieveItems = (retrievedItems: Object) => {
     })
     .catch((e) => console.log(e))
 }
+
+export const deleteItem = (itemId: string) => {
+  const dispatch = store.dispatch
+  return createRequest('POST', 'storage/deleteItem', {itemId: itemId})
+    .then(res => {
+      if(res && res.ok) res.json().then(data => dispatch(setSnackbarMessage({messageCode: data.message, args: data.args, error: false})))
+      else if(res) res.json().then(data => dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: true})))
+      getAllItems()
+    })
+    .catch((e) => console.log(e))
+}

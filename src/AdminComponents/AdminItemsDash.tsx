@@ -9,7 +9,7 @@ import { theme } from '../index';
 import AddIcon from '@mui/icons-material/Add';
 import { Item, ItemGroup } from '../utils/types';
 import { selectData, updateAllItems } from '../Redux/dataSlice';
-import { addItem, getAllItems, updateItem } from '../utils/storageRequests';
+import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { useTranslation } from 'react-i18next';
 
@@ -127,6 +127,13 @@ function AdminItemsDash() {
     }
   }
 
+  const handleItemDelete = () => {
+    deleteItem(itemId).then(() => setSnackbarOpen(true))
+    handleItemModalClose()
+  }
+
+  // TODO add item delete / update undo
+
   return (
     <Box>
       <Paper sx={{padding: 1, margin: 1, paddingTop: 0, marginTop: 0, display: 'flex', flexDirection: 'row'}}>
@@ -193,28 +200,36 @@ function AdminItemsDash() {
         onClose={handleItemModalClose}
       >
         <Box sx={styles.modal}>
-          <Typography variant={'h6'} sx={{marginBottom: 1}}>
+          <Typography variant={'h6'} sx={{marginBottom: 2}}>
             {itemEditMode ? t('editItem') : t('addItem')}
           </Typography>
-          <TextField sx={{marginBottom: 1}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
-          <TextField sx={{marginBottom: 1}} label={t('inStorage')} value={itemAmount}
+          <TextField sx={{marginBottom: 2}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
+          <TextField sx={{marginBottom: 2}} label={t('inStorage')} value={itemAmount}
                      onChange={e => !Number.isNaN(parseInt(e.target.value)) ? setItemAmount(parseInt(e.target.value).toString()) : setItemAmount('')}
           />
-          <TextField sx={{marginBottom: 1}} label={t('priceEuro')} value={itemPrice}
+          <TextField sx={{marginBottom: 2}} label={t('priceEuro')} value={itemPrice}
                      onChange={e => setItemPrice(e.target.value.replace(',', '.').replace(/[^\d.-]/g, ''))}
           />
-          <FormControl sx={{marginBottom: 1}}>
+          <FormControl sx={{marginBottom: 2}}>
             <RadioGroup row value={itemGroup} onChange={e => setItemGroup(e.target.value as ItemGroup)}>
               <FormControlLabel value={'Food'} control={<Radio color={'secondary'}/>} label={t('food')}/>
               <FormControlLabel value={'Drink'} control={<Radio color={'secondary'}/>} label={t('drink')}/>
               <FormControlLabel value={'Other'} control={<Radio color={'secondary'}/>} label={t('other')}/>
             </RadioGroup>
           </FormControl>
+          <Box sx={{display: 'flex', justifyContent: 'space-evenly'}}>
           <Button disabled={!(itemName && itemAmount && itemPrice)} color={'secondary'} variant={'contained'}
                   onClick={() => itemEditMode ? handleItemSubmit(true) : handleItemSubmit(false)}
           >
             {itemEditMode ? t('editItem') : t('addItem')}
           </Button>
+          {
+            itemEditMode &&
+              <Button color={'error'} variant={'contained'} onClick={() => handleItemDelete()}>
+                {t('deleteItem')}
+              </Button>
+          }
+          </Box>
         </Box>
       </Modal>
       <Snackbar open={snackbarOpen} autoHideDuration={2000} onClose={handleSnackbarClose}>

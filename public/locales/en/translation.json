@@ -20,11 +20,13 @@
   "bErrorOrderUpdate": "Couldn't update order.",
   "bErrorItemInsert": "Couldn't insert item.",
   "bErrorItemUpdate": "Couldn't update item.",
+  "bErrorItemDelete": "Couldn't delete item.",
   "bSuccessLogout": "Successfully logged out user.",
   "bSuccessOrderInsert": "Successfully created order.",
   "bSuccessOrderUpdate": "Successfully updated order.",
   "bSuccessItemInsert": "Inserted {{name}} with {{amount}} units.",
   "bSuccessItemUpdate": "Updated {{name}}.",
+  "bSuccessItemDelete": "Deleted {{name}}.",
   "bDataNotFound": "{{dataType}} not found.",
   "order": "Order",
   "item": "Item",
@@ -67,5 +69,6 @@
   "statsDash": "Statistics",
   "name": "Name",
   "addItem": "Add item",
-  "editItem": "Edit item"
+  "editItem": "Edit item",
+  "deleteItem": "Delete Item"
 }

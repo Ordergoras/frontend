@@ -2,7 +2,7 @@ import React from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from 'react-i18next';
-import AdminItemsDash from "../AdminComponents/AdminItemsDash";
+import AdminItemsDash from '../AdminComponents/AdminItemsDash';
 
 function AdminPage() {
 
