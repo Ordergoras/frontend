@@ -6,6 +6,7 @@ import { theme } from '../index';
 interface AdminItemProps {
   item: Item,
   color: string,
+  onClick: (item: Item) => void,
 }
 
 function AdminItem(props: AdminItemProps) {
@@ -25,7 +26,7 @@ function AdminItem(props: AdminItemProps) {
   }
 
   return (
-    <Button sx={styles.button}>
+    <Button sx={styles.button} onClick={() => props.onClick(props.item)}>
       <Paper sx={styles.paper}>
         <Grid container>
           <Grid item xs={6}>

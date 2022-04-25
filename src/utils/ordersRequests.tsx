@@ -58,7 +58,10 @@ export const updateCompletedItemRequest = (orderId: string, itemId: string, incr
     .then(res => {
       if(res) {
         res.json().then(data => {
-          dispatch(setSnackbarMessage(data.message))
+          if (res.ok)
+            dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: false}))
+          else
+            dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: true}))
         })
         return res.ok
       }

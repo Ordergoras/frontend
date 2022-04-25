@@ -19,10 +19,12 @@
   "bErrorOrderInsert": "Couldn't insert order.",
   "bErrorOrderUpdate": "Couldn't update order.",
   "bErrorItemInsert": "Couldn't insert item.",
+  "bErrorItemUpdate": "Couldn't update item.",
   "bSuccessLogout": "Successfully logged out user.",
   "bSuccessOrderInsert": "Successfully created order.",
   "bSuccessOrderUpdate": "Successfully updated order.",
   "bSuccessItemInsert": "Inserted {{name}} with {{amount}} units.",
+  "bSuccessItemUpdate": "Updated {{name}}.",
   "bDataNotFound": "{{dataType}} not found.",
   "order": "Order",
   "item": "Item",
@@ -63,5 +65,6 @@
   "itemDash": "Item dashboard",
   "staffDash": "Staff dashboard",
   "name": "Name",
-  "addItem": "Add item"
+  "addItem": "Add item",
+  "editItem": "Edit item"
 }

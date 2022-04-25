@@ -10,7 +10,7 @@ interface DataState {
   other: Item[] | undefined,
   orders: Order[] | undefined,
   itemIdMap: { [key: string]: Item } | undefined,
-  snackbarMessageCode: string | undefined,
+  snackbarMessage: { messageCode: string, args: { [key: string]: string | number } | undefined, error: boolean} | undefined,
   lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean} | undefined,
 }
 
@@ -22,7 +22,7 @@ const initialState: DataState = {
   other: undefined,
   orders: undefined,
   itemIdMap: undefined,
-  snackbarMessageCode: undefined,
+  snackbarMessage: undefined,
   lastOrderUpdate: undefined,
 }
 
@@ -74,8 +74,8 @@ export const dataSlice = createSlice({
       state.orders = state.orders.map(order => order.orderId === oldOrder.orderId ? oldOrder : order)
       state.lastOrderUpdate = undefined
     },
-    setSnackbarMessage: (state, action: PayloadAction<string>) => {
-      state.snackbarMessageCode = action.payload
+    setSnackbarMessage: (state, action: PayloadAction<{messageCode: string, args: { [key: string]: string | number } | undefined, error: boolean}>) => {
+      state.snackbarMessage = action.payload
     },
     updateAllItems: (state, action: PayloadAction<Item[]>) => {
       state.allItems = action.payload

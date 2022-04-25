@@ -1,6 +1,21 @@
 import React from 'react';
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, FormControlLabel, Grid, IconButton, Modal, Paper, Radio, RadioGroup, TextField, Typography
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Modal,
+  Paper,
+  Radio,
+  RadioGroup, Snackbar,
+  TextField,
+  Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
@@ -8,11 +23,11 @@ import { selectData, updateAllItems } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
 import AdminItem from '../OrderComponents/AdminItem';
 import { theme } from '../index';
-import { Item } from '../utils/types';
+import { Item, ItemGroup } from '../utils/types';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { addItem, getAllItems } from '../utils/storageRequests';
+import {addItem, getAllItems, updateItem} from '../utils/storageRequests';
 
 function AdminPage() {
 
@@ -44,6 +59,7 @@ function AdminPage() {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [expanded, setExpanded] = React.useState<string | false>('items')
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false)
 
   const [sortKey, setSortKey] = React.useState<string | undefined>(undefined)
   const [sortAsc, setSortAsc] = React.useState(true)
@@ -51,9 +67,10 @@ function AdminPage() {
 
   const [itemModalOpen, setItemModalOpen] = React.useState(false)
   const [itemEditMode, setItemEditMode] = React.useState(false)
+  const [itemId, setItemId] = React.useState('')
   const [itemName, setItemName] = React.useState('')
   const [itemAmount, setItemAmount] = React.useState('')
-  const [itemGroup, setItemGroup] = React.useState('Food')
+  const [itemGroup, setItemGroup] = React.useState<ItemGroup>('Food')
   const [itemPrice, setItemPrice] = React.useState('')
 
   React.useEffect(() => {
@@ -78,30 +95,45 @@ function AdminPage() {
     setSorting(false)
   }, [dataState.allItems, dispatch, sortAsc, sortKey, sorting])
 
+  const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setSnackbarOpen(false)
+  }
+
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false)
   }
 
   const handleItemModalOpen = () => setItemModalOpen(true)
+
   const handleEditItemModalOpen = (item: Item) => {
     setItemEditMode(true)
     setItemModalOpen(true)
+    setItemId(item.itemId)
     setItemName(item.name)
     setItemAmount(item.amount.toString())
     setItemPrice(item.price.toString())
     setItemGroup(item.group)
   }
+
   const handleItemModalClose = () => {
     setItemModalOpen(false)
     setItemEditMode(false)
+    setItemId('')
     setItemName('')
     setItemAmount('')
     setItemPrice('')
     setItemGroup('Food')
   }
 
-  const handleItemSubmit = () => {
-    addItem(itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice))
+  const handleItemSubmit = (edit: boolean) => {
+    if(edit && itemId !== '') {
+      updateItem(itemId, itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice)).then(() => setSnackbarOpen(true))
+    } else if(!edit) {
+      addItem(itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice)).then(() => setSnackbarOpen(true))
+    }
     handleItemModalClose()
   }
 
@@ -120,7 +152,7 @@ function AdminPage() {
     }
   }
 
-  // TODO edit item request (and backend functions), snackbar as feedback after add or edit
+  // add item delete
 
   return (
     <Box sx={{textAlign: 'center', margin: 1}}>
@@ -204,14 +236,14 @@ function AdminPage() {
                          onChange={e => setItemPrice(e.target.value.replace(',', '.').replace(/[^\d.-]/g, ''))}
               />
               <FormControl sx={{marginBottom: 1}}>
-                <RadioGroup row value={itemGroup} onChange={e => setItemGroup(e.target.value)}>
+                <RadioGroup row value={itemGroup} onChange={e => setItemGroup(e.target.value as ItemGroup)}>
                   <FormControlLabel value={'Food'} control={<Radio color={'secondary'}/>} label={t('food')}/>
                   <FormControlLabel value={'Drink'} control={<Radio color={'secondary'}/>} label={t('drink')}/>
                   <FormControlLabel value={'Other'} control={<Radio color={'secondary'}/>} label={t('other')}/>
                 </RadioGroup>
               </FormControl>
               <Button disabled={!(itemName && itemAmount && itemPrice)} color={'secondary'} variant={'contained'}
-                      onClick={() => itemEditMode ? handleItemModalClose() : handleItemSubmit()}
+                      onClick={() => itemEditMode ? handleItemSubmit(true) : handleItemSubmit(false)}
               >
                 {itemEditMode ? t('editItem') : t('addItem')}
               </Button>
@@ -231,6 +263,15 @@ function AdminPage() {
           </Typography>
         </AccordionDetails>
       </Accordion>
+      <Snackbar open={snackbarOpen} autoHideDuration={2000} onClose={handleSnackbarClose}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
+          sx={{width: '100%'}}
+        >
+          {dataState.snackbarMessage ? t(dataState.snackbarMessage.messageCode, dataState.snackbarMessage.args) : ''}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

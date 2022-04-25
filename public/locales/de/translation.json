@@ -19,10 +19,12 @@
   "bErrorOrderInsert": "Bestellung konnte nicht eingefügt werden.",
   "bErrorOrderUpdate": "Bestellung konnte nicht aktualisiert werden.",
   "bErrorItemInsert": "Produkt konnte nicht eingefügt werden.",
+  "bErrorItemUpdate": "Produkt konnte nicht aktualisiert werden.",
   "bSuccessLogout": "Erfolgreich ausgeloggt.",
   "bSuccessOrderInsert": "Bestellung aufgegeben.",
   "bSuccessOrderUpdate": "Bestellung aktualisiert.",
   "bSuccessItemInsert": "{{name}} mit {{amount}} Einheiten eingefügt.",
+  "bSuccessItemUpdate": "{{name}} aktualisiert.",
   "bDataNotFound": "{{dataType}} nicht gefunden.",
   "order": "Bestellung",
   "item": "Produkt",
@@ -63,5 +65,6 @@
   "itemDash": "Produkte",
   "staffDash": "Accounts",
   "name": "Name",
-  "addItem": "Produkt hinzufügen"
+  "addItem": "Produkt hinzufügen",
+  "editItem": "Produkt ändern"
 }

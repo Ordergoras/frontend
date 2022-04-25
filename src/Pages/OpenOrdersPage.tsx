@@ -43,11 +43,11 @@ function OpenOrdersPage() {
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
-          severity={'success'}
+          severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
           sx={{width: '100%'}}
           action={<Button color={'inherit'} size={'small'} onClick={() => handleUndo()}>{t('undo')}</Button>}
         >
-          {dataState.snackbarMessageCode ? t(dataState.snackbarMessageCode) : ''}
+          {dataState.snackbarMessage ? t(dataState.snackbarMessage.messageCode) : ''}
         </Alert>
       </Snackbar>
     </Box>
