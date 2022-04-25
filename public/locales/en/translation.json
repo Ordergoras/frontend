@@ -64,6 +64,7 @@
   "adminDash": "Admin dashboard",
   "itemDash": "Item dashboard",
   "staffDash": "Staff dashboard",
+  "statsDash": "Statistics",
   "name": "Name",
   "addItem": "Add item",
   "editItem": "Edit item"

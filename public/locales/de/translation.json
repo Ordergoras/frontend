@@ -64,6 +64,7 @@
   "adminDash": "Administration",
   "itemDash": "Produkte",
   "staffDash": "Accounts",
+  "statsDash": "Statistiken",
   "name": "Name",
   "addItem": "Produkt hinzufügen",
   "editItem": "Produkt ändern"
