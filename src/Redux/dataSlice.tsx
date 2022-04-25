@@ -77,10 +77,13 @@ export const dataSlice = createSlice({
     setSnackbarMessage: (state, action: PayloadAction<string>) => {
       state.snackbarMessageCode = action.payload
     },
+    updateAllItems: (state, action: PayloadAction<Item[]>) => {
+      state.allItems = action.payload
+    },
   },
 })
 
-export const { setItemData, setOrders, updateCompletedItem, setSnackbarMessage, undoOrderUpdate } = dataSlice.actions
+export const { setItemData, setOrders, updateCompletedItem, setSnackbarMessage, undoOrderUpdate, updateAllItems } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 

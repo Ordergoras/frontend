@@ -3,14 +3,16 @@ import {
   Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, FormControlLabel, Grid, IconButton, Modal, Paper, Radio, RadioGroup, TextField, Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useAppSelector } from '../Redux/hooks';
-import { selectData } from '../Redux/dataSlice';
+import { useAppDispatch, useAppSelector } from '../Redux/hooks';
+import { selectData, updateAllItems } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
 import AdminItem from '../OrderComponents/AdminItem';
 import { theme } from '../index';
 import { Item } from '../utils/types';
 import AddIcon from '@mui/icons-material/Add';
-import { addItem } from '../utils/storageRequests';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { addItem, getAllItems } from '../utils/storageRequests';
 
 function AdminPage() {
 
@@ -32,40 +34,66 @@ function AdminPage() {
       textAlign: 'center',
       justifyContent: 'center',
     },
+    columnHead: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
   }
 
   const dataState = useAppSelector(selectData)
+  const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [expanded, setExpanded] = React.useState<string | false>('items')
-  const [items, setItems] = React.useState<Item[] | undefined>(undefined)
-  const [sortKey, setSortKey] = React.useState(undefined)
+
+  const [sortKey, setSortKey] = React.useState<string | undefined>(undefined)
   const [sortAsc, setSortAsc] = React.useState(true)
+  const [sorting, setSorting] = React.useState(false)
 
   const [itemModalOpen, setItemModalOpen] = React.useState(false)
+  const [itemEditMode, setItemEditMode] = React.useState(false)
   const [itemName, setItemName] = React.useState('')
   const [itemAmount, setItemAmount] = React.useState('')
   const [itemGroup, setItemGroup] = React.useState('Food')
   const [itemPrice, setItemPrice] = React.useState('')
 
   React.useEffect(() => {
-    if(dataState.allItems && sortKey === 'amount' && !sortAsc) {
-      setItems([...dataState.allItems].sort((i1, i2) => i1.amount - i2.amount))
-    } else if(dataState.allItems && sortKey === 'amount' && sortAsc) {
-      setItems([...dataState.allItems].sort((i1, i2) => i2.amount - i1.amount))
-    } else if(dataState.allItems && sortKey === 'price' && !sortAsc) {
-      setItems([...dataState.allItems].sort((i1, i2) => i1.price - i2.price))
-    } else if(dataState.allItems && sortKey === 'price' && sortAsc) {
-      setItems([...dataState.allItems].sort((i1, i2) => i2.price - i1.price))
+    if(sorting && dataState.allItems) {
+      console.log('sort', sortKey)
+      if(sortKey === 'name' && !sortAsc) {
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i2.name.localeCompare(i1.name))))
+      } else if(sortKey === 'name' && sortAsc) {
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i1.name.localeCompare(i2.name))))
+      } else if(sortKey === 'amount' && !sortAsc) {
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i1.amount - i2.amount)))
+      } else if(sortKey === 'amount' && sortAsc) {
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i2.amount - i1.amount)))
+      } else if(sortKey === 'price' && !sortAsc) {
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i1.price - i2.price)))
+      } else if(sortKey === 'price' && sortAsc) {
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i2.price - i1.price)))
+      } else {
+        getAllItems()
+      }
     }
-  }, [dataState.allItems, sortAsc, sortKey])
+    setSorting(false)
+  }, [dataState.allItems, dispatch, sortAsc, sortKey, sorting])
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false)
   }
 
   const handleItemModalOpen = () => setItemModalOpen(true)
+  const handleEditItemModalOpen = (item: Item) => {
+    setItemEditMode(true)
+    setItemModalOpen(true)
+    setItemName(item.name)
+    setItemAmount(item.amount.toString())
+    setItemPrice(item.price.toString())
+    setItemGroup(item.group)
+  }
   const handleItemModalClose = () => {
     setItemModalOpen(false)
+    setItemEditMode(false)
     setItemName('')
     setItemAmount('')
     setItemPrice('')
@@ -76,6 +104,23 @@ function AdminPage() {
     addItem(itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice))
     handleItemModalClose()
   }
+
+  const sortTable = (newSortKey: string) => {
+    setSorting(true)
+    if(sortKey === newSortKey) {
+      if(sortAsc) {
+        setSortAsc(!sortAsc)
+      } else {
+        setSortKey(undefined)
+        setSortAsc(true)
+      }
+    } else  {
+      setSortKey(newSortKey)
+      setSortAsc(true)
+    }
+  }
+
+  // TODO edit item request (and backend functions), snackbar as feedback after add or edit
 
   return (
     <Box sx={{textAlign: 'center', margin: 1}}>
@@ -89,40 +134,56 @@ function AdminPage() {
           <Paper sx={{padding: 1, margin: 1, display: 'flex', flexDirection: 'row'}}>
             <Grid container>
               <Grid item xs={6}>
-                <Box sx={{textAlign: 'start'}}>
-                  {t('name')}
+                <Box sx={{...styles.columnHead, textAlign: 'start'}}>
+                  {
+                    sortKey === 'name' && sortAsc && <ArrowDropDownIcon/>
+                  }
+                  {
+                    sortKey === 'name' && !sortAsc && <ArrowDropUpIcon/>
+                  }
+                  <Typography onClick={() => sortTable('name')}>
+                    {t('name')}
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={3}>
-                <Box>
-                  {t('inStorage')}
+                <Box sx={{...styles.columnHead, justifyContent: 'center'}}>
+                  {
+                    sortKey === 'amount' && sortAsc && <ArrowDropDownIcon/>
+                  }
+                  {
+                    sortKey === 'amount' && !sortAsc && <ArrowDropUpIcon/>
+                  }
+                  <Typography onClick={() => sortTable('amount')}>
+                    {t('inStorage')}
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={3}>
-                <Box sx={{textAlign: 'end'}}>
-                  {t('price')}
+                <Box sx={{...styles.columnHead, justifyContent: 'end'}}>
+                  {
+                    sortKey === 'price' && sortAsc && <ArrowDropDownIcon/>
+                  }
+                  {
+                    sortKey === 'price' && !sortAsc && <ArrowDropUpIcon/>
+                  }
+                  <Typography onClick={() => sortTable('price')}>
+                    {t('price')}
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
           </Paper>
           {
-            items ?
-              items.map((item) => {
-                return <AdminItem
-                  key={item.itemId}
-                  item={item}
-                  color={item.group === 'Drink' ? theme.palette.primary.light : item.group === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark}
-                />
-              })
-              :
-              dataState.allItems &&
-              dataState.allItems.map((item) => {
-                return <AdminItem
-                  key={item.itemId}
-                  item={item}
-                  color={item.group === 'Drink' ? theme.palette.primary.light : item.group === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark}
-                />
-              })
+            dataState.allItems &&
+            dataState.allItems.map((item) => {
+              return <AdminItem
+                key={item.itemId}
+                item={item}
+                color={item.group === 'Drink' ? theme.palette.primary.light : item.group === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark}
+                onClick={handleEditItemModalOpen}
+              />
+            })
           }
           <IconButton onClick={handleItemModalOpen} color={'secondary'}>
             <AddIcon/>
@@ -133,7 +194,7 @@ function AdminPage() {
           >
             <Box sx={styles.modal}>
               <Typography variant={'h6'} sx={{marginBottom: 1}}>
-                {t('addItem')}
+                {itemEditMode ? t('editItem') : t('addItem')}
               </Typography>
               <TextField sx={{marginBottom: 1}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
               <TextField sx={{marginBottom: 1}} label={t('inStorage')} value={itemAmount}
@@ -150,9 +211,9 @@ function AdminPage() {
                 </RadioGroup>
               </FormControl>
               <Button disabled={!(itemName && itemAmount && itemPrice)} color={'secondary'} variant={'contained'}
-                      onClick={() => handleItemSubmit()}
+                      onClick={() => itemEditMode ? handleItemModalClose() : handleItemSubmit()}
               >
-                {t('addItem')}
+                {itemEditMode ? t('editItem') : t('addItem')}
               </Button>
             </Box>
           </Modal>
