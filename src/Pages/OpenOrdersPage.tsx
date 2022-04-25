@@ -40,12 +40,12 @@ function OpenOrdersPage() {
       {dataState.orders && dataState.orders.map((order) => {
         return !order.completed ? <OrderCard key={order.orderId} order={order} setOpen={(val: boolean) => setOpen(val)}/> : null
       })}
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={dataState.snackbarMessage && !dataState.snackbarMessage.error ? 3000 : 2000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
           severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
           sx={{width: '100%'}}
-          action={<Button color={'inherit'} size={'small'} onClick={() => handleUndo()}>{t('undo')}</Button>}
+          action={dataState.snackbarMessage && !dataState.snackbarMessage.error && <Button color={'inherit'} size={'small'} onClick={() => handleUndo()}>{t('undo')}</Button>}
         >
           {dataState.snackbarMessage ? t(dataState.snackbarMessage.messageCode) : ''}
         </Alert>
