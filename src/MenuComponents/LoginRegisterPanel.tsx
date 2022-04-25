@@ -10,7 +10,7 @@ function LoginRegisterPanel() {
 
   const authState = useAppSelector(selectAuth)
   const dispatch = useAppDispatch()
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const [mode, setMode] = React.useState<'login' | 'register'>('login')
   const [username, setUsername] = React.useState('')
