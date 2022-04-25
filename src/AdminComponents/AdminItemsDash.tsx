@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Alert, Box, Button, FormControl, FormControlLabel, Grid, IconButton, Modal, Paper, Radio, RadioGroup, Snackbar, TextField, Typography
+  Alert, Box, Button, Fab, FormControl, FormControlLabel, Grid, Modal, Paper, Radio, RadioGroup, Snackbar, TextField, Typography
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -165,7 +165,7 @@ function AdminItemsDash() {
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Box sx={{...styles.columnHead, justifyContent: 'center'}}>
+            <Box sx={{...styles.columnHead, justifyContent: 'center',  marginRight: 2}}>
               {
                 sortKey === 'amount' && sortAsc && <ArrowDropDownIcon/>
               }
@@ -205,9 +205,9 @@ function AdminItemsDash() {
           })
         }
       </Box>
-      <IconButton onClick={handleItemModalOpen} color={'secondary'}>
+      <Fab onClick={handleItemModalOpen} color={'secondary'} size={'small'} sx={{marginTop: 1}}>
         <AddIcon/>
-      </IconButton>
+      </Fab>
       <Modal
         open={itemModalOpen}
         onClose={handleItemModalClose}
