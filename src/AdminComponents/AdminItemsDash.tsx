@@ -8,7 +8,7 @@ import AdminItem from './AdminItem';
 import { theme } from '../index';
 import AddIcon from '@mui/icons-material/Add';
 import { Item, ItemGroup } from '../utils/types';
-import { selectData, updateAllItems } from '../Redux/dataSlice';
+import { selectData, setLastChangedItem, updateAllItems } from '../Redux/dataSlice';
 import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { useTranslation } from 'react-i18next';
@@ -84,6 +84,7 @@ function AdminItemsDash() {
   const handleItemModalOpen = () => setItemModalOpen(true)
 
   const handleEditItemModalOpen = (item: Item) => {
+    dispatch(setLastChangedItem({item: item, action: 'update'}))
     setItemEditMode(true)
     setItemModalOpen(true)
     setItemId(item.itemId)
@@ -112,6 +113,19 @@ function AdminItemsDash() {
     handleItemModalClose()
   }
 
+  const handleUndo = (action: 'update' | 'delete' | undefined) => {
+    if(action === undefined)
+      return
+    const item = dataState.lastItemUpdate ? dataState.lastItemUpdate.item : undefined
+    if(item) {
+      if (action === 'update') {
+        updateItem(item.itemId, item.name, item.amount, item.group, item.price).then(() => {})
+      } else if(action === 'delete') {
+        addItem(item.name, item.amount, item.group, item.price).then(() => {})
+      }
+    }
+  }
+
   const sortTable = (newSortKey: string) => {
     setSorting(true)
     if(sortKey === newSortKey) {
@@ -128,11 +142,10 @@ function AdminItemsDash() {
   }
 
   const handleItemDelete = () => {
+    dispatch(setLastChangedItem({item: {itemId: itemId, name: itemName, amount: parseInt(itemAmount), group: itemGroup, price: parseFloat(itemPrice)}, action: 'delete'}))
     deleteItem(itemId).then(() => setSnackbarOpen(true))
     handleItemModalClose()
   }
-
-  // TODO add item delete / update undo
 
   return (
     <Box>
@@ -232,11 +245,18 @@ function AdminItemsDash() {
           </Box>
         </Box>
       </Modal>
-      <Snackbar open={snackbarOpen} autoHideDuration={2000} onClose={handleSnackbarClose}>
+      <Snackbar open={snackbarOpen} autoHideDuration={dataState.snackbarMessage && !dataState.snackbarMessage.error ? 3000 : 2000} onClose={handleSnackbarClose}>
         <Alert
           onClose={handleSnackbarClose}
           severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
           sx={{width: '100%'}}
+          action={dataState.snackbarMessage && !dataState.snackbarMessage.error &&
+            <Button color={'inherit'} size={'small'}
+                    onClick={() => dataState.lastItemUpdate ? handleUndo(dataState.lastItemUpdate.action) : {}}
+            >
+              {t('undo')}
+            </Button>
+          }
         >
           {dataState.snackbarMessage ? t(dataState.snackbarMessage.messageCode, dataState.snackbarMessage.args) : ''}
         </Alert>
