@@ -124,6 +124,7 @@ function AdminItemsDash() {
         addItem(item.name, item.amount, item.group, item.price).then(() => {})
       }
     }
+    dispatch(setLastChangedItem(undefined))
   }
 
   const sortTable = (newSortKey: string) => {
@@ -250,7 +251,7 @@ function AdminItemsDash() {
           onClose={handleSnackbarClose}
           severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
           sx={{width: '100%'}}
-          action={dataState.snackbarMessage && !dataState.snackbarMessage.error &&
+          action={dataState.snackbarMessage && !dataState.snackbarMessage.error && dataState.lastItemUpdate &&
             <Button color={'inherit'} size={'small'}
                     onClick={() => dataState.lastItemUpdate ? handleUndo(dataState.lastItemUpdate.action) : {}}
             >

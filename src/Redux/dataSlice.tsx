@@ -12,7 +12,7 @@ interface DataState {
   itemIdMap: { [key: string]: Item } | undefined,
   snackbarMessage: { messageCode: string, args: { [key: string]: string | number } | undefined, error: boolean} | undefined,
   lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean} | undefined,
-  lastItemUpdate: {item: Item | undefined, action: 'update' | 'delete' | undefined} | undefined,
+  lastItemUpdate: {item: Item, action: 'update' | 'delete'} | undefined,
 }
 
 const initialState: DataState = {
@@ -82,7 +82,7 @@ export const dataSlice = createSlice({
     updateAllItems: (state, action: PayloadAction<Item[]>) => {
       state.allItems = action.payload
     },
-    setLastChangedItem: (state, action: PayloadAction<{item: Item, action: 'update' | 'delete'}>) => {
+    setLastChangedItem: (state, action: PayloadAction<{item: Item, action: 'update' | 'delete'} | undefined>) => {
       state.lastItemUpdate = action.payload
     },
   },
