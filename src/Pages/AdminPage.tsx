@@ -3,6 +3,8 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from 'react-i18next';
 import AdminItemsDash from '../AdminComponents/AdminItemsDash';
+import AdminStatsDash from '../AdminComponents/AdminStatsDash';
+import AdminStaffDash from '../AdminComponents/AdminStaffDash';
 
 function AdminPage() {
 
@@ -39,9 +41,7 @@ function AdminPage() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Statistics
-          </Typography>
+          <AdminStatsDash/>
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'staff'} onChange={handleChange('staff')}>
@@ -51,9 +51,7 @@ function AdminPage() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Staff  Overview
-          </Typography>
+          <AdminStaffDash/>
         </AccordionDetails>
       </Accordion>
     </Box>
