@@ -70,21 +70,21 @@ function AdminStaffDash() {
   }
 
   return (
-    <Box sx={{width: '100%'}}>
+    <Box sx={{width: '100%', maxHeight: '69vh', overflow: 'auto'}}>
       {
         staffList && staffList.map((staff) => {
           return (
-            <Button sx={styles.button} onClick={() => handleModalOpen(staff)}>
+            <Button sx={styles.button} onClick={() => handleModalOpen(staff)} key={staff.staffId}>
               <Paper sx={{...styles.paper, backgroundColor: staff.isAdmin ? theme.palette.error.dark : theme.palette.primary.main}}>
                 <Grid container>
                   <Grid item xs={6}>
                     <Box sx={{textAlign: 'start'}}>
-                      { staff.name }
+                      {staff.name}
                     </Box>
                   </Grid>
                   <Grid item xs={6}>
                     <Box sx={{textAlign: 'end'}}>
-                      { staff.isAdmin }
+                      {staff.isAdmin ? 'Admin' : 'Staff'}
                     </Box>
                   </Grid>
                 </Grid>
