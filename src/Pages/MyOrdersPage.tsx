@@ -60,7 +60,7 @@ function MyOrdersPage() {
         <Alert
           onClose={handleClose}
           severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
-          sx={{width: '100%'}}
+          sx={generalStyles.snackbarAlert}
           action={dataState.snackbarMessage && !dataState.snackbarMessage.error && <Button color={'inherit'} size={'small'} onClick={() => handleUndo()}>{t('undo')}</Button>}
         >
           {dataState.snackbarMessage ? t(dataState.snackbarMessage.messageCode) : ''}

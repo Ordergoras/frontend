@@ -12,6 +12,7 @@ import { selectData, setLastChangedItem, updateAllItems } from '../Redux/dataSli
 import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { useTranslation } from 'react-i18next';
+import {generalStyles} from "../styles/generalStyles";
 
 function AdminItemsDash() {
 
@@ -256,7 +257,7 @@ function AdminItemsDash() {
         <Alert
           onClose={handleSnackbarClose}
           severity={dataState.snackbarMessage && dataState.snackbarMessage.error ? 'error' : 'success'}
-          sx={{width: '100%'}}
+          sx={generalStyles.snackbarAlert}
           action={dataState.snackbarMessage && !dataState.snackbarMessage.error && dataState.lastItemUpdate &&
             <Button color={'inherit'} size={'small'}
                     onClick={() => dataState.lastItemUpdate ? handleUndo(dataState.lastItemUpdate.action) : {}}
