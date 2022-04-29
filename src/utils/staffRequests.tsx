@@ -60,7 +60,7 @@ export const getFullStaff = () => {
 }
 
 export const setAdmin = (staffId: string, newStatus: boolean) => {
-  createRequest('POST', 'staff/setAdmin', {staffId: staffId, newStatus: newStatus})
+  return createRequest('POST', 'staff/setAdmin', {staffId: staffId, newStatus: newStatus})
     .then(res => {
       if(res && res.ok) res.json().then(data => console.log(data))
       else if(res) res.json().then(data => alert(i18next.t(data.message)))
