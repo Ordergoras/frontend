@@ -31,6 +31,7 @@
   "order": "Bestellung",
   "item": "Produkt",
   "staff": "Account",
+  "admin": "Administrator",
   "lang_en": "Englisch",
   "lang_de": "Deutsch",
   "homePage": "Startseite",
@@ -71,5 +72,10 @@
   "name": "Name",
   "addItem": "Produkt hinzufügen",
   "editItem": "Produkt ändern",
-  "deleteItem": "Produkt löschen"
+  "deleteItem": "Produkt löschen",
+  "editing": "\"{{name}}\" bearbeiten",
+  "adminInfo": "Administratoren können den Adminstatus anderer Angestellten verändern, Produkte hinzufügen, bearbeiten und entfernen und Bestellstatistiken einsehen.",
+  "editAccError": "Eigener Status kann nicht bearbeitet werden.",
+  "revokeAdmin": "Adminstatus entziehen",
+  "grantAdmin": "Adminstatus vergeben"
 }

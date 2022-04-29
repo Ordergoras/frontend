@@ -5,6 +5,7 @@ import { Staff } from '../utils/types';
 import { theme } from '../index';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
+import { useTranslation } from 'react-i18next';
 
 function AdminStaffDash() {
 
@@ -37,6 +38,7 @@ function AdminStaffDash() {
   }
 
   const authState = useAppSelector(selectAuth)
+  const { t } = useTranslation()
 
   const [staffList, setStaffList] = React.useState<Staff[] | undefined>(undefined)
   const [modalOpen, setModalOpen] = React.useState(false)
@@ -84,7 +86,7 @@ function AdminStaffDash() {
                   </Grid>
                   <Grid item xs={6}>
                     <Box sx={{textAlign: 'end'}}>
-                      {staff.isAdmin ? 'Admin' : 'Staff'}
+                      {staff.isAdmin ? t('admin') : t('staff')}
                     </Box>
                   </Grid>
                 </Grid>
@@ -99,19 +101,19 @@ function AdminStaffDash() {
       >
         <Box sx={styles.modal}>
           <Typography variant={'h6'} sx={{marginBottom: 1}}>
-            Editing "{currStaff && currStaff.name}"
+            {t('editing', {name: currStaff && currStaff.name})}
           </Typography>
           <Typography sx={{marginBottom: 1}}>
-            Administrators can change others staffs admin status, add, edit and delete items and view order statistics.
+            {t('adminInfo')}
           </Typography>
           {
             (!currStaff || (authState.staffId === currStaff.staffId)) &&
               <Typography sx={{marginBottom: 1}} color={theme.palette.error.main}>
-                  You cannot change your own status.
+                {t('editAccError')}
               </Typography>
           }
           <Button variant={'contained'} disabled={!currStaff || (authState.staffId === currStaff.staffId)} onClick={() => submitEdit()}>
-            {currStaff && currStaff.isAdmin ? 'Revoke admin' : 'Garant admin'}
+            {currStaff && currStaff.isAdmin ? t('revokeAdmin') : t('grantAdmin')}
           </Button>
         </Box>
       </Modal>

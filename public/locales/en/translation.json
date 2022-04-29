@@ -31,6 +31,7 @@
   "order": "Order",
   "item": "Item",
   "staff": "Staff",
+  "admin": "Admin",
   "lang_en": "English",
   "lang_de": "German",
   "homePage": "Home",
@@ -71,5 +72,10 @@
   "name": "Name",
   "addItem": "Add item",
   "editItem": "Edit item",
-  "deleteItem": "Delete Item"
+  "deleteItem": "Delete Item",
+  "editing": "Editing \"{{name}}\"",
+  "adminInfo": "Administrators can change others staffs admin status, add, edit and delete items and view order statistics.",
+  "editAccError": "You cannot change your own status.",
+  "revokeAdmin": "Revoke Admin",
+  "grantAdmin": "Grant Admin"
 }
