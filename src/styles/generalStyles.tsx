@@ -1,5 +1,3 @@
-import { theme } from '../index';
-
 export const utils = {
   topBottomMargin: {
     marginTop: 1,
@@ -37,6 +35,6 @@ export const generalStyles = {
   snackbarAlert: {
     width: '100%',
     border: 1,
-    borderColor: theme.palette.grey["500"]
+    borderColor: '#9e9e9e'
   },
 }

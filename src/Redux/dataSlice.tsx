@@ -38,6 +38,7 @@ export const dataSlice = createSlice({
       state.itemsFetched = true
       state.drinks = undefined
       state.food = undefined
+      state.wine = undefined
       state.other = undefined
       state.allItems = Object.values(action.payload).sort((a, b) => ItemEnum[a.group] - ItemEnum[b.group])
       state.itemIdMap = action.payload
