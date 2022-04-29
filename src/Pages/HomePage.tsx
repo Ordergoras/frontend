@@ -26,7 +26,6 @@ function HomePage() {
         <Typography color={theme.palette.background.default} variant={'h5'}>TODO</Typography>
         <Typography color={theme.palette.background.default} variant={'body1'}>Fix wine ordering (full bottle vs. glass)</Typography>
         <Typography color={theme.palette.background.default} variant={'body1'}>add additional information to food and wine</Typography>
-        <Typography color={theme.palette.background.default} variant={'body1'}>staff dashboard</Typography>
         <Typography color={theme.palette.background.default} variant={'body1'}>statistics dashboard</Typography>
         <Typography color={theme.palette.background.default} variant={'body1'}>logging of actions (to potentially revert bad inputs by staff)</Typography>
       </Box>
