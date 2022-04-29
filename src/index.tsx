@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
-import { createTheme, CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
+import { createTheme, CssBaseline, GlobalStyles, PaletteColor, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import './utils/i18n';
 import App from './App';
@@ -11,6 +11,16 @@ import store from './Redux/store'
 import LoadingScreen from './Pages/LoadingScreen';
 import Appbar from './MenuComponents/Appbar';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    tertiary: PaletteColor;
+  }
+  interface PaletteOptions {
+    tertiary: PaletteColor;
+  }
+}
+
+const { palette } = createTheme()
 export const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -20,6 +30,11 @@ export const theme = createTheme({
     secondary: {
       main: '#ef6f17',
     },
+    tertiary: palette.augmentColor({
+      color: {
+        main: '#814dbd'
+      }
+    }),
   },
 });
 
