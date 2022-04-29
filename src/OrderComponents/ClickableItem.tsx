@@ -1,12 +1,11 @@
 import React from 'react';
-import { Item } from '../utils/types';
+import {Item, ItemEnum} from '../utils/types';
 import { Box, Button, Typography } from '@mui/material';
 import { theme } from '../index';
 import { useTranslation } from 'react-i18next';
 
 interface ItemCardProps {
   item: Item,
-  color: string,
   onClick: () => void,
   disabled: boolean,
 }
@@ -17,12 +16,24 @@ function ClickableItem(props: ItemCardProps) {
     button: {
       padding: 1,
       margin: 1,
-      backgroundColor: props.color,
+      backgroundColor: ItemEnum[props.item.group] === 0 ? theme.palette.primary.light :
+        ItemEnum[props.item.group] === 1 ? theme.palette.primary.main :
+          ItemEnum[props.item.group] === 2 ? theme.palette.tertiary.main :
+            theme.palette.primary.dark,
+      ':hover': {
+        backgroundColor: ItemEnum[props.item.group] === 0 ? theme.palette.primary.main :
+          ItemEnum[props.item.group] === 1 ? theme.palette.primary.dark :
+            ItemEnum[props.item.group] === 2 ? theme.palette.tertiary.dark :
+              theme.palette.primary.main
+      },
       textTransform: 'none',
     },
     divider: {
       border: 1,
-      borderColor: theme.palette.getContrastText(props.color),
+      borderColor: theme.palette.getContrastText(ItemEnum[props.item.group] === 0 ? theme.palette.primary.main :
+        ItemEnum[props.item.group] === 1 ? theme.palette.primary.dark :
+          ItemEnum[props.item.group] === 2 ? theme.palette.tertiary.dark :
+            theme.palette.primary.main),
     },
   }
 

@@ -7,7 +7,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import AdminItem from './AdminItem';
 import { theme } from '../index';
 import AddIcon from '@mui/icons-material/Add';
-import { Item, ItemGroup } from '../utils/types';
+import { Item, ItemEnum, ItemGroup } from '../utils/types';
 import { selectData, setLastChangedItem, updateAllItems } from '../Redux/dataSlice';
 import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
@@ -21,13 +21,14 @@ function AdminItemsDash() {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: 400,
       backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: 24,
       p: 4,
       textAlign: 'center',
       justifyContent: 'center',
+      display: 'flex',
+      flexDirection: 'column',
     },
     columnHead: {
       display: 'flex',
@@ -49,7 +50,7 @@ function AdminItemsDash() {
   const [itemId, setItemId] = React.useState('')
   const [itemName, setItemName] = React.useState('')
   const [itemAmount, setItemAmount] = React.useState('')
-  const [itemGroup, setItemGroup] = React.useState<ItemGroup>('Food')
+  const [itemGroup, setItemGroup] = React.useState<ItemGroup>(Object.values(ItemEnum)[0] as ItemGroup)
   const [itemPrice, setItemPrice] = React.useState('')
 
   React.useEffect(() => {
@@ -101,7 +102,7 @@ function AdminItemsDash() {
     setItemName('')
     setItemAmount('')
     setItemPrice('')
-    setItemGroup('Food')
+    setItemGroup(Object.values(ItemEnum)[0] as ItemGroup)
   }
 
   const handleItemSubmit = (edit: boolean) => {
@@ -200,7 +201,11 @@ function AdminItemsDash() {
             return <AdminItem
               key={item.itemId}
               item={item}
-              color={item.group === 'Drink' ? theme.palette.primary.light : item.group === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark}
+              color={ItemEnum[item.group] === 0 ? theme.palette.primary.light :
+                ItemEnum[item.group] === 1 ? theme.palette.primary.main :
+                ItemEnum[item.group] === 2 ? theme.palette.tertiary.main :
+                  theme.palette.primary.dark
+              }
               onClick={handleEditItemModalOpen}
             />
           })
@@ -226,9 +231,10 @@ function AdminItemsDash() {
           />
           <FormControl sx={{marginBottom: 2}}>
             <RadioGroup row value={itemGroup} onChange={e => setItemGroup(e.target.value as ItemGroup)}>
-              <FormControlLabel value={'Food'} control={<Radio color={'secondary'}/>} label={t('food')}/>
-              <FormControlLabel value={'Drink'} control={<Radio color={'secondary'}/>} label={t('drink')}/>
-              <FormControlLabel value={'Other'} control={<Radio color={'secondary'}/>} label={t('other')}/>
+              <FormControlLabel value={Object.values(ItemEnum)[0]} control={<Radio color={'secondary'}/>} label={t('drink')}/>
+              <FormControlLabel value={Object.values(ItemEnum)[1]} control={<Radio color={'secondary'}/>} label={t('food')}/>
+              <FormControlLabel value={Object.values(ItemEnum)[2]} control={<Radio color={'secondary'}/>} label={t('wine')}/>
+              <FormControlLabel value={Object.values(ItemEnum)[3]} control={<Radio color={'secondary'}/>} label={t('other')}/>
             </RadioGroup>
           </FormControl>
           <Box sx={{display: 'flex', justifyContent: 'space-evenly'}}>

@@ -18,6 +18,6 @@ export type Item = {
   group: ItemGroup,
 }
 
-export type ItemGroup = 'Food' | 'Drink' | 'Wine' | 'Other'
+export type ItemGroup = 'Drink' | 'Food' | 'Wine' | 'Other'
 
-export enum ItemEnum { 'Food', 'Drink', 'Wine', 'Other' }
+export enum ItemEnum { 'Drink', 'Food', 'Wine', 'Other' }

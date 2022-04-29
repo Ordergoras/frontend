@@ -6,7 +6,7 @@ import { useAppSelector } from '../Redux/hooks';
 import { selectData } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Order, Item } from '../utils/types';
+import {Order, Item, ItemEnum} from '../utils/types';
 import { selectAuth } from '../Redux/authSlice';
 import ClickableItem from '../OrderComponents/ClickableItem';
 import { postOrder } from '../utils/ordersRequests';
@@ -46,7 +46,7 @@ function CreateOrderPage() {
   const authState = useAppSelector(selectAuth)
   const dataState = useAppSelector(selectData)
   const { t } = useTranslation()
-  const [expanded, setExpanded] = React.useState<string | false>('drinks')
+  const [expanded, setExpanded] = React.useState<string | false>(Object.values(ItemEnum)[0] as string)
   const [order, setOrder] = React.useState<Order>(getInitOrder)
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -99,9 +99,16 @@ function CreateOrderPage() {
               key={itemId}
               sx={{
                 ...styles.chip,
-                backgroundColor: dataState.itemIdMap[itemId]['group'] === 'Drink' ? theme.palette.primary.light :
-                  dataState.itemIdMap[itemId]['group'] === 'Food' ? theme.palette.primary.main : theme.palette.primary.dark,
-                ':hover': {backgroundColor: dataState.itemIdMap[itemId]['group'] === 'Food' ? theme.palette.primary.dark : theme.palette.primary.main}
+                backgroundColor: ItemEnum[dataState.itemIdMap[itemId]['group']] === 0 ? theme.palette.primary.light :
+                  ItemEnum[dataState.itemIdMap[itemId]['group']] === 1 ? theme.palette.primary.main :
+                    ItemEnum[dataState.itemIdMap[itemId]['group']] === 2 ? theme.palette.tertiary.main :
+                      theme.palette.primary.dark,
+                ':hover': {
+                  backgroundColor: ItemEnum[dataState.itemIdMap[itemId]['group']] === 0 ? theme.palette.primary.main :
+                    ItemEnum[dataState.itemIdMap[itemId]['group']] === 1 ? theme.palette.primary.dark :
+                      ItemEnum[dataState.itemIdMap[itemId]['group']] === 2 ? theme.palette.tertiary.dark :
+                        theme.palette.primary.main
+                }
             }}
               label={dataState.itemIdMap[itemId]['name'] + ': ' + order.orderedItems[itemId]}
               onClick={() => {
@@ -144,7 +151,7 @@ function CreateOrderPage() {
           </Box>
         </Box>
       </Paper>
-      <Accordion expanded={expanded === 'drinks'} onChange={handleChange('drinks')}>
+      <Accordion expanded={expanded === Object.values(ItemEnum)[0]} onChange={handleChange(Object.values(ItemEnum)[0] as string)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography sx={styles.accordionTitle}>
             {t('drinks')}
@@ -158,7 +165,6 @@ function CreateOrderPage() {
                 return <ClickableItem
                   key={item.itemId}
                   item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
-                  color={theme.palette.primary.light}
                   onClick={() => addItemToOrder(item)}
                   disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
                 />
@@ -171,7 +177,7 @@ function CreateOrderPage() {
           </Box>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'food'} onChange={handleChange('food')}>
+      <Accordion expanded={expanded === Object.values(ItemEnum)[1]} onChange={handleChange(Object.values(ItemEnum)[1] as string)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography sx={styles.accordionTitle}>
             {t('food')}
@@ -185,7 +191,6 @@ function CreateOrderPage() {
                 return <ClickableItem
                   key={item.itemId}
                   item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
-                  color={theme.palette.primary.main}
                   onClick={() => addItemToOrder(item)}
                   disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
                 />
@@ -198,7 +203,33 @@ function CreateOrderPage() {
           </Box>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'other'} onChange={handleChange('other')}>
+      <Accordion expanded={expanded === Object.values(ItemEnum)[2]} onChange={handleChange(Object.values(ItemEnum)[2] as string)}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography sx={styles.accordionTitle}>
+            {t('wine')}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box sx={generalStyles.flexWrapBox}>
+            {
+              dataState.wine !== undefined &&
+              dataState.wine.map((item) => {
+                return <ClickableItem
+                  key={item.itemId}
+                  item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
+                  onClick={() => addItemToOrder(item)}
+                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
+                />
+              })
+            }
+            {
+              dataState.wine === undefined &&
+                <Typography variant={'body1'}>{t('nothingFound')}</Typography>
+            }
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion expanded={expanded === Object.values(ItemEnum)[3]} onChange={handleChange(Object.values(ItemEnum)[3] as string)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography sx={styles.accordionTitle}>
             {t('other')}
@@ -212,7 +243,6 @@ function CreateOrderPage() {
                 return <ClickableItem
                   key={item.itemId}
                   item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
-                  color={theme.palette.primary.dark}
                   onClick={() => addItemToOrder(item)}
                   disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
                 />

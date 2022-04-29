@@ -65,6 +65,24 @@ function ItemsPage() {
       </Paper>
       <Paper sx={styles.paper}>
         <Typography variant={'h5'}>
+          {t('wine')}
+        </Typography>
+        <Box sx={{...styles.divider}}/>
+        <Box sx={generalStyles.flexWrapBox}>
+          {
+            dataState.wine !== undefined &&
+            dataState.wine.map((item) => {
+              return <ItemCard key={item.itemId} item={item} color={theme.palette.tertiary.main}/>
+            })
+          }
+          {
+            dataState.wine === undefined &&
+              <Typography variant={'body1'}>{t('nothingFound')}</Typography>
+          }
+        </Box>
+      </Paper>
+      <Paper sx={styles.paper}>
+        <Typography variant={'h5'}>
           {t('other')}
         </Typography>
         <Box sx={{...styles.divider}}/>

@@ -7,10 +7,11 @@ interface DataState {
   allItems: Item[] | undefined,
   drinks: Item[] | undefined,
   food: Item[] | undefined,
+  wine: Item[] | undefined,
   other: Item[] | undefined,
   orders: Order[] | undefined,
-  itemIdMap: { [key: string]: Item } | undefined,
-  snackbarMessage: { messageCode: string, args: { [key: string]: string | number } | undefined, error: boolean} | undefined,
+  itemIdMap: {[key: string]: Item} | undefined,
+  snackbarMessage: {messageCode: string, args: {[key: string]: string | number} | undefined, error: boolean} | undefined,
   lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean} | undefined,
   lastItemUpdate: {item: Item, action: 'update' | 'delete'} | undefined,
 }
@@ -20,6 +21,7 @@ const initialState: DataState = {
   allItems: undefined,
   drinks: undefined,
   food: undefined,
+  wine: undefined,
   other: undefined,
   orders: undefined,
   itemIdMap: undefined,
@@ -37,19 +39,23 @@ export const dataSlice = createSlice({
       state.drinks = undefined
       state.food = undefined
       state.other = undefined
-      state.allItems = Object.values(action.payload).sort((a, b) => ItemEnum[b.group] - ItemEnum[a.group])
+      state.allItems = Object.values(action.payload).sort((a, b) => ItemEnum[a.group] - ItemEnum[b.group])
       state.itemIdMap = action.payload
       Object.values(action.payload).forEach((item: Item) => {
         switch (item.group) {
-          case "Drink":
+          case Object.values(ItemEnum)[0]:
             state.drinks ? state.drinks.push(item) : state.drinks = new Array(item)
             break
 
-          case "Food":
+          case Object.values(ItemEnum)[1]:
             state.food ? state.food.push(item) : state.food = new Array(item)
             break
 
-          case "Other":
+          case Object.values(ItemEnum)[2]:
+            state.wine ? state.wine.push(item) : state.wine = new Array(item)
+            break
+
+          case Object.values(ItemEnum)[3]:
             state.other ? state.other.push(item) : state.other = new Array(item)
             break
         }
