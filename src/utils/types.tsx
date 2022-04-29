@@ -18,6 +18,12 @@ export type Item = {
   group: ItemGroup,
 }
 
+export type Staff = {
+  staffId: string,
+  name: string,
+  isAdmin: boolean,
+}
+
 export type ItemGroup = 'Drink' | 'Food' | 'Wine' | 'Other'
 
 export enum ItemEnum { 'Drink', 'Food', 'Wine', 'Other' }

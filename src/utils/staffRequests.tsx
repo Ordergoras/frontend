@@ -46,10 +46,14 @@ export const logoutStaff = () => {
     .catch((e) => console.log(e))
 }
 
-export const getStaff = (staffId: string) => {
-  createRequest('GET', 'staff/getStaff', undefined, {staffId: staffId})
+export const getFullStaff = () => {
+  return createRequest('GET', 'staff/getFullStaff')
     .then(res => {
-      if(res && res.ok) res.json().then(data => console.log(data))
+      if(res && res.ok) {
+        return res.json().then(data => {
+          return data
+        })
+      }
       else if(res) res.json().then(data => alert(i18next.t(data.message, {dataType: i18next.t('staff')})))
     })
     .catch((e) => console.log(e))
