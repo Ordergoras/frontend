@@ -45,15 +45,6 @@ export const updateItem = (itemId: string, name: string, amount: number, group: 
     .catch((e) => console.log(e))
 }
 
-export const retrieveItems = (retrievedItems: Object) => {
-  createRequest('POST', 'storage/retrieveItems', {retrievedItems: retrievedItems})
-    .then(res => {
-      if(res && res.ok) res.json().then(data => console.log(data))
-      else if(res) res.json().then(data => alert(i18next.t(data.message)))
-    })
-    .catch((e) => console.log(e))
-}
-
 export const deleteItem = (itemId: string) => {
   const dispatch = store.dispatch
   return createRequest('POST', 'storage/deleteItem', {itemId: itemId})
