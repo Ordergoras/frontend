@@ -7,7 +7,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import AdminItem from './AdminItem';
 import { theme } from '../index';
 import AddIcon from '@mui/icons-material/Add';
-import { Item, ItemEnum, ItemGroup } from '../utils/types';
+import { Item, ItemEnum, ItemGroup, ItemInfo } from '../utils/types';
 import { selectData, setLastChangedItem, updateAllItems } from '../Redux/dataSlice';
 import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
@@ -35,6 +35,10 @@ function AdminItemsDash() {
       display: 'flex',
       flexDirection: 'row',
     },
+    infoTextField: {
+      marginBottom: 2,
+      width: '100%',
+    },
   }
 
   const dataState = useAppSelector(selectData)
@@ -53,6 +57,7 @@ function AdminItemsDash() {
   const [itemAmount, setItemAmount] = React.useState('')
   const [itemGroup, setItemGroup] = React.useState<ItemGroup>(Object.values(ItemEnum)[0] as ItemGroup)
   const [itemPrice, setItemPrice] = React.useState('')
+  const [itemInfo, setItemInfo] = React.useState<ItemInfo | undefined>(undefined)
 
   React.useEffect(() => {
     if(sorting && dataState.allItems) {
@@ -94,6 +99,7 @@ function AdminItemsDash() {
     setItemAmount(item.amount.toString())
     setItemPrice(item.price.toString())
     setItemGroup(item.group)
+    setItemInfo(item.information)
   }
 
   const handleItemModalClose = () => {
@@ -104,13 +110,14 @@ function AdminItemsDash() {
     setItemAmount('')
     setItemPrice('')
     setItemGroup(Object.values(ItemEnum)[0] as ItemGroup)
+    setItemInfo(undefined)
   }
 
   const handleItemSubmit = (edit: boolean) => {
     if(edit && itemId !== '') {
-      updateItem(itemId, itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice)).then(() => setSnackbarOpen(true))
+      updateItem(itemId, itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice), itemInfo).then(() => setSnackbarOpen(true))
     } else if(!edit) {
-      addItem(itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice)).then(() => setSnackbarOpen(true))
+      addItem(itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice), itemInfo).then(() => setSnackbarOpen(true))
     }
     handleItemModalClose()
   }
@@ -121,9 +128,9 @@ function AdminItemsDash() {
     const item = dataState.lastItemUpdate ? dataState.lastItemUpdate.item : undefined
     if(item) {
       if (action === 'update') {
-        updateItem(item.itemId, item.name, item.amount, item.group, item.price).then(() => {})
+        updateItem(item.itemId, item.name, item.amount, item.group, item.price, item.information).then(() => {})
       } else if(action === 'delete') {
-        addItem(item.name, item.amount, item.group, item.price).then(() => {})
+        addItem(item.name, item.amount, item.group, item.price, item.information).then(() => {})
       }
     }
     dispatch(setLastChangedItem(undefined))
@@ -145,9 +152,124 @@ function AdminItemsDash() {
   }
 
   const handleItemDelete = () => {
-    dispatch(setLastChangedItem({item: {itemId: itemId, name: itemName, amount: parseInt(itemAmount), group: itemGroup, price: parseFloat(itemPrice)}, action: 'delete'}))
+    dispatch(setLastChangedItem({
+      item: {itemId: itemId, name: itemName, amount: parseInt(itemAmount), group: itemGroup, price: parseFloat(itemPrice), information: itemInfo},
+      action: 'delete'
+    }))
     deleteItem(itemId).then(() => setSnackbarOpen(true))
     handleItemModalClose()
+  }
+
+  const updateItemInfo = (property: string, newVal: string) => {
+    if(itemInfo) {
+      const newObj = {...itemInfo, [property]: newVal}
+      setItemInfo(newObj)
+    } else {
+      if(itemGroup === Object.values(ItemEnum)[1]) {
+        const newObj = {...cleanFoodInfo, [property]: newVal}
+        setItemInfo(newObj)
+      } else if(itemGroup === Object.values(ItemEnum)[2]) {
+        const newObj = {...cleanWineInfo, [property]: newVal}
+        setItemInfo(newObj)
+      }
+    }
+  }
+
+  const cleanWineInfo = {
+    wineId: '',
+    description: '',
+    winery: '',
+    year: '',
+    bottleSize: '',
+    alcohol: '',
+  }
+
+  const cleanFoodInfo = {
+    description: '',
+  }
+
+  const renderInfoInput = () => {
+    switch(itemGroup) {
+      case Object.values(ItemEnum)[0]:
+        return (
+          <>
+          </>
+        )
+      case Object.values(ItemEnum)[1]:
+        return (
+          <>
+            <TextField
+              sx={styles.infoTextField}
+              label={t('description')}
+              value={itemInfo ? itemInfo.description : ''}
+              onChange={e => updateItemInfo('description', e.target.value)}
+            />
+          </>
+        )
+      case Object.values(ItemEnum)[2]:
+        return (
+          <Grid container sx={{justifyContent: 'space-evenly'}}>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('wineId')}
+                // @ts-ignore
+                value={itemInfo ? itemInfo.wineId : ''}
+                onChange={e => updateItemInfo('wineId', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('description')}
+                value={itemInfo ? itemInfo.description : ''}
+                onChange={e => updateItemInfo('description', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('year')}
+                // @ts-ignore
+                value={itemInfo ? itemInfo.year : ''}
+                onChange={e => updateItemInfo('year', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('winery')}
+                // @ts-ignore
+                value={itemInfo ? itemInfo.winery : ''}
+                onChange={e => updateItemInfo('winery', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('alcohol')}
+                // @ts-ignore
+                value={itemInfo ? itemInfo.alcohol : ''}
+                onChange={e => updateItemInfo('alcohol', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('bottleSize')}
+                // @ts-ignore
+                value={itemInfo ? itemInfo.bottleSize : ''}
+                onChange={e => updateItemInfo('bottleSize', e.target.value)}
+              />
+            </Grid>
+          </Grid>
+        )
+      default:
+        return (
+          <>
+          </>
+        )
+    }
   }
 
   return (
@@ -223,33 +345,39 @@ function AdminItemsDash() {
           <Typography variant={'h6'} sx={{marginBottom: 2}}>
             {itemEditMode ? t('editItem') : t('addItem')}
           </Typography>
-          <TextField sx={{marginBottom: 2}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
-          <TextField sx={{marginBottom: 2}} label={t('inStorage')} value={itemAmount}
+          <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
+          <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('inStorage')} value={itemAmount}
                      onChange={e => !Number.isNaN(parseInt(e.target.value)) ? setItemAmount(parseInt(e.target.value).toString()) : setItemAmount('')}
           />
-          <TextField sx={{marginBottom: 2}} label={t('priceEuro')} value={itemPrice}
+          <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('priceEuro')} value={itemPrice}
                      onChange={e => setItemPrice(e.target.value.replace(',', '.').replace(/[^\d.-]/g, ''))}
           />
           <FormControl sx={{marginBottom: 2}}>
-            <RadioGroup row value={itemGroup} onChange={e => setItemGroup(e.target.value as ItemGroup)}>
+            <RadioGroup row value={itemGroup} sx={{justifyContent: 'center'}} onChange={e => {
+              setItemGroup(e.target.value as ItemGroup)
+              setItemInfo(undefined)
+            }}>
               <FormControlLabel value={Object.values(ItemEnum)[0]} control={<Radio color={'secondary'}/>} label={t('drink')}/>
               <FormControlLabel value={Object.values(ItemEnum)[1]} control={<Radio color={'secondary'}/>} label={t('food')}/>
               <FormControlLabel value={Object.values(ItemEnum)[2]} control={<Radio color={'secondary'}/>} label={t('wine')}/>
               <FormControlLabel value={Object.values(ItemEnum)[3]} control={<Radio color={'secondary'}/>} label={t('other')}/>
             </RadioGroup>
           </FormControl>
-          <Box sx={{display: 'flex', justifyContent: 'space-evenly'}}>
-          <Button disabled={!(itemName && itemAmount && itemPrice)} color={'secondary'} variant={'contained'}
-                  onClick={() => itemEditMode ? handleItemSubmit(true) : handleItemSubmit(false)}
-          >
-            {itemEditMode ? t('editItem') : t('addItem')}
-          </Button>
           {
-            itemEditMode &&
-              <Button color={'error'} variant={'contained'} onClick={() => handleItemDelete()}>
-                {t('deleteItem')}
-              </Button>
+            renderInfoInput()
           }
+          <Box sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+            <Button disabled={!(itemName && itemAmount && itemPrice)} color={'secondary'} variant={'contained'}
+                    onClick={() => itemEditMode ? handleItemSubmit(true) : handleItemSubmit(false)}
+            >
+              {itemEditMode ? t('editItem') : t('addItem')}
+            </Button>
+            {
+              itemEditMode &&
+                <Button color={'error'} variant={'contained'} onClick={() => handleItemDelete()}>
+                  {t('deleteItem')}
+                </Button>
+            }
           </Box>
         </Box>
       </Modal>
