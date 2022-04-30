@@ -50,7 +50,13 @@ function AdminStaffDash() {
 
   const getData = () => {
     getFullStaff().then((data) => {
-      if(data) setStaffList(data.sort((a: Staff, b: Staff) => (b.isAdmin ? 1 : 0) - (a.isAdmin ? 1 : 0)))
+      if(data) {
+        setStaffList(
+          data
+          .sort((a: Staff, b: Staff) => a.name.localeCompare(b.name))
+          .sort((a: Staff, b: Staff) => (b.isAdmin ? 1 : 0) - (a.isAdmin ? 1 : 0))
+        )
+      }
     })
   }
 
