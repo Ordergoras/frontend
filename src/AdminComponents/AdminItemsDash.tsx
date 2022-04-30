@@ -12,7 +12,7 @@ import { selectData, setLastChangedItem, updateAllItems } from '../Redux/dataSli
 import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { useTranslation } from 'react-i18next';
-import {generalStyles} from "../styles/generalStyles";
+import { generalStyles } from '../styles/generalStyles';
 
 function AdminItemsDash() {
 

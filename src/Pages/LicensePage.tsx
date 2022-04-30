@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Paper, Typography, Box } from '@mui/material';
 import { generalStyles } from '../styles/generalStyles';
 
@@ -7,7 +6,7 @@ function LicensePage() {
 
   return (
     <Box sx={generalStyles.backgroundContainer}>
-      <Paper sx={{margin: 1, padding: 1, textAlign: 'start'}}>
+      <Paper sx={{margin: 5, padding: 2, textAlign: 'start'}}>
         <Typography>
           MIT License <br/>
           <br/>
@@ -32,8 +31,6 @@ function LicensePage() {
           SOFTWARE.
         </Typography>
       </Paper>
-
-      <Link to={'/'}><Typography>Home</Typography></Link>
     </Box>
   );
 }
