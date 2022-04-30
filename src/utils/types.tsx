@@ -16,6 +16,22 @@ export type Item = {
   amount: number,
   price: number,
   group: ItemGroup,
+  information: ItemInfo | undefined,
+}
+
+export type ItemInfo = FoodInfo | WineInfo
+
+export type FoodInfo = {
+  description: string,
+}
+
+export type WineInfo = {
+  wineId: string,
+  description: string,
+  winery: string,
+  year: string,
+  bottleSize: string,
+  alcohol: string,
 }
 
 export type Staff = {

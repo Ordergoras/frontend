@@ -77,5 +77,11 @@
   "adminInfo": "Administratoren können den Adminstatus anderer Angestellten verändern, Produkte hinzufügen, bearbeiten und entfernen und Bestellstatistiken einsehen.",
   "editAccError": "Eigener Status kann nicht bearbeitet werden.",
   "revokeAdmin": "Adminstatus entziehen",
-  "grantAdmin": "Adminstatus vergeben"
+  "grantAdmin": "Adminstatus vergeben",
+  "description": "Beschreibung",
+  "wineId": "Wein Nummer",
+  "year": "Jahr",
+  "winery": "Weingut",
+  "alcohol": "Alkoholgehalt",
+  "bottleSize": "Flaschengröße"
 }

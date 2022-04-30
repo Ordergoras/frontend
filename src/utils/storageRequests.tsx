@@ -2,7 +2,7 @@ import { createRequest } from './fetchUtils';
 import { setItemData, setSnackbarMessage } from '../Redux/dataSlice';
 import i18next from 'i18next'
 import store from '../Redux/store';
-import { ItemGroup } from './types';
+import { ItemGroup, ItemInfo } from './types';
 
 export const getItems = (itemIds: Array<string>) => {
   createRequest('PUT', 'storage/getItems', {itemIds: itemIds})
@@ -23,9 +23,9 @@ export const getAllItems = () => {
     .catch((e) => console.log(e))
 }
 
-export const addItem = (name: string, amount: number, group: ItemGroup, price: number) => {
+export const addItem = (name: string, amount: number, group: ItemGroup, price: number, information: ItemInfo | undefined) => {
   const dispatch = store.dispatch
-  return createRequest('POST', 'storage/postItem', {name: name, amount: amount, group: group, price: price})
+  return createRequest('POST', 'storage/postItem', {name: name, amount: amount, group: group, price: price, information: information})
     .then(res => {
       if(res && res.ok) res.json().then(data => dispatch(setSnackbarMessage({messageCode: data.message, args: data.args, error: false})))
       else if(res) res.json().then(data => dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: true})))
@@ -34,9 +34,9 @@ export const addItem = (name: string, amount: number, group: ItemGroup, price: n
     .catch((e) => console.log(e))
 }
 
-export const updateItem = (itemId: string, name: string, amount: number, group: ItemGroup, price: number) => {
+export const updateItem = (itemId: string, name: string, amount: number, group: ItemGroup, price: number, information: ItemInfo | undefined) => {
   const dispatch = store.dispatch
-  return createRequest('POST', 'storage/updateItem', {itemId: itemId, name: name, amount: amount, group: group, price: price})
+  return createRequest('POST', 'storage/updateItem', {itemId: itemId, name: name, amount: amount, group: group, price: price, information: information})
     .then(res => {
       if(res && res.ok) res.json().then(data => dispatch(setSnackbarMessage({messageCode: data.message, args: data.args, error: false})))
       else if(res) res.json().then(data => dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: true})))

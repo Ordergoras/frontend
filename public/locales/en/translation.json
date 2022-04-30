@@ -77,5 +77,11 @@
   "adminInfo": "Administrators can change others staffs admin status, add, edit and delete items and view order statistics.",
   "editAccError": "You cannot change your own status.",
   "revokeAdmin": "Revoke Admin",
-  "grantAdmin": "Grant Admin"
+  "grantAdmin": "Grant Admin",
+  "description": "Description",
+  "wineId": "Wine ID",
+  "year": "Year",
+  "winery": "Winery",
+  "alcohol": "Alcohol",
+  "bottleSize": "Bottle size"
 }
