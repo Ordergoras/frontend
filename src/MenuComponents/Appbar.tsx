@@ -36,6 +36,10 @@ function Appbar() {
   }
 
   const navToPage = (page: string) => {
+    if(page === 'login') {
+      navigate('/login', {replace: true})
+      return
+    }
     const pageLink = page === 'homePage' ? '' : page.slice(0, page.length - 4)
     navigate('/' + pageLink, {replace: true})
   }
