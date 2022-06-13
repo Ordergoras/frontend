@@ -1,3 +1,12 @@
+# Setup
+
+## Hostname
+
+Add `127.0.0.1 ordergoras.localhost.com` to `C:\Windows\System32\drivers\etc\hosts`
+
+---
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
