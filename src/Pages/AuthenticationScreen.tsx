@@ -23,7 +23,7 @@ function AuthenticationScreen() {
   return (
     <Box sx={generalStyles.backgroundContainer}>
       <LoginRegisterPanel/>
-      <Link to={'/imprint'}><Typography>{t('imprintPage')}</Typography></Link>
+      <Link to={'/license'}><Typography>{t('licensePage')}</Typography></Link>
     </Box>
   );
 }
