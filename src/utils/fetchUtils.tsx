@@ -1,9 +1,11 @@
 import store from '../Redux/store'
+import { logout } from '../Redux/authSlice';
 
 export const backendIP = 'http://localhost:5000'
 
 export const createRequest = (method: 'GET' | 'POST' | 'PUT', apiEndpoint: string, body?: Object, pathArguments?: Object) => {
   const pathArgumentsString = pathArguments ? getPathArgumentString(pathArguments) : ''
+  const dispatch = store.dispatch
 
   return fetch(
     `${backendIP}/${apiEndpoint}${pathArgumentsString}`,
@@ -22,11 +24,7 @@ export const createRequest = (method: 'GET' | 'POST' | 'PUT', apiEndpoint: strin
         alert('Server Error')
       }
       if(res.status === 401) {
-        if(store.getState().auth.isAuthenticated) {
-          // TODO handle getting new token
-        } else {
-          // TODO open login prompt
-        }
+        dispatch(logout())
       }
       return res
     })
