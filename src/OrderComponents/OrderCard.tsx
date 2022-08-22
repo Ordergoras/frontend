@@ -6,7 +6,7 @@ import { Order } from '../utils/types';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { selectData, updateCompletedItem } from '../Redux/dataSlice';
 import { updateCompletedItemRequest } from '../utils/ordersRequests';
-import DoneIcon from '@mui/icons-material/Done';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 interface OrderCardProps {
   order: Order,
@@ -94,7 +94,7 @@ function OrderCard(props: OrderCardProps) {
                   onClick={() => updateCompleted(itemId, true, 1)}
                   disabled={fetching}
                   onDelete={() => updateCompleted(itemId, true, (props.order.orderedItems[itemId] - props.order.completedItems[itemId]))}
-                  deleteIcon={<DoneIcon/>}
+                  deleteIcon={<CheckCircleIcon/>}
                 />
             })}
           </Box>
@@ -116,6 +116,7 @@ function OrderCard(props: OrderCardProps) {
               label={dataState.itemIdMap[itemId]['name'] + ': ' + props.order.completedItems[itemId]}
               onClick={() => updateCompleted(itemId, false, 1)}
               disabled={fetching}
+              onDelete={() => updateCompleted(itemId, false, props.order.completedItems[itemId])}
             />
         })}
       </Box>
