@@ -6,6 +6,7 @@ import { Order } from '../utils/types';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { selectData, updateCompletedItem } from '../Redux/dataSlice';
 import { updateCompletedItemRequest } from '../utils/ordersRequests';
+import DoneIcon from '@mui/icons-material/Done';
 
 interface OrderCardProps {
   order: Order,
@@ -44,13 +45,13 @@ function OrderCard(props: OrderCardProps) {
   const { t } = useTranslation()
   const [fetching, setFetching] = React.useState(false)
 
-  const updateCompleted = (itemId: string, increaseCompleted: boolean) => {
+  const updateCompleted = (itemId: string, increaseCompleted: boolean, amount: number) => {
     setFetching(true)
-    updateCompletedItemRequest(props.order.orderId, itemId, increaseCompleted)
+    updateCompletedItemRequest(props.order.orderId, itemId, increaseCompleted, amount)
       .then(res => {
         if(res) {
           let newOrder = JSON.parse(JSON.stringify(props.order))
-          newOrder.completedItems[itemId] = increaseCompleted ? newOrder.completedItems[itemId] + 1 : newOrder.completedItems[itemId] - 1
+          newOrder.completedItems[itemId] = increaseCompleted ? newOrder.completedItems[itemId] + amount : newOrder.completedItems[itemId] - amount
           let isCompleted = true
           Object.keys(newOrder.orderedItems).forEach((itemId) => {
             if(newOrder.orderedItems[itemId] !== newOrder.completedItems[itemId]) {
@@ -58,7 +59,7 @@ function OrderCard(props: OrderCardProps) {
             }
           })
           newOrder.completed = isCompleted
-          dispatch(updateCompletedItem({order: props.order, itemId: itemId, increaseCompleted: increaseCompleted, newOrder: newOrder}))
+          dispatch(updateCompletedItem({order: props.order, itemId: itemId, increaseCompleted: increaseCompleted, newOrder: newOrder, amount: amount}))
         }
         props.setOpen(true)
         setFetching(false)
@@ -90,8 +91,10 @@ function OrderCard(props: OrderCardProps) {
                   key={itemId}
                   sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark, ':hover': {backgroundColor: theme.palette.secondary.light}}}
                   label={dataState.itemIdMap[itemId]['name'] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
-                  onClick={() => updateCompleted(itemId, true)}
+                  onClick={() => updateCompleted(itemId, true, 1)}
                   disabled={fetching}
+                  onDelete={() => updateCompleted(itemId, true, (props.order.orderedItems[itemId] - props.order.completedItems[itemId]))}
+                  deleteIcon={<DoneIcon/>}
                 />
             })}
           </Box>
@@ -111,7 +114,7 @@ function OrderCard(props: OrderCardProps) {
               key={itemId}
               sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ':hover': {backgroundColor: theme.palette.success.light}}}
               label={dataState.itemIdMap[itemId]['name'] + ': ' + props.order.completedItems[itemId]}
-              onClick={() => updateCompleted(itemId, false)}
+              onClick={() => updateCompleted(itemId, false, 1)}
               disabled={fetching}
             />
         })}

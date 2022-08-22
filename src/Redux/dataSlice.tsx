@@ -12,7 +12,7 @@ interface DataState {
   orders: Order[] | undefined,
   itemIdMap: {[key: string]: Item} | undefined,
   snackbarMessage: {messageCode: string, args: {[key: string]: string | number} | undefined, error: boolean} | undefined,
-  lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean} | undefined,
+  lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean, amount: number} | undefined,
   lastItemUpdate: {item: Item, action: 'update' | 'delete'} | undefined,
 }
 
@@ -65,11 +65,11 @@ export const dataSlice = createSlice({
     setOrders: (state, action: PayloadAction<Order[]>) => {
       state.orders = action.payload
     },
-    updateCompletedItem: (state, action: PayloadAction<{order: Order, itemId: string, increaseCompleted: boolean, newOrder: Order}>) => {
+    updateCompletedItem: (state, action: PayloadAction<{order: Order, itemId: string, increaseCompleted: boolean, newOrder: Order, amount: number}>) => {
       if(state.orders === undefined)
         return
       state.orders = state.orders.map(order => order.orderId === action.payload.order.orderId ? action.payload.newOrder : order)
-      state.lastOrderUpdate = {order: action.payload.order, itemId: action.payload.itemId, increaseCompleted: action.payload.increaseCompleted}
+      state.lastOrderUpdate = {order: action.payload.order, itemId: action.payload.itemId, increaseCompleted: action.payload.increaseCompleted, amount: action.payload.amount}
     },
     undoOrderUpdate: (state) => {
       if(state.orders === undefined || state.lastOrderUpdate === undefined)

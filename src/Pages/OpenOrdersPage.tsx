@@ -31,7 +31,7 @@ function OpenOrdersPage() {
   const handleUndo = () => {
     if(dataState.lastOrderUpdate === undefined)
       return
-    updateCompletedItemRequest(dataState.lastOrderUpdate.order.orderId, dataState.lastOrderUpdate.itemId, !dataState.lastOrderUpdate.increaseCompleted)
+    updateCompletedItemRequest(dataState.lastOrderUpdate.order.orderId, dataState.lastOrderUpdate.itemId, !dataState.lastOrderUpdate.increaseCompleted, dataState.lastOrderUpdate.amount)
       .then(() => dispatch(undoOrderUpdate()))
   }
 
