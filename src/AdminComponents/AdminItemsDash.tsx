@@ -181,7 +181,7 @@ function AdminItemsDash() {
     winery: '',
     year: '',
     bottleSize: '',
-    alcohol: '',
+    glassSize: '',
   }
 
   const cleanFoodInfo = {
@@ -247,10 +247,10 @@ function AdminItemsDash() {
             <Grid item xs={2}>
               <TextField
                 sx={styles.infoTextField}
-                label={t('alcohol')}
+                label={t('glassSize')}
                 // @ts-ignore
-                value={itemInfo ? itemInfo.alcohol : ''}
-                onChange={e => updateItemInfo('alcohol', e.target.value)}
+                value={itemInfo ? itemInfo.glassSize : ''}
+                onChange={e => updateItemInfo('glassSize', e.target.value)}
               />
             </Grid>
             <Grid item xs={9}>

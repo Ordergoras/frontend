@@ -31,7 +31,7 @@ export type WineInfo = {
   winery: string,
   year: string,
   bottleSize: string,
-  alcohol: string,
+  glassSize: string,
 }
 
 export type Staff = {

@@ -83,5 +83,6 @@
   "year": "Year",
   "winery": "Winery",
   "alcohol": "Alcohol",
-  "bottleSize": "Bottle size"
+  "bottleSize": "Bottle size",
+  "glassSize": "Glass size"
 }

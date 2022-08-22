@@ -83,5 +83,6 @@
   "year": "Jahr",
   "winery": "Weingut",
   "alcohol": "Alkoholgehalt",
-  "bottleSize": "Flaschengröße"
+  "bottleSize": "Flaschengröße",
+  "glassSize": "Glasgröße"
 }
