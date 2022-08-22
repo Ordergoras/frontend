@@ -7,7 +7,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import AdminItem from './AdminItem';
 import { theme } from '../index';
 import AddIcon from '@mui/icons-material/Add';
-import { Item, ItemEnum, ItemGroup, ItemInfo } from '../utils/types';
+import { FoodInfo, Item, ItemEnum, ItemGroup, ItemInfo, WineInfo } from '../utils/types';
 import { selectData, setLastChangedItem, updateAllItems } from '../Redux/dataSlice';
 import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRequests';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
@@ -175,7 +175,7 @@ function AdminItemsDash() {
     }
   }
 
-  const cleanWineInfo = {
+  const cleanWineInfo: WineInfo = {
     wineId: '',
     description: '',
     winery: '',
@@ -184,7 +184,7 @@ function AdminItemsDash() {
     glassSize: '',
   }
 
-  const cleanFoodInfo = {
+  const cleanFoodInfo: FoodInfo = {
     description: '',
   }
 
