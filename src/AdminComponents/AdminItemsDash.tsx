@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Alert, Box, Button, Fab, FormControl, FormControlLabel, Grid, Modal, Paper, Radio, RadioGroup, Snackbar, TextField, Typography
+  Alert, Box, Button, Checkbox, Fab, FormControl, FormControlLabel, Grid, Modal, Paper, Radio, RadioGroup, Snackbar, TextField, Typography
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -54,7 +54,7 @@ function AdminItemsDash() {
   const [itemEditMode, setItemEditMode] = React.useState(false)
   const [itemId, setItemId] = React.useState('')
   const [itemName, setItemName] = React.useState('')
-  const [itemAmount, setItemAmount] = React.useState('')
+  const [itemInStock, setItemInStock] = React.useState(true)
   const [itemGroup, setItemGroup] = React.useState<ItemGroup>(Object.values(ItemEnum)[0] as ItemGroup)
   const [itemPrice, setItemPrice] = React.useState('')
   const [itemInfo, setItemInfo] = React.useState<ItemInfo | undefined>(undefined)
@@ -66,9 +66,9 @@ function AdminItemsDash() {
       } else if(sortKey === 'name' && sortAsc) {
         dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i1.name.localeCompare(i2.name))))
       } else if(sortKey === 'amount' && !sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i1.amount - i2.amount)))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || (i1.inStock ? 1 : 0) - (i2.inStock ? 1 : 0))))
       } else if(sortKey === 'amount' && sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i2.amount - i1.amount)))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || (i2.inStock ? 1 : 0) - (i1.inStock ? 1 : 0))))
       } else if(sortKey === 'price' && !sortAsc) {
         dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i1.price - i2.price)))
       } else if(sortKey === 'price' && sortAsc) {
@@ -95,7 +95,7 @@ function AdminItemsDash() {
     setItemModalOpen(true)
     setItemId(item.itemId)
     setItemName(item.name)
-    setItemAmount(item.amount.toString())
+    setItemInStock(item.inStock)
     setItemPrice(item.price.toString())
     setItemGroup(item.group)
     setItemInfo(item.information)
@@ -106,7 +106,7 @@ function AdminItemsDash() {
     setItemEditMode(false)
     setItemId('')
     setItemName('')
-    setItemAmount('')
+    setItemInStock(true)
     setItemPrice('')
     setItemGroup(Object.values(ItemEnum)[0] as ItemGroup)
     setItemInfo(undefined)
@@ -114,9 +114,9 @@ function AdminItemsDash() {
 
   const handleItemSubmit = (edit: boolean) => {
     if(edit && itemId !== '') {
-      updateItem(itemId, itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice), itemInfo).then(() => setSnackbarOpen(true))
+      updateItem(itemId, itemName, itemInStock, itemGroup, parseFloat(itemPrice), itemInfo).then(() => setSnackbarOpen(true))
     } else if(!edit) {
-      addItem(itemName, parseInt(itemAmount), itemGroup, parseFloat(itemPrice), itemInfo).then(() => setSnackbarOpen(true))
+      addItem(itemName, itemInStock, itemGroup, parseFloat(itemPrice), itemInfo).then(() => setSnackbarOpen(true))
     }
     handleItemModalClose()
   }
@@ -127,9 +127,9 @@ function AdminItemsDash() {
     const item = dataState.lastItemUpdate ? dataState.lastItemUpdate.item : undefined
     if(item) {
       if (action === 'update') {
-        updateItem(item.itemId, item.name, item.amount, item.group, item.price, item.information).then(() => {})
+        updateItem(item.itemId, item.name, item.inStock, item.group, item.price, item.information).then(() => {})
       } else if(action === 'delete') {
-        addItem(item.name, item.amount, item.group, item.price, item.information).then(() => {})
+        addItem(item.name, item.inStock, item.group, item.price, item.information).then(() => {})
       }
     }
     dispatch(setLastChangedItem(undefined))
@@ -152,7 +152,7 @@ function AdminItemsDash() {
 
   const handleItemDelete = () => {
     dispatch(setLastChangedItem({
-      item: {itemId: itemId, name: itemName, amount: parseInt(itemAmount), group: itemGroup, price: parseFloat(itemPrice), information: itemInfo},
+      item: {itemId: itemId, name: itemName, inStock: itemInStock, group: itemGroup, price: parseFloat(itemPrice), information: itemInfo},
       action: 'delete'
     }))
     deleteItem(itemId).then(() => setSnackbarOpen(true))
@@ -345,11 +345,17 @@ function AdminItemsDash() {
             {itemEditMode ? t('editItem') : t('addItem')}
           </Typography>
           <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
-          <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('inStorage')} value={itemAmount}
-                     onChange={e => !Number.isNaN(parseInt(e.target.value)) ? setItemAmount(parseInt(e.target.value).toString()) : setItemAmount('')}
-          />
           <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('priceEuro')} value={itemPrice}
                      onChange={e => setItemPrice(e.target.value.replace(',', '.').replace(/[^\d.-]/g, ''))}
+          />
+          <FormControlLabel
+            sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}}
+            control={<Checkbox
+              color={'secondary'}
+              checked={itemInStock}
+              onChange={e => setItemInStock(e.target.checked)}
+            />}
+            label={t('inStorage')}
           />
           <FormControl sx={{marginBottom: 2}}>
             <RadioGroup row value={itemGroup} sx={{justifyContent: 'center'}} onChange={e => {
@@ -366,7 +372,7 @@ function AdminItemsDash() {
             renderInfoInput()
           }
           <Box sx={{display: 'flex', justifyContent: 'space-evenly'}}>
-            <Button disabled={!(itemName && itemAmount && itemPrice)} color={'secondary'} variant={'contained'}
+            <Button disabled={!(itemName && itemPrice)} color={'secondary'} variant={'contained'}
                     onClick={() => itemEditMode ? handleItemSubmit(true) : handleItemSubmit(false)}
             >
               {itemEditMode ? t('editItem') : t('addItem')}

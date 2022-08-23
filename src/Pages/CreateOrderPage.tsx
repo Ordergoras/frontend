@@ -164,9 +164,9 @@ function CreateOrderPage() {
               dataState.drinks.map((item) => {
                 return <ClickableItem
                   key={item.itemId}
-                  item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
+                  item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
+                  disabled={!item.inStock}
                 />
               })
             }
@@ -190,9 +190,9 @@ function CreateOrderPage() {
               dataState.food.map((item) => {
                 return <ClickableItem
                   key={item.itemId}
-                  item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
+                  item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
+                  disabled={!item.inStock}
                 />
               })
             }
@@ -216,9 +216,9 @@ function CreateOrderPage() {
               dataState.wine.map((item) => {
                 return <ClickableItem
                   key={item.itemId}
-                  item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
+                  item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
+                  disabled={!item.inStock}
                 />
               })
             }
@@ -242,9 +242,9 @@ function CreateOrderPage() {
               dataState.other.map((item) => {
                 return <ClickableItem
                   key={item.itemId}
-                  item={{...item, amount: item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])}}
+                  item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={(item.amount - (isNaN(order.orderedItems[item.itemId]) ? 0 : order.orderedItems[item.itemId])) <= 0}
+                  disabled={!item.inStock}
                 />
               })
             }

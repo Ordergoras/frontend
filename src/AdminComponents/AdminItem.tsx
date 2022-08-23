@@ -17,7 +17,7 @@ function AdminItem(props: AdminItemProps) {
       textTransform: 'none',
     },
     paper: {
-      backgroundColor: props.item.amount > 0 ? props.color : theme.palette.error.dark,
+      backgroundColor: props.item.inStock ? props.color : theme.palette.error.dark,
       width: '100%',
       padding: 1,
       display: 'flex',
@@ -36,7 +36,7 @@ function AdminItem(props: AdminItemProps) {
           </Grid>
           <Grid item xs={3}>
             <Box>
-              { props.item.amount }
+              { props.item.inStock }
             </Box>
           </Grid>
           <Grid item xs={3}>

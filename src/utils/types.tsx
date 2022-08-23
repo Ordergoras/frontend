@@ -13,7 +13,7 @@ export type Order = {
 export type Item = {
   itemId: string,
   name: string,
-  amount: number,
+  inStock: boolean,
   price: number,
   group: ItemGroup,
   information: ItemInfo | undefined,

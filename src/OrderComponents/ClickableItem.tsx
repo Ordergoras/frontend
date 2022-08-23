@@ -52,7 +52,7 @@ function ClickableItem(props: ItemCardProps) {
           </Typography>
           <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1, marginTop: -1}}/>
           <Typography variant={'subtitle2'}>
-            {t('inStorage')}: {props.item.amount}
+            {t('inStorage')}: {props.item.inStock}
           </Typography>
         </Box>
       </Box>

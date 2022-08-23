@@ -24,7 +24,7 @@
   "bSuccessLogout": "Successfully logged out user.",
   "bSuccessOrderInsert": "Successfully created order.",
   "bSuccessOrderUpdate": "Successfully updated order.",
-  "bSuccessItemInsert": "Inserted {{name}} with {{amount}} units.",
+  "bSuccessItemInsert": "Inserted {{name}}.",
   "bSuccessItemUpdate": "Updated {{name}}.",
   "bSuccessItemDelete": "Deleted {{name}}.",
   "bDataNotFound": "{{dataType}} not found.",
