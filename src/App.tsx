@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
 import LicensePage from './Pages/LicensePage';
 import AuthenticationScreen from './Pages/AuthenticationScreen';
@@ -18,6 +18,7 @@ function App() {
 
   const dataState = useAppSelector(selectData)
   const authState = useAppSelector(selectAuth)
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     if(!authState.isAuthenticated) {
@@ -28,6 +29,12 @@ function App() {
       setInterval(() => getAllItems(), 300000)
     }
   }, [authState.isAuthenticated, dataState.itemsFetched])
+
+  React.useEffect(() => {
+    if(!authState.isAuthenticated) {
+      navigate('/login', { replace: true })
+    }
+  }, [authState.isAuthenticated, navigate])
 
   return (
     <Routes>
