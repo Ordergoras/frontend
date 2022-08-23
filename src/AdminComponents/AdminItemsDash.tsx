@@ -80,6 +80,18 @@ function AdminItemsDash() {
     setSorting(false)
   }, [dataState.allItems, dispatch, sortAsc, sortKey, sorting])
 
+  React.useEffect(() => {
+    if(itemGroup === 'Wine' && itemInfo) {
+      // @ts-ignore
+      if(itemInfo.bottlePrice || itemInfo.pointOnePrice || itemInfo.pointTwoPrice || itemInfo.pointFourPrice) {
+        // @ts-ignore
+        setItemPrice(itemInfo.bottlePrice ? itemInfo.bottlePrice : itemInfo.pointOnePrice ? itemInfo.pointOnePrice : itemInfo.pointTwoPrice ? itemInfo.pointTwoPrice : itemInfo.pointFourPrice)
+      } else {
+        setItemPrice('')
+      }
+    }
+  }, [itemGroup, itemInfo])
+
   const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return
@@ -159,7 +171,7 @@ function AdminItemsDash() {
     handleItemModalClose()
   }
 
-  const updateItemInfo = (property: string, newVal: string) => {
+  const updateItemInfo = (property: string, newVal: string | number) => {
     if(itemInfo) {
       const newObj = {...itemInfo, [property]: newVal}
       setItemInfo(newObj)
@@ -174,13 +186,20 @@ function AdminItemsDash() {
     }
   }
 
+  const validatePrice = (price: string) => {
+    return price.replace(',', '.').replace(/[^\d.-]/g, '')
+  }
+
   const cleanWineInfo: WineInfo = {
     wineId: '',
-    description: '',
+    fullName: '',
     winery: '',
     year: '',
     bottleSize: '',
-    glassSize: '',
+    bottlePrice: undefined,
+    pointOnePrice: undefined,
+    pointTwoPrice: undefined,
+    pointFourPrice: undefined,
   }
 
   const cleanFoodInfo: FoodInfo = {
@@ -200,6 +219,7 @@ function AdminItemsDash() {
             <TextField
               sx={styles.infoTextField}
               label={t('description')}
+              // @ts-ignore
               value={itemInfo ? itemInfo.description : ''}
               onChange={e => updateItemInfo('description', e.target.value)}
             />
@@ -220,9 +240,10 @@ function AdminItemsDash() {
             <Grid item xs={9}>
               <TextField
                 sx={styles.infoTextField}
-                label={t('description')}
-                value={itemInfo ? itemInfo.description : ''}
-                onChange={e => updateItemInfo('description', e.target.value)}
+                label={t('fullName')}
+                // @ts-ignore
+                value={itemInfo ? itemInfo.fullName : ''}
+                onChange={e => updateItemInfo('fullName', e.target.value)}
               />
             </Grid>
             <Grid item xs={2}>
@@ -246,19 +267,54 @@ function AdminItemsDash() {
             <Grid item xs={2}>
               <TextField
                 sx={styles.infoTextField}
-                label={t('glassSize')}
-                // @ts-ignore
-                value={itemInfo ? itemInfo.glassSize : ''}
-                onChange={e => updateItemInfo('glassSize', e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={9}>
-              <TextField
-                sx={styles.infoTextField}
                 label={t('bottleSize')}
                 // @ts-ignore
                 value={itemInfo ? itemInfo.bottleSize : ''}
                 onChange={e => updateItemInfo('bottleSize', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('bottlePrice')}
+                // @ts-ignore
+                value={itemInfo && itemInfo.bottlePrice ? itemInfo.bottlePrice.toString() : ''}
+                onChange={e => {
+                  updateItemInfo('bottlePrice', validatePrice(e.target.value))
+                }}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('pointOnePrice')}
+                // @ts-ignore
+                value={itemInfo && itemInfo.pointOnePrice ? itemInfo.pointOnePrice.toString() : ''}
+                onChange={e => {
+                  updateItemInfo('pointOnePrice', validatePrice(e.target.value))
+                }}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('pointTwoPrice')}
+                // @ts-ignore
+                value={itemInfo && itemInfo.pointTwoPrice ? itemInfo.pointTwoPrice.toString() : ''}
+                onChange={e => {
+                  updateItemInfo('pointTwoPrice', validatePrice(e.target.value))
+                }}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                sx={styles.infoTextField}
+                label={t('pointFourPrice')}
+                // @ts-ignore
+                value={itemInfo && itemInfo.pointFourPrice ? itemInfo.pointFourPrice.toString() : ''}
+                onChange={e => {
+                  updateItemInfo('pointFourPrice', validatePrice(e.target.value))
+                }}
               />
             </Grid>
           </Grid>
@@ -345,9 +401,12 @@ function AdminItemsDash() {
             {itemEditMode ? t('editItem') : t('addItem')}
           </Typography>
           <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('name')} value={itemName} onChange={e => setItemName(e.target.value)}/>
-          <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('priceEuro')} value={itemPrice}
-                     onChange={e => setItemPrice(e.target.value.replace(',', '.').replace(/[^\d.-]/g, ''))}
-          />
+          {
+            itemGroup !== 'Wine' &&
+            <TextField sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}} label={t('priceEuro')} value={itemPrice}
+                      onChange={e => setItemPrice(e.target.value.replace(',', '.').replace(/[^\d.-]/g, ''))}
+            />
+          }
           <FormControlLabel
             sx={{marginBottom: 2, width: '95%', alignSelf: 'center'}}
             control={<Checkbox

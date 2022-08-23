@@ -27,11 +27,14 @@ export type FoodInfo = {
 
 export type WineInfo = {
   wineId: string,
-  description: string,
+  fullName: string,
   winery: string,
   year: string,
   bottleSize: string,
-  glassSize: string,
+  bottlePrice: number | undefined,
+  pointOnePrice: number | undefined,
+  pointTwoPrice: number | undefined,
+  pointFourPrice: number | undefined,
 }
 
 export type Staff = {
