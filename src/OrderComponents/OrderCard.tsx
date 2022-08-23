@@ -26,7 +26,7 @@ function OrderCard(props: OrderCardProps) {
     },
     divider: {
       border: 1,
-      borderColor: theme.palette.getContrastText(theme.palette.background.default),
+      borderColor: theme.palette.divider,
     },
     flexWrapBox: {
       display: 'flex',
