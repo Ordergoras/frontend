@@ -297,7 +297,7 @@ function AdminItemsDash() {
                 sortKey === 'amount' && !sortAsc && <ArrowDropUpIcon/>
               }
               <Typography onClick={() => sortTable('amount')}>
-                {t('inStorage')}
+                {t('status')}
               </Typography>
             </Box>
           </Grid>

@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 interface ItemCardProps {
   item: Item,
   onClick: () => void,
-  disabled: boolean,
 }
 
 function ClickableItem(props: ItemCardProps) {
@@ -30,17 +29,14 @@ function ClickableItem(props: ItemCardProps) {
     },
     divider: {
       border: 1,
-      borderColor: theme.palette.getContrastText(ItemEnum[props.item.group] === 0 ? theme.palette.primary.main :
-        ItemEnum[props.item.group] === 1 ? theme.palette.primary.dark :
-          ItemEnum[props.item.group] === 2 ? theme.palette.tertiary.dark :
-            theme.palette.primary.main),
+      borderColor: theme.palette.divider,
     },
   }
 
   const { t } = useTranslation()
 
   return (
-    <Button sx={styles.button} variant={'contained'} disabled={props.disabled} onClick={() => props.onClick()} children={
+    <Button sx={styles.button} variant={'contained'} disabled={!props.item.inStock} onClick={() => props.onClick()} children={
       <Box>
         <Typography variant={'h6'}>
           {props.item.name}
@@ -52,7 +48,7 @@ function ClickableItem(props: ItemCardProps) {
           </Typography>
           <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1, marginTop: -1}}/>
           <Typography variant={'subtitle2'}>
-            {t('inStorage')}: {props.item.inStock}
+            {props.item.inStock ? t('inStorage') : t('outOfStock')}
           </Typography>
         </Box>
       </Box>

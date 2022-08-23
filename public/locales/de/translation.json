@@ -42,6 +42,8 @@
   "itemsPage": "Produkte",
   "loginPage": "Einloggen",
   "inStorage": "Auf Lager",
+  "outOfStock": "Ausverkauft",
+  "status": "Status",
   "price": "Preis",
   "priceEuro": "Preis in Euro",
   "drinks": "Getränke",

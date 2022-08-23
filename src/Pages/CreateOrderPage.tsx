@@ -166,7 +166,6 @@ function CreateOrderPage() {
                   key={item.itemId}
                   item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={!item.inStock}
                 />
               })
             }
@@ -192,7 +191,6 @@ function CreateOrderPage() {
                   key={item.itemId}
                   item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={!item.inStock}
                 />
               })
             }
@@ -218,7 +216,6 @@ function CreateOrderPage() {
                   key={item.itemId}
                   item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={!item.inStock}
                 />
               })
             }
@@ -244,7 +241,6 @@ function CreateOrderPage() {
                   key={item.itemId}
                   item={item}
                   onClick={() => addItemToOrder(item)}
-                  disabled={!item.inStock}
                 />
               })
             }

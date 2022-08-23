@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Grid, Paper } from '@mui/material';
 import { Item } from '../utils/types';
 import { theme } from '../index';
+import {useTranslation} from "react-i18next";
 
 interface AdminItemProps {
   item: Item,
@@ -25,6 +26,8 @@ function AdminItem(props: AdminItemProps) {
     },
   }
 
+  const { t } = useTranslation()
+
   return (
     <Button sx={styles.button} onClick={() => props.onClick(props.item)}>
       <Paper sx={styles.paper}>
@@ -36,7 +39,7 @@ function AdminItem(props: AdminItemProps) {
           </Grid>
           <Grid item xs={3}>
             <Box>
-              { props.item.inStock }
+              {props.item.inStock ? t('inStorage') : t('outOfStock')}
             </Box>
           </Grid>
           <Grid item xs={3}>

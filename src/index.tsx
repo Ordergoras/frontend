@@ -35,6 +35,7 @@ export const theme = createTheme({
         main: '#814dbd'
       }
     }),
+    divider: 'rgba(255, 255, 255, 0.5)',
   },
 });
 
