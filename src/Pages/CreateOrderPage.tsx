@@ -10,7 +10,7 @@ import {Order, Item, ItemEnum} from '../utils/types';
 import { selectAuth } from '../Redux/authSlice';
 import ClickableItem from '../OrderComponents/ClickableItem';
 import { postOrder } from '../utils/ordersRequests';
-import {getAllItems} from "../utils/storageRequests";
+import { getAllItems } from '../utils/storageRequests';
 
 function CreateOrderPage() {
 
@@ -24,6 +24,7 @@ function CreateOrderPage() {
     },
     divider: {
       border: 1,
+      borderColor: theme.palette.divider,
     },
   }
 
@@ -71,14 +72,15 @@ function CreateOrderPage() {
     setOrder(newOrder)
   }
 
-  const removeItemFromOrder = (item: Item) => {
+  const removeItemFromOrder = (item: Item, deleteAll: boolean = false) => {
     let newOrder = JSON.parse(JSON.stringify(order))
-    if(newOrder.orderedItems[item.itemId] === 1) {
+    const amount = newOrder.orderedItems[item.itemId]
+    if(amount === 1 || deleteAll) {
       delete newOrder.orderedItems[item.itemId]
     } else {
       newOrder.orderedItems[item.itemId] -= 1
     }
-    newOrder.price -= item.price
+    newOrder.price -= (item.price * (deleteAll ? amount : 1))
     setOrder(newOrder)
   }
 
@@ -114,6 +116,10 @@ function CreateOrderPage() {
               onClick={() => {
                 if(dataState.itemIdMap)
                   removeItemFromOrder(dataState.itemIdMap[itemId])
+              }}
+              onDelete={() => {
+                if(dataState.itemIdMap)
+                  removeItemFromOrder(dataState.itemIdMap[itemId], true)
               }}
             />
         })}
