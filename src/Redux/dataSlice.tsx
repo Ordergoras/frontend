@@ -36,31 +36,35 @@ export const dataSlice = createSlice({
   reducers: {
     setItemData: (state, action: PayloadAction<{[key: string] : Item}>) => {
       state.itemsFetched = true
-      state.drinks = undefined
-      state.food = undefined
-      state.wine = undefined
-      state.other = undefined
-      state.allItems = Object.values(action.payload).sort((a, b) => ItemEnum[a.group] - ItemEnum[b.group])
+      state.drinks = []
+      state.food = []
+      state.wine = []
+      state.other = []
+      state.allItems = Object.values(action.payload).sort((a, b) => ItemEnum[a.group] - ItemEnum[b.group] || a.name.localeCompare(b.name))
       state.itemIdMap = action.payload
       Object.values(action.payload).forEach((item: Item) => {
         switch (item.group) {
           case Object.values(ItemEnum)[0]:
-            state.drinks ? state.drinks.push(item) : state.drinks = new Array(item)
+            state.drinks && state.drinks.push(item)
             break
 
           case Object.values(ItemEnum)[1]:
-            state.food ? state.food.push(item) : state.food = new Array(item)
+            state.food && state.food.push(item)
             break
 
           case Object.values(ItemEnum)[2]:
-            state.wine ? state.wine.push(item) : state.wine = new Array(item)
+            state.wine && state.wine.push(item)
             break
 
           case Object.values(ItemEnum)[3]:
-            state.other ? state.other.push(item) : state.other = new Array(item)
+            state.other && state.other.push(item)
             break
         }
       })
+      state.drinks = state.drinks.sort((a, b) => a.name.localeCompare(b.name))
+      state.food = state.food.sort((a, b) => a.name.localeCompare(b.name))
+      state.wine = state.wine.sort((a, b) => a.name.localeCompare(b.name))
+      state.other = state.other.sort((a, b) => a.name.localeCompare(b.name))
     },
     setOrders: (state, action: PayloadAction<Order[]>) => {
       state.orders = action.payload

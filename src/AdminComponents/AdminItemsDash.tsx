@@ -61,19 +61,18 @@ function AdminItemsDash() {
 
   React.useEffect(() => {
     if(sorting && dataState.allItems) {
-      console.log('sort', sortKey)
       if(sortKey === 'name' && !sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i2.name.localeCompare(i1.name))))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i2.name.localeCompare(i1.name))))
       } else if(sortKey === 'name' && sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i1.name.localeCompare(i2.name))))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i1.name.localeCompare(i2.name))))
       } else if(sortKey === 'amount' && !sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i1.amount - i2.amount)))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i1.amount - i2.amount)))
       } else if(sortKey === 'amount' && sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i2.amount - i1.amount)))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i2.amount - i1.amount)))
       } else if(sortKey === 'price' && !sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i1.price - i2.price)))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i1.price - i2.price)))
       } else if(sortKey === 'price' && sortAsc) {
-        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => i2.price - i1.price)))
+        dispatch(updateAllItems([...dataState.allItems].sort((i1, i2) => ItemEnum[i1.group] - ItemEnum[i2.group] || i2.price - i1.price)))
       } else {
         getAllItems()
       }
