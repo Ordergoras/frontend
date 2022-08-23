@@ -1,12 +1,25 @@
 import { createRequest } from './fetchUtils';
 import i18next from 'i18next';
-import { setOrders, setSnackbarMessage } from '../Redux/dataSlice';
+import { setLastAddedOrder, setOrders, setSnackbarMessage } from '../Redux/dataSlice';
 import store from '../Redux/store';
 
 export const postOrder = (tableNr: number, orderedItems: Object) => {
-  createRequest('POST', 'orders/postOrder', {tableNr: tableNr, orderedItems: orderedItems})
+  const dispatch = store.dispatch
+  return createRequest('POST', 'orders/postOrder', {tableNr: tableNr, orderedItems: orderedItems})
     .then(res => {
-      if(res) res.json().then(data => alert(i18next.t(data.message)))
+      if(res) {
+        res.json().then(data => {
+          if (res.ok) {
+            dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: false}))
+            dispatch(setLastAddedOrder(data.orderId))
+          }
+          else
+            dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: true}))
+        })
+        return res.ok
+      }
+      else
+        return false
     })
     .catch((e) => console.log(e))
 }
@@ -19,6 +32,24 @@ export const getOrder = (orderId: string) => {
           console.log(data)
         else
           alert(i18next.t(data.message, {dataType: i18next.t('order')}))
+      })
+    })
+    .catch((e) => console.log(e))
+}
+
+export const deleteOrder = (orderId: string) => {
+  const dispatch = store.dispatch
+  return createRequest('POST', 'orders/deleteOrder', {orderId: orderId})
+    .then(res => {
+      if(res) return res.json().then(data => {
+        if(res.ok) {
+          dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: false}))
+          return data
+        }
+        else {
+          dispatch(setSnackbarMessage({messageCode: data.message, args: undefined, error: true}))
+          return undefined
+        }
       })
     })
     .catch((e) => console.log(e))

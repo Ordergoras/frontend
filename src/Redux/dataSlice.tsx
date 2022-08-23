@@ -14,6 +14,7 @@ interface DataState {
   snackbarMessage: {messageCode: string, args: {[key: string]: string | number} | undefined, error: boolean} | undefined,
   lastOrderUpdate: {order: Order, itemId: string, increaseCompleted: boolean, amount: number} | undefined,
   lastItemUpdate: {item: Item, action: 'update' | 'delete'} | undefined,
+  lastOrderAdded: string | undefined,
 }
 
 const initialState: DataState = {
@@ -28,6 +29,7 @@ const initialState: DataState = {
   snackbarMessage: undefined,
   lastOrderUpdate: undefined,
   lastItemUpdate: undefined,
+  lastOrderAdded: undefined,
 }
 
 export const dataSlice = createSlice({
@@ -91,10 +93,13 @@ export const dataSlice = createSlice({
     setLastChangedItem: (state, action: PayloadAction<{item: Item, action: 'update' | 'delete'} | undefined>) => {
       state.lastItemUpdate = action.payload
     },
+    setLastAddedOrder: (state, action: PayloadAction<string | undefined>) => {
+      state.lastOrderAdded = action.payload
+    }
   },
 })
 
-export const { setItemData, setOrders, updateCompletedItem, setSnackbarMessage, undoOrderUpdate, updateAllItems, setLastChangedItem } = dataSlice.actions
+export const { setItemData, setOrders, updateCompletedItem, setSnackbarMessage, undoOrderUpdate, updateAllItems, setLastChangedItem, setLastAddedOrder } = dataSlice.actions
 
 export const selectData = (state: RootState) => state.data
 
