@@ -20,11 +20,12 @@ import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { selectData, setLastAddedOrder } from '../Redux/dataSlice';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {Order, Item, ItemEnum} from '../utils/types';
+import {Order, Item, ItemEnum, WineSizesEnum, WineSizes} from '../utils/types';
 import { selectAuth } from '../Redux/authSlice';
 import ClickableItem from '../OrderComponents/ClickableItem';
 import { deleteOrder, postOrder } from '../utils/ordersRequests';
 import { getAllItems } from '../utils/storageRequests';
+import { getChipLabel, isWineInfo } from '../utils/helperFunctions';
 
 function CreateOrderPage() {
 
@@ -77,27 +78,75 @@ function CreateOrderPage() {
     setOrder(newOrder)
   }
 
+  // TODO add modal to select wine size
   const addItemToOrder = (item: Item) => {
     let newOrder = JSON.parse(JSON.stringify(order))
     if(newOrder.orderedItems[item.itemId] === undefined) {
-      newOrder.orderedItems[item.itemId] = 1
+      if(item.group !== 'Wine') {
+        newOrder.orderedItems[item.itemId] = {[item.itemId]: 1}
+        newOrder.price += item.price
+      }
+      else if(item.information && isWineInfo(item.information)) {
+        newOrder.orderedItems[item.itemId] = {[WineSizesEnum.pointTwo]: 1}
+        newOrder.price += parseFloat(item.information.pointTwoPrice)
+      }
     } else {
-      newOrder.orderedItems[item.itemId] += 1
+      if(item.group !== 'Wine') {
+        newOrder.orderedItems[item.itemId][item.itemId] += 1
+        newOrder.price += item.price
+      }
+      else if(item.information && isWineInfo(item.information)) {
+        newOrder.orderedItems[item.itemId][WineSizesEnum.pointTwo] += 1
+        newOrder.price += parseFloat(item.information.pointTwoPrice)
+      }
     }
-    newOrder.price += item.price
     setOrder(newOrder)
   }
 
-  const removeItemFromOrder = (item: Item, deleteAll: boolean = false) => {
+  const removeItemFromOrder = (item: Item, secondaryId: WineSizes | undefined = undefined, deleteAll: boolean = false) => {
     let newOrder = JSON.parse(JSON.stringify(order))
-    const amount = newOrder.orderedItems[item.itemId]
-    if(amount === 1 || deleteAll) {
-      delete newOrder.orderedItems[item.itemId]
+    if(secondaryId === undefined) {
+      const amount = newOrder.orderedItems[item.itemId][item.itemId]
+      if (amount === 1 || deleteAll) {
+        delete newOrder.orderedItems[item.itemId][item.itemId]
+        delete newOrder.orderedItems[item.itemId]
+      } else {
+        newOrder.orderedItems[item.itemId][item.itemId] -= 1
+      }
+      newOrder.price -= (item.price * (deleteAll ? parseInt(amount) : 1))
+      setOrder(newOrder)
     } else {
-      newOrder.orderedItems[item.itemId] -= 1
+      const amount = newOrder.orderedItems[item.itemId][secondaryId]
+      if (amount === 1 || deleteAll) {
+        delete newOrder.orderedItems[item.itemId][secondaryId]
+        if(Object.keys(newOrder.orderedItems[item.itemId]).length === 0) {
+          delete newOrder.orderedItems[item.itemId]
+        }
+      } else {
+        newOrder.orderedItems[item.itemId][secondaryId] -= 1
+      }
+      if(item.information && isWineInfo(item.information)) {
+        switch (secondaryId) {
+          case WineSizesEnum.pointOne:
+            // @ts-ignore
+            newOrder.price -= (item.information.pointOnePrice * (deleteAll ? amount : 1))
+            break;
+          case WineSizesEnum.pointTwo:
+            // @ts-ignore
+            newOrder.price -= (item.information.pointTwoPrice * (deleteAll ? amount : 1))
+            break;
+          case WineSizesEnum.pointFour:
+            // @ts-ignore
+            newOrder.price -= (item.information.pointFourPrice * (deleteAll ? amount : 1))
+            break;
+          case WineSizesEnum.bottle:
+            // @ts-ignore
+            newOrder.price -= (item.information.bottlePrice * (deleteAll ? amount : 1))
+            break;
+        }
+      }
+      setOrder(newOrder)
     }
-    newOrder.price -= (item.price * (deleteAll ? amount : 1))
-    setOrder(newOrder)
   }
 
   const submitOrder = () => {
@@ -132,34 +181,46 @@ function CreateOrderPage() {
     <Box>
       <Box sx={{textAlign: 'center', margin: 1}}>
         <Paper sx={{padding: 1, marginBottom: 2}}>
-          {Object.keys(order.orderedItems).map((itemId) => {
-            return dataState.itemIdMap &&
+          {Object.keys(order.orderedItems).map((outerKey) => {
+            return Object.keys(order.orderedItems[outerKey]).map((itemId) => {
+              return dataState.itemIdMap &&
                 <Chip
-                    key={itemId}
-                    sx={{
-                      ...styles.chip,
-                      backgroundColor: ItemEnum[dataState.itemIdMap[itemId]['group']] === 0 ? theme.palette.primary.light :
-                        ItemEnum[dataState.itemIdMap[itemId]['group']] === 1 ? theme.palette.primary.main :
-                          ItemEnum[dataState.itemIdMap[itemId]['group']] === 2 ? theme.palette.tertiary.main :
-                            theme.palette.primary.dark,
-                      ':hover': {
-                        backgroundColor: ItemEnum[dataState.itemIdMap[itemId]['group']] === 0 ? theme.palette.primary.main :
-                          ItemEnum[dataState.itemIdMap[itemId]['group']] === 1 ? theme.palette.primary.dark :
-                            ItemEnum[dataState.itemIdMap[itemId]['group']] === 2 ? theme.palette.tertiary.dark :
-                              theme.palette.primary.main
+                  key={outerKey + itemId}
+                  sx={{
+                    ...styles.chip,
+                    backgroundColor: ItemEnum[dataState.itemIdMap[outerKey]['group']] === 0 ? theme.palette.primary.light :
+                      ItemEnum[dataState.itemIdMap[outerKey]['group']] === 1 ? theme.palette.primary.main :
+                        ItemEnum[dataState.itemIdMap[outerKey]['group']] === 2 ? theme.palette.tertiary.main :
+                          theme.palette.primary.dark,
+                    ':hover': {
+                      backgroundColor: ItemEnum[dataState.itemIdMap[outerKey]['group']] === 0 ? theme.palette.primary.main :
+                        ItemEnum[dataState.itemIdMap[outerKey]['group']] === 1 ? theme.palette.primary.dark :
+                          ItemEnum[dataState.itemIdMap[outerKey]['group']] === 2 ? theme.palette.tertiary.dark :
+                            theme.palette.primary.main
+                    }
+                  }}
+                  label={getChipLabel(outerKey, itemId, order.orderedItems[outerKey][itemId])}
+                  onClick={() => {
+                    if(dataState.itemIdMap) {
+                      if(dataState.itemIdMap[outerKey].group === 'Wine') {
+                        removeItemFromOrder(dataState.itemIdMap[outerKey], WineSizesEnum.pointTwo)
+                      } else {
+                        removeItemFromOrder(dataState.itemIdMap[outerKey])
                       }
-                    }}
-                    label={dataState.itemIdMap[itemId]['name'] + ': ' + order.orderedItems[itemId]}
-                    onClick={() => {
-                      if(dataState.itemIdMap)
-                        removeItemFromOrder(dataState.itemIdMap[itemId])
-                    }}
-                    onDelete={() => {
-                      if(dataState.itemIdMap)
-                        removeItemFromOrder(dataState.itemIdMap[itemId], true)
-                    }}
+                    }
+                  }}
+                  onDelete={() => {
+                    if(dataState.itemIdMap) {
+                      if(dataState.itemIdMap[outerKey].group === 'Wine') {
+                        removeItemFromOrder(dataState.itemIdMap[outerKey], WineSizesEnum.pointTwo, true)
+                      } else {
+                        removeItemFromOrder(dataState.itemIdMap[outerKey], undefined, true)
+                      }
+                    }
+                  }}
                 />
-          })}
+            })}
+          )}
           {
             Object.keys(order.orderedItems).length === 0 &&
               <Typography variant={'h6'} sx={{padding: 1}}>{t('emptyOrder')}</Typography>

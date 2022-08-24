@@ -3,10 +3,11 @@ import { theme } from '../index';
 import { useTranslation } from 'react-i18next';
 import { Box, Paper, Typography, Chip } from '@mui/material';
 import { Order } from '../utils/types';
-import { useAppDispatch, useAppSelector } from '../Redux/hooks';
-import { selectData, updateCompletedItem } from '../Redux/dataSlice';
+import { useAppDispatch } from '../Redux/hooks';
+import { updateCompletedItem } from '../Redux/dataSlice';
 import { updateCompletedItemRequest } from '../utils/ordersRequests';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { getChipLabel } from '../utils/helperFunctions';
 
 interface OrderCardProps {
   order: Order,
@@ -40,26 +41,27 @@ function OrderCard(props: OrderCardProps) {
     },
   }
 
-  const dataState = useAppSelector(selectData)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [fetching, setFetching] = React.useState(false)
 
-  const updateCompleted = (itemId: string, increaseCompleted: boolean, amount: number) => {
+  const updateCompleted = (outerKey: string, itemId: string, increaseCompleted: boolean, amount: number) => {
     setFetching(true)
-    updateCompletedItemRequest(props.order.orderId, itemId, increaseCompleted, amount)
+    updateCompletedItemRequest(props.order.orderId, outerKey, itemId, increaseCompleted, amount)
       .then(res => {
         if(res) {
           let newOrder = JSON.parse(JSON.stringify(props.order))
-          newOrder.completedItems[itemId] = increaseCompleted ? newOrder.completedItems[itemId] + amount : newOrder.completedItems[itemId] - amount
+          newOrder.completedItems[outerKey][itemId] = increaseCompleted ? newOrder.completedItems[outerKey][itemId] + amount : newOrder.completedItems[outerKey][itemId] - amount
           let isCompleted = true
-          Object.keys(newOrder.orderedItems).forEach((itemId) => {
-            if(newOrder.orderedItems[itemId] !== newOrder.completedItems[itemId]) {
-              isCompleted = false
-            }
+          Object.keys(newOrder.orderedItems).forEach((outerK) => {
+            Object.keys(newOrder.orderedItems[outerK]).forEach((itemIdx) => {
+              if(newOrder.orderedItems[outerK][itemIdx] !== newOrder.completedItems[outerK][itemIdx]) {
+                isCompleted = false
+              }
+            })
           })
           newOrder.completed = isCompleted
-          dispatch(updateCompletedItem({order: props.order, itemId: itemId, increaseCompleted: increaseCompleted, newOrder: newOrder, amount: amount}))
+          dispatch(updateCompletedItem({order: props.order, outerKey: outerKey, itemId: itemId, increaseCompleted: increaseCompleted, newOrder: newOrder, amount: amount}))
         }
         props.setOpen(true)
         setFetching(false)
@@ -85,17 +87,19 @@ function OrderCard(props: OrderCardProps) {
             <Typography variant={'subtitle2'} sx={{marginTop: 'auto', marginBottom: 'auto'}}>
               {t('open')}:
             </Typography>
-            {Object.keys(props.order.orderedItems).map((itemId) => {
-              return dataState.itemIdMap && (props.order.orderedItems[itemId] - props.order.completedItems[itemId]) > 0 &&
-                <Chip
-                  key={itemId}
-                  sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark, ':hover': {backgroundColor: theme.palette.secondary.light}}}
-                  label={dataState.itemIdMap[itemId]['name'] + ': ' + (props.order.orderedItems[itemId] - props.order.completedItems[itemId])}
-                  onClick={() => updateCompleted(itemId, true, 1)}
-                  disabled={fetching}
-                  onDelete={() => updateCompleted(itemId, true, (props.order.orderedItems[itemId] - props.order.completedItems[itemId]))}
-                  deleteIcon={<CheckCircleIcon/>}
-                />
+            {Object.keys(props.order.orderedItems).map((outerKey) => {
+              return Object.keys(props.order.orderedItems[outerKey]).map((itemId) => {
+                return (props.order.orderedItems[outerKey][itemId] - props.order.completedItems[outerKey][itemId]) > 0 &&
+                  <Chip
+                    key={outerKey + itemId}
+                    sx={{...styles.chip, backgroundColor: theme.palette.secondary.dark, ':hover': {backgroundColor: theme.palette.secondary.light}}}
+                    label={getChipLabel(outerKey, itemId, (props.order.orderedItems[outerKey][itemId] - props.order.completedItems[outerKey][itemId]))}
+                    onClick={() => updateCompleted(outerKey, itemId, true, 1)}
+                    disabled={fetching}
+                    onDelete={() => updateCompleted(outerKey, itemId, true, (props.order.orderedItems[outerKey][itemId] - props.order.completedItems[outerKey][itemId]))}
+                    deleteIcon={<CheckCircleIcon/>}
+                  />
+              })
             })}
           </Box>
           <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1}}/>
@@ -108,16 +112,18 @@ function OrderCard(props: OrderCardProps) {
             {t('completed')}:
           </Typography>
         }
-        {Object.keys(props.order.completedItems).map((itemId) => {
-          return dataState.itemIdMap && props.order.completedItems[itemId] > 0 &&
-            <Chip
-              key={itemId}
-              sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ':hover': {backgroundColor: theme.palette.success.light}}}
-              label={dataState.itemIdMap[itemId]['name'] + ': ' + props.order.completedItems[itemId]}
-              onClick={() => updateCompleted(itemId, false, 1)}
-              disabled={fetching}
-              onDelete={() => updateCompleted(itemId, false, props.order.completedItems[itemId])}
-            />
+        {Object.keys(props.order.orderedItems).map((outerKey) => {
+          return Object.keys(props.order.orderedItems[outerKey]).map((itemId) => {
+            return props.order.completedItems[outerKey][itemId] > 0 &&
+              <Chip
+                key={outerKey + itemId}
+                sx={{...styles.chip, backgroundColor: theme.palette.success.dark, ':hover': {backgroundColor: theme.palette.success.light}}}
+                label={getChipLabel(outerKey, itemId, props.order.completedItems[outerKey][itemId])}
+                onClick={() => updateCompleted(outerKey, itemId, false, 1)}
+                disabled={fetching}
+                onDelete={() => updateCompleted(outerKey, itemId, false, props.order.completedItems[outerKey][itemId])}
+              />
+          })
         })}
       </Box>
     </Paper>

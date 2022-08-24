@@ -13,6 +13,7 @@ import { addItem, deleteItem, getAllItems, updateItem } from '../utils/storageRe
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { useTranslation } from 'react-i18next';
 import { generalStyles } from '../styles/generalStyles';
+import { isFoodInfo, isWineInfo } from '../utils/helperFunctions';
 
 function AdminItemsDash() {
 
@@ -80,12 +81,14 @@ function AdminItemsDash() {
     setSorting(false)
   }, [dataState.allItems, dispatch, sortAsc, sortKey, sorting])
 
+  // sets the price to the lowest price entered (item.price is not used for wine but is necessary for database)
   React.useEffect(() => {
-    if(itemGroup === 'Wine' && itemInfo) {
-      // @ts-ignore
+    if(itemGroup === 'Wine' && itemInfo && isWineInfo(itemInfo)) {
       if(itemInfo.bottlePrice || itemInfo.pointOnePrice || itemInfo.pointTwoPrice || itemInfo.pointFourPrice) {
-        // @ts-ignore
-        setItemPrice(itemInfo.bottlePrice ? itemInfo.bottlePrice : itemInfo.pointOnePrice ? itemInfo.pointOnePrice : itemInfo.pointTwoPrice ? itemInfo.pointTwoPrice : itemInfo.pointFourPrice)
+        setItemPrice(itemInfo.pointOnePrice ? itemInfo.pointOnePrice.toString() :
+            itemInfo.pointTwoPrice ? itemInfo.pointTwoPrice.toString() :
+              itemInfo.pointFourPrice ? itemInfo.pointFourPrice.toString() :
+                itemInfo.bottlePrice ? itemInfo.bottlePrice.toString() : '')
       } else {
         setItemPrice('')
       }
@@ -196,10 +199,10 @@ function AdminItemsDash() {
     winery: '',
     year: '',
     bottleSize: '',
-    bottlePrice: undefined,
-    pointOnePrice: undefined,
-    pointTwoPrice: undefined,
-    pointFourPrice: undefined,
+    bottlePrice: '',
+    pointOnePrice: '',
+    pointTwoPrice: '',
+    pointFourPrice: '',
   }
 
   const cleanFoodInfo: FoodInfo = {
@@ -219,20 +222,19 @@ function AdminItemsDash() {
             <TextField
               sx={styles.infoTextField}
               label={t('description')}
-              // @ts-ignore
-              value={itemInfo ? itemInfo.description : ''}
+              value={itemInfo && isFoodInfo(itemInfo) ? itemInfo.description : ''}
               onChange={e => updateItemInfo('description', e.target.value)}
             />
           </>
         )
       case Object.values(ItemEnum)[2]:
         return (
+          ((itemInfo && isWineInfo(itemInfo)) || itemInfo === undefined) &&
           <Grid container sx={{justifyContent: 'space-evenly'}}>
             <Grid item xs={2}>
               <TextField
                 sx={styles.infoTextField}
                 label={t('wineId')}
-                // @ts-ignore
                 value={itemInfo ? itemInfo.wineId : ''}
                 onChange={e => updateItemInfo('wineId', e.target.value)}
               />
@@ -241,7 +243,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('fullName')}
-                // @ts-ignore
                 value={itemInfo ? itemInfo.fullName : ''}
                 onChange={e => updateItemInfo('fullName', e.target.value)}
               />
@@ -250,7 +251,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('year')}
-                // @ts-ignore
                 value={itemInfo ? itemInfo.year : ''}
                 onChange={e => updateItemInfo('year', e.target.value)}
               />
@@ -259,7 +259,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('winery')}
-                // @ts-ignore
                 value={itemInfo ? itemInfo.winery : ''}
                 onChange={e => updateItemInfo('winery', e.target.value)}
               />
@@ -268,7 +267,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('bottleSize')}
-                // @ts-ignore
                 value={itemInfo ? itemInfo.bottleSize : ''}
                 onChange={e => updateItemInfo('bottleSize', e.target.value)}
               />
@@ -277,7 +275,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('bottlePrice')}
-                // @ts-ignore
                 value={itemInfo && itemInfo.bottlePrice ? itemInfo.bottlePrice.toString() : ''}
                 onChange={e => {
                   updateItemInfo('bottlePrice', validatePrice(e.target.value))
@@ -288,7 +285,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('pointOnePrice')}
-                // @ts-ignore
                 value={itemInfo && itemInfo.pointOnePrice ? itemInfo.pointOnePrice.toString() : ''}
                 onChange={e => {
                   updateItemInfo('pointOnePrice', validatePrice(e.target.value))
@@ -299,7 +295,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('pointTwoPrice')}
-                // @ts-ignore
                 value={itemInfo && itemInfo.pointTwoPrice ? itemInfo.pointTwoPrice.toString() : ''}
                 onChange={e => {
                   updateItemInfo('pointTwoPrice', validatePrice(e.target.value))
@@ -310,7 +305,6 @@ function AdminItemsDash() {
               <TextField
                 sx={styles.infoTextField}
                 label={t('pointFourPrice')}
-                // @ts-ignore
                 value={itemInfo && itemInfo.pointFourPrice ? itemInfo.pointFourPrice.toString() : ''}
                 onChange={e => {
                   updateItemInfo('pointFourPrice', validatePrice(e.target.value))

@@ -83,9 +83,10 @@ export const getOpenOrders = () => {
     .catch((e) => console.log(e))
 }
 
-export const updateCompletedItemRequest = (orderId: string, itemId: string, increaseCompleted: boolean, amount: number) => {
+export const updateCompletedItemRequest = (orderId: string, outerKey: string, itemId: string, increaseCompleted: boolean, amount: number) => {
   const dispatch = store.dispatch
-  return createRequest('POST', 'orders/completeOrderItem', {orderId: orderId, itemId: itemId, increaseCompleted: increaseCompleted, amount: amount})
+  return createRequest('POST', 'orders/completeOrderItem',
+    {orderId: orderId, outerKey: outerKey, itemId: itemId, increaseCompleted: increaseCompleted, amount: amount})
     .then(res => {
       if(res) {
         res.json().then(data => {

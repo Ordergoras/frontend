@@ -3,8 +3,8 @@ export type Order = {
   tableNr: number,
   staffId: string,
   staffName: string,
-  orderedItems: { [key: string]: number }
-  completedItems: { [key: string]: number }
+  orderedItems: { [key: string]: { [key: string]: number} }
+  completedItems: { [key: string]: { [key: string]: number} }
   createdAt: string,
   completed: boolean,
   price: number,
@@ -31,10 +31,10 @@ export type WineInfo = {
   winery: string,
   year: string,
   bottleSize: string,
-  bottlePrice: number | undefined,
-  pointOnePrice: number | undefined,
-  pointTwoPrice: number | undefined,
-  pointFourPrice: number | undefined,
+  bottlePrice: string,
+  pointOnePrice: string,
+  pointTwoPrice: string,
+  pointFourPrice: string,
 }
 
 export type Staff = {
@@ -46,3 +46,7 @@ export type Staff = {
 export type ItemGroup = 'Drink' | 'Food' | 'Wine' | 'Other'
 
 export enum ItemEnum { 'Drink', 'Food', 'Wine', 'Other' }
+
+export type WineSizes = 'pointOne' | 'pointTwo' | 'pointFour' | 'bottle'
+
+export enum WineSizesEnum { 'pointOne' = "pointOne", 'pointTwo' = "pointTwo", 'pointFour' = "pointFour", 'bottle' = "bottle" }
