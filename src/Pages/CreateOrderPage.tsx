@@ -78,26 +78,51 @@ function CreateOrderPage() {
     setOrder(newOrder)
   }
 
-  // TODO add modal to select wine size
-  const addItemToOrder = (item: Item) => {
+  const addItemToOrder = (item: Item, secondaryId: WineSizesEnum | undefined = undefined) => {
     let newOrder = JSON.parse(JSON.stringify(order))
     if(newOrder.orderedItems[item.itemId] === undefined) {
       if(item.group !== 'Wine') {
         newOrder.orderedItems[item.itemId] = {[item.itemId]: 1}
         newOrder.price += item.price
       }
-      else if(item.information && isWineInfo(item.information)) {
-        newOrder.orderedItems[item.itemId] = {[WineSizesEnum.pointTwo]: 1}
-        newOrder.price += parseFloat(item.information.pointTwoPrice)
+      else if(item.information && isWineInfo(item.information) && secondaryId !== undefined) {
+        newOrder.orderedItems[item.itemId] = {[secondaryId]: 1}
+        switch (secondaryId) {
+          case WineSizesEnum.pointOne:
+            newOrder.price += parseFloat(item.information.pointOnePrice)
+            break
+          case WineSizesEnum.pointTwo:
+            newOrder.price += parseFloat(item.information.pointTwoPrice)
+            break
+          case WineSizesEnum.pointFour:
+            newOrder.price += parseFloat(item.information.pointFourPrice)
+            break
+          case WineSizesEnum.bottle:
+            newOrder.price += parseFloat(item.information.bottlePrice)
+            break
+        }
       }
     } else {
       if(item.group !== 'Wine') {
         newOrder.orderedItems[item.itemId][item.itemId] += 1
         newOrder.price += item.price
       }
-      else if(item.information && isWineInfo(item.information)) {
-        newOrder.orderedItems[item.itemId][WineSizesEnum.pointTwo] += 1
-        newOrder.price += parseFloat(item.information.pointTwoPrice)
+      else if(item.information && isWineInfo(item.information) && secondaryId !== undefined) {
+        newOrder.orderedItems[item.itemId][secondaryId] += 1
+        switch (secondaryId) {
+          case WineSizesEnum.pointOne:
+            newOrder.price += parseFloat(item.information.pointOnePrice)
+            break
+          case WineSizesEnum.pointTwo:
+            newOrder.price += parseFloat(item.information.pointTwoPrice)
+            break
+          case WineSizesEnum.pointFour:
+            newOrder.price += parseFloat(item.information.pointFourPrice)
+            break
+          case WineSizesEnum.bottle:
+            newOrder.price += parseFloat(item.information.bottlePrice)
+            break
+        }
       }
     }
     setOrder(newOrder)
@@ -128,21 +153,17 @@ function CreateOrderPage() {
       if(item.information && isWineInfo(item.information)) {
         switch (secondaryId) {
           case WineSizesEnum.pointOne:
-            // @ts-ignore
-            newOrder.price -= (item.information.pointOnePrice * (deleteAll ? amount : 1))
-            break;
+            newOrder.price -= (parseFloat(item.information.pointOnePrice) * (deleteAll ? amount : 1))
+            break
           case WineSizesEnum.pointTwo:
-            // @ts-ignore
-            newOrder.price -= (item.information.pointTwoPrice * (deleteAll ? amount : 1))
-            break;
+            newOrder.price -= (parseFloat(item.information.pointTwoPrice) * (deleteAll ? amount : 1))
+            break
           case WineSizesEnum.pointFour:
-            // @ts-ignore
-            newOrder.price -= (item.information.pointFourPrice * (deleteAll ? amount : 1))
-            break;
+            newOrder.price -= (parseFloat(item.information.pointFourPrice) * (deleteAll ? amount : 1))
+            break
           case WineSizesEnum.bottle:
-            // @ts-ignore
-            newOrder.price -= (item.information.bottlePrice * (deleteAll ? amount : 1))
-            break;
+            newOrder.price -= (parseFloat(item.information.bottlePrice) * (deleteAll ? amount : 1))
+            break
         }
       }
       setOrder(newOrder)
@@ -269,7 +290,7 @@ function CreateOrderPage() {
                   return <ClickableItem
                     key={item.itemId}
                     item={item}
-                    onClick={() => addItemToOrder(item)}
+                    onClick={(orderItem: Item, secondaryId?: WineSizesEnum) => addItemToOrder(orderItem, secondaryId)}
                   />
                 })
               }
@@ -294,7 +315,7 @@ function CreateOrderPage() {
                   return <ClickableItem
                     key={item.itemId}
                     item={item}
-                    onClick={() => addItemToOrder(item)}
+                    onClick={(orderItem: Item, secondaryId?: WineSizesEnum) => addItemToOrder(orderItem, secondaryId)}
                   />
                 })
               }
@@ -318,8 +339,9 @@ function CreateOrderPage() {
                 dataState.wine.map((item) => {
                   return <ClickableItem
                     key={item.itemId}
+                    hasMultipleChoices={true}
                     item={item}
-                    onClick={() => addItemToOrder(item)}
+                    onClick={(orderItem: Item, secondaryId?: WineSizesEnum) => addItemToOrder(orderItem, secondaryId)}
                   />
                 })
               }
@@ -344,7 +366,7 @@ function CreateOrderPage() {
                   return <ClickableItem
                     key={item.itemId}
                     item={item}
-                    onClick={() => addItemToOrder(item)}
+                    onClick={(orderItem: Item, secondaryId?: WineSizesEnum) => addItemToOrder(orderItem, secondaryId)}
                   />
                 })
               }

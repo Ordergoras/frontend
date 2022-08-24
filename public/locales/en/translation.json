@@ -97,5 +97,7 @@
   "winery": "Winery",
   "alcohol": "Alcohol",
   "bottleSize": "Bottle size",
-  "glassSize": "Glass size"
+  "glassSize": "Glass size",
+  "addToOrder": "Add to order",
+  "close": "Close"
 }
