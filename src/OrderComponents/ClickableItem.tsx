@@ -127,6 +127,20 @@ function ClickableItem(props: ItemCardProps) {
               <Typography variant={'h6'} sx={{marginBottom: 2}}>
                 {props.item.name}
               </Typography>
+              {
+                props.item.information && isWineInfo(props.item.information) &&
+                  <>
+                    <Typography variant={'body1'} sx={{marginBottom: 2}}>
+                      {props.item.information?.fullName}
+                    </Typography>
+                    <Typography variant={'body1'} sx={{marginBottom: 2}}>
+                      {props.item.information?.winery}
+                    </Typography>
+                    <Typography variant={'body1'} sx={{marginBottom: 2}}>
+                      {props.item.information?.year}
+                    </Typography>
+                  </>
+              }
               <FormControl sx={{marginBottom: 2}}>
                 <RadioGroup row value={secondaryId} sx={{justifyContent: 'center'}} onChange={e => {setSecondaryId(e.target.value as WineSizesEnum)}}>
                   {sizeAvailable[0] &&
