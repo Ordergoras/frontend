@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../Redux/hooks';
 import { selectAuth } from '../Redux/authSlice';
 import { logoutStaff } from '../utils/staffRequests';
+import { theme } from '../index';
 
 const pages = ['homePage', 'createOrderPage', 'openOrdersPage', 'myOrdersPage', 'itemsPage']
 
@@ -45,7 +46,7 @@ function Appbar() {
   }
 
   return (
-    <AppBar position='static'>
+    <AppBar position='sticky' sx={{borderBottom: 1, borderColor: theme.palette.divider}}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
