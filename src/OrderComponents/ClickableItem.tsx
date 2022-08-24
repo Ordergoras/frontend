@@ -1,9 +1,9 @@
 import React from 'react';
-import {Item, ItemEnum, WineSizesEnum} from '../utils/types';
-import {Box, Button, FormControl, FormControlLabel, Modal, Radio, RadioGroup, Typography} from '@mui/material';
-import {theme} from '../index';
-import {useTranslation} from 'react-i18next';
-import {isWineInfo} from '../utils/helperFunctions';
+import { Item, ItemEnum, WineSizesEnum } from '../utils/types';
+import { Box, Button, FormControl, FormControlLabel, Modal, Radio, RadioGroup, Typography } from '@mui/material';
+import { theme } from '../index';
+import { useTranslation } from 'react-i18next';
+import { isWineInfo } from '../utils/helperFunctions';
 
 interface ItemCardProps {
   item: Item,
@@ -107,9 +107,18 @@ function ClickableItem(props: ItemCardProps) {
           </Typography>
           <Box sx={{...styles.divider, marginTop: 1, marginBottom: 1}}/>
           <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <Typography variant={'subtitle2'}>
-              {t('price')}: {props.item.price.toFixed(2)}€
-            </Typography>
+            {
+              props.item.group === 'Wine' && isWineInfo(props.item.information) &&
+                <Typography variant={'subtitle2'}>
+                  {t('year')}{': '}{props.item.information?.year}
+                </Typography>
+            }
+            {
+              props.item.group !== 'Wine' &&
+                <Typography variant={'subtitle2'}>
+                  {t('price')}: {props.item.price.toFixed(2)}€
+                </Typography>
+            }
             <Box sx={{...styles.divider, marginLeft: 1, marginRight: 1, marginTop: -1}}/>
             <Typography variant={'subtitle2'}>
               {props.item.inStock ? t('inStorage') : t('outOfStock')}
@@ -125,7 +134,7 @@ function ClickableItem(props: ItemCardProps) {
           >
             <Box sx={styles.modal}>
               <Typography variant={'h6'} sx={{marginBottom: 2}}>
-                {props.item.name}
+                {props.item.name}{isWineInfo(props.item.information) && ' - (' + props.item.information?.wineId + ')'}
               </Typography>
               {
                 props.item.information && isWineInfo(props.item.information) &&
@@ -137,7 +146,7 @@ function ClickableItem(props: ItemCardProps) {
                       {props.item.information?.winery}
                     </Typography>
                     <Typography variant={'body1'} sx={{marginBottom: 2}}>
-                      {props.item.information?.year}
+                      {t('year')}{' - '}{props.item.information?.year}
                     </Typography>
                   </>
               }
